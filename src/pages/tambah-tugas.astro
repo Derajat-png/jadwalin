@@ -12,21 +12,28 @@ import mascotImg from '../assets/craiyon.png';
       <!-- Left Column: The Form from Figma Frame 109:272 -->
       <div class="form-card-panel">
         <div class="form-title-row">
-          <h1 class="page-title">Tambah Tugas Baru</h1>
-          <a href="/prioritas" class="btn-back-link">Kembali</a>
+          <div>
+            <h1 class="page-title">Tambah Tugas Baru</h1>
+            <p class="form-subtitle">Tugas ini akan otomatis dikalkulasi ke dalam prioritas dan jadwal harianmu.</p>
+          </div>
+          <a href="/prioritas" class="btn-back-link">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+            Kembali
+          </a>
         </div>
-        <p class="form-subtitle">Tugas ini akan otomatis dikalkulasi ke dalam prioritas dan jadwal harianmu.</p>
 
         <form id="add-task-full-form">
           <!-- 1. Nama Tugas -->
           <div class="form-group">
-            <label class="form-label" for="task-name">Nama Tugas</label>
+            <label class="form-label" for="task-name">Nama Tugas / Aktivitas</label>
             <input 
               type="text" 
               id="task-name" 
               class="form-input" 
               value="Laporan Praktikum Pemrograman" 
-              placeholder="Contoh: Laporan Praktikum" 
+              placeholder="Contoh: Laporan Praktikum Basis Data" 
               required 
             />
           </div>
@@ -57,12 +64,21 @@ import mascotImg from '../assets/craiyon.png';
           <div class="form-group">
             <label class="form-label">Estimasi Durasi Pengerjaan</label>
             <div class="duration-counter-wrap">
-              <button type="button" id="btn-dec-dur" class="btn-counter">−</button>
+              <button type="button" id="btn-dec-dur" class="btn-counter" aria-label="Kurangi durasi">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+              </button>
               <div class="duration-display">
                 <span id="dur-value" class="dur-num">2</span>
                 <span class="dur-unit">jam</span>
               </div>
-              <button type="button" id="btn-inc-dur" class="btn-counter">+</button>
+              <button type="button" id="btn-inc-dur" class="btn-counter" aria-label="Tambah durasi">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <line x1="12" y1="5" x2="12" y2="19"></line>
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+              </button>
             </div>
             <span class="helper-note">Durasi harus lebih dari 0 jam</span>
           </div>
@@ -80,11 +96,13 @@ import mascotImg from '../assets/craiyon.png';
           <!-- 6. Bergantung Pada (Prerequisite) -->
           <div class="form-group">
             <label class="form-label" for="task-dependency">Bergantung Pada Tugas Lain</label>
-            <select id="task-dependency" class="form-input select-input">
-              <option value="">Pilih tugas (opsional)</option>
-              <option value="1">Slide Presentasi Kelompok</option>
-              <option value="2">Riset Pasar & Referensi</option>
-            </select>
+            <div class="select-wrap">
+              <select id="task-dependency" class="form-input select-input">
+                <option value="">Pilih tugas prasyarat (opsional)</option>
+                <option value="1">Slide Presentasi Kelompok</option>
+                <option value="2">Riset Pasar & Referensi Teori</option>
+              </select>
+            </div>
           </div>
 
           <!-- 7. Catatan -->
@@ -94,14 +112,19 @@ import mascotImg from '../assets/craiyon.png';
               id="task-notes" 
               class="form-input textarea-input" 
               rows="3" 
-              placeholder="Instruksi khusus, format file, atau link materi..."
+              placeholder="Instruksi khusus, format file pengerjaan, atau tautan materi..."
             ></textarea>
           </div>
 
           <!-- Action Buttons (Figma Match) -->
           <div class="form-actions-row">
             <a href="/prioritas" class="btn-cancel-task">Batal</a>
-            <button type="submit" class="btn-save-task">Simpan Tugas</button>
+            <button type="submit" class="btn-save-task" id="btn-submit-task">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+              Simpan Tugas
+            </button>
           </div>
         </form>
       </div>
@@ -110,10 +133,12 @@ import mascotImg from '../assets/craiyon.png';
       <div class="ai-impact-col">
         <div class="impact-panel">
           <div class="impact-header">
-            <Image src={mascotImg} alt="Beavy" class="impact-beavy-avatar" />
+            <div class="impact-avatar-wrap">
+              <Image src={mascotImg} alt="Beavy" class="impact-beavy-avatar" />
+            </div>
             <div>
               <h3 class="impact-title">Prediksi Jadwal Beavy</h3>
-              <p class="impact-sub">Kalkulasi real-time dampak penambahan tugas ini</p>
+              <p class="impact-sub">Kalkulasi real-time dampak penambahan tugas</p>
             </div>
           </div>
 
@@ -123,22 +148,29 @@ import mascotImg from '../assets/craiyon.png';
               <span class="pred-val rank-1">#1 (Kritis)</span>
             </div>
             <p class="pred-desc">
-              Karena tingkat kesulitan <strong>Sulit</strong> dan tenggat <strong>26 Okt</strong>, tugas ini akan ditempatkan di urutan teratas.
+              Karena tingkat kesulitan <strong>Sulit</strong> dan tenggat <strong>26 Okt</strong>, tugas ini akan ditempatkan di urutan teratas kalender.
             </p>
 
-            <div class="pred-item" style="margin-top: 1rem;">
+            <div class="pred-item" style="margin-top: 1.1rem;">
               <span class="pred-lbl">Rekomendasi Waktu:</span>
-              <span class="pred-val">Hari ini, 15.00 - 17.00</span>
+              <span class="pred-val val-time">Hari ini, 15.00 - 17.00</span>
             </div>
             <p class="pred-desc">
-              Slot terbaik setelah makan siang sebelum rapat tim dimulai.
+              Slot terbaik setelah makan siang sebelum rapat koordinasi tim dimulai.
             </p>
           </div>
 
           <div class="tips-card">
-            <h4>💡 Saran dari Beavy:</h4>
+            <div class="tips-head">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#b45309" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="16" x2="12" y2="12"></line>
+                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+              </svg>
+              <h4>Rekomendasi Eksekusi Beavy</h4>
+            </div>
             <p>
-              Tugas pemrograman lebih efektif jika dibagi 2 sesi masing-masing 60 menit dengan jeda 10 menit.
+              Tugas pemrograman lebih efektif jika dibagi menjadi 2 sesi masing-masing 60 menit dengan jeda 10 menit untuk menjaga konsentrasi.
             </p>
           </div>
         </div>
@@ -161,36 +193,49 @@ import mascotImg from '../assets/craiyon.png';
     }
 
     .form-card-panel, .impact-panel {
-      background: rgba(255, 255, 255, 0.92);
-      backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 0.9);
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(226, 218, 238, 0.7);
       border-radius: var(--radius-lg);
       padding: 2.2rem;
-      box-shadow: var(--shadow-sm);
+      box-shadow: 0 4px 20px rgba(110, 50, 180, 0.04);
     }
 
     .form-title-row {
       display: flex;
       justify-content: space-between;
-      align-items: center;
+      align-items: flex-start;
       margin-bottom: 0.3rem;
+      gap: 1rem;
     }
 
     .page-title {
-      font-size: 1.85rem;
+      font-size: 1.75rem;
       font-weight: 800;
-      color: #201438;
+      color: #1e1335;
+      letter-spacing: -0.3px;
     }
 
     .btn-back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
       font-size: 0.85rem;
       font-weight: 700;
       color: #7c3aed;
+      padding: 0.35rem 0.7rem;
+      border-radius: 8px;
+      transition: background 0.2s;
+    }
+
+    .btn-back-link:hover {
+      background: #ede9fe;
     }
 
     .form-subtitle {
       font-size: 0.88rem;
       color: #71628a;
+      margin-top: 0.2rem;
       margin-bottom: 2rem;
     }
 
@@ -198,11 +243,11 @@ import mascotImg from '../assets/craiyon.png';
       display: flex;
       flex-direction: column;
       gap: 0.45rem;
-      margin-bottom: 1.4rem;
+      margin-bottom: 1.35rem;
     }
 
     .form-label {
-      font-size: 0.88rem;
+      font-size: 0.85rem;
       font-weight: 700;
       color: #352650;
     }
@@ -213,16 +258,16 @@ import mascotImg from '../assets/craiyon.png';
       border: 1.5px solid #ded5eb;
       border-radius: 12px;
       font-family: inherit;
-      font-size: 0.95rem;
-      color: #22143a;
+      font-size: 0.92rem;
+      color: #1e1335;
       background: #fdfcff;
       outline: none;
-      transition: border-color 0.2s;
+      transition: border-color 0.2s, box-shadow 0.2s;
     }
 
     .form-input:focus {
       border-color: #8b5cf6;
-      box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.15);
+      box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.12);
     }
 
     .select-input, .textarea-input {
@@ -242,39 +287,42 @@ import mascotImg from '../assets/craiyon.png';
       border: 1.5px solid #ded4ec;
       background: #fbf9fe;
       color: #5d4d7a;
-      font-size: 0.88rem;
+      font-size: 0.86rem;
       font-weight: 700;
       cursor: pointer;
       transition: all 0.2s;
+    }
+
+    .cat-pill:hover, .diff-pill:hover {
+      background: #f5f0fc;
+      border-color: #c4b5fd;
     }
 
     .cat-pill.active, .diff-pill.active {
       border-color: #8b5cf6;
       background: #8b5cf6;
       color: white;
-      box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+      box-shadow: 0 4px 12px rgba(139, 92, 246, 0.25);
     }
 
     /* Duration Counter (From Figma Frame 109:272) */
     .duration-counter-wrap {
       display: flex;
       align-items: center;
-      gap: 1rem;
+      gap: 0.8rem;
       background: #fbf9fe;
       border: 1.5px solid #ded4ec;
-      padding: 0.6rem 1rem;
+      padding: 0.5rem 0.8rem;
       border-radius: 14px;
       width: fit-content;
     }
 
     .btn-counter {
-      width: 38px;
-      height: 38px;
+      width: 36px;
+      height: 36px;
       border-radius: 10px;
       border: 1px solid #d8cce8;
       background: white;
-      font-size: 1.3rem;
-      font-weight: 700;
       color: #554472;
       display: flex;
       align-items: center;
@@ -292,24 +340,26 @@ import mascotImg from '../assets/craiyon.png';
     .duration-display {
       display: flex;
       align-items: baseline;
-      gap: 0.3rem;
-      padding: 0 1rem;
+      gap: 0.35rem;
+      padding: 0 0.8rem;
+      min-width: 70px;
+      justify-content: center;
     }
 
     .dur-num {
-      font-size: 1.6rem;
+      font-size: 1.5rem;
       font-weight: 800;
-      color: #21133c;
+      color: #1e1335;
     }
 
     .dur-unit {
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       font-weight: 700;
       color: #796a92;
     }
 
     .helper-note {
-      font-size: 0.75rem;
+      font-size: 0.74rem;
       color: #8c7e9e;
       margin-top: 0.3rem;
     }
@@ -323,33 +373,44 @@ import mascotImg from '../assets/craiyon.png';
 
     .btn-cancel-task {
       flex: 1;
-      padding: 0.95rem;
+      padding: 0.85rem;
       border-radius: var(--radius-full);
       border: 1.5px solid #d4c8e6;
       background: white;
       color: #5b4a78;
-      font-size: 0.95rem;
+      font-size: 0.92rem;
       font-weight: 700;
       text-align: center;
       cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-cancel-task:hover {
+      background: #f9f6fc;
+      border-color: #baa7d6;
     }
 
     .btn-save-task {
       flex: 1.5;
-      padding: 0.95rem;
+      padding: 0.85rem;
       border-radius: var(--radius-full);
       border: none;
-      background: linear-gradient(135deg, #a855f7 0%, #8b5cf6 100%);
+      background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
       color: white;
-      font-size: 0.98rem;
+      font-size: 0.94rem;
       font-weight: 800;
       cursor: pointer;
-      box-shadow: 0 8px 20px rgba(139, 92, 246, 0.35);
-      transition: transform 0.2s;
+      box-shadow: 0 6px 18px rgba(139, 92, 246, 0.28);
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
     }
 
     .btn-save-task:hover {
-      transform: translateY(-2px);
+      transform: translateY(-1px);
+      box-shadow: 0 8px 22px rgba(139, 92, 246, 0.38);
     }
 
     /* Right Column Impact */
@@ -362,16 +423,27 @@ import mascotImg from '../assets/craiyon.png';
       margin-bottom: 1.4rem;
     }
 
+    .impact-avatar-wrap {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      background: #f3e8ff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #e9d5ff;
+    }
+
     .impact-beavy-avatar {
-      width: 48px;
-      height: 48px;
+      width: 36px;
+      height: 36px;
       object-fit: contain;
     }
 
     .impact-title {
-      font-size: 1.15rem;
+      font-size: 1.12rem;
       font-weight: 800;
-      color: #21133c;
+      color: #1e1335;
     }
 
     .impact-sub {
@@ -380,7 +452,7 @@ import mascotImg from '../assets/craiyon.png';
     }
 
     .prediction-box {
-      background: #faf7fd;
+      background: #faf8fd;
       border: 1px solid #ede3f7;
       border-radius: var(--radius-md);
       padding: 1.4rem;
@@ -395,22 +467,27 @@ import mascotImg from '../assets/craiyon.png';
     }
 
     .pred-lbl {
-      font-size: 0.88rem;
+      font-size: 0.85rem;
       font-weight: 700;
       color: #52426d;
     }
 
     .pred-val {
-      font-size: 0.92rem;
+      font-size: 0.88rem;
       font-weight: 800;
-      color: #21143a;
+      color: #1e1335;
     }
 
     .pred-val.rank-1 {
       color: #dc2626;
       background: #fee2e2;
+      border: 1px solid #fecaca;
       padding: 0.2rem 0.6rem;
       border-radius: 6px;
+    }
+
+    .pred-val.val-time {
+      color: #7c3aed;
     }
 
     .pred-desc {
@@ -421,16 +498,22 @@ import mascotImg from '../assets/craiyon.png';
 
     .tips-card {
       background: #fffbeb;
-      border: 1px solid #fde68a;
+      border: 1px solid #fef3c7;
       border-radius: var(--radius-md);
       padding: 1.2rem;
     }
 
+    .tips-head {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.4rem;
+    }
+
     .tips-card h4 {
-      font-size: 0.88rem;
+      font-size: 0.86rem;
       font-weight: 800;
       color: #92400e;
-      margin-bottom: 0.35rem;
     }
 
     .tips-card p {
@@ -447,6 +530,12 @@ import mascotImg from '../assets/craiyon.png';
   </style>
 
   <script>
+    declare global {
+      interface Window {
+        jadwalinToast?: (msg: string, type?: 'success' | 'info' | 'warning' | 'error') => void;
+      }
+    }
+
     // Category Selector
     const catPills = document.querySelectorAll('.cat-pill');
     catPills.forEach(p => {
@@ -486,9 +575,13 @@ import mascotImg from '../assets/craiyon.png';
     // Form Submit
     document.getElementById('add-task-full-form')?.addEventListener('submit', (e) => {
       e.preventDefault();
-      const title = (document.getElementById('task-name') as HTMLInputElement)?.value;
-      alert(`🎉 Tugas "${title}" berhasil disimpan dan dimasukkan ke kalender!`);
-      window.location.href = '/prioritas';
+      const title = (document.getElementById('task-name') as HTMLInputElement)?.value || 'Tugas Baru';
+      
+      window.jadwalinToast?.(`Tugas "${title}" berhasil disimpan dan dijadwalkan!`, 'success');
+      
+      setTimeout(() => {
+        window.location.href = '/prioritas';
+      }, 750);
     });
   </script>
 </DashboardLayout>

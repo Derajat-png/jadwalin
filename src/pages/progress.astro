@@ -12,44 +12,50 @@ import mascotImg from '../assets/craiyon.png';
       <div>
         <h1 class="page-title">Progres Produktivitas</h1>
         <p class="page-subtitle">
-          Lacak kemajuan minggu ini dan atur tugas yang belum selesai agar tetap on-track.
+          Evaluasi penyelesaian tugas mingguan dan optimasi beban fokus berbasis data.
         </p>
       </div>
 
       <!-- Biometric Verification Button from Figma -->
       <button id="btn-open-facescan" class="btn-facescan">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M7 3H5a2 2 0 0 0-2 2v2M17 3h2a2 2 0 0 1 2 2v2M7 21H5a2 2 0 0 1-2-2v-2M17 21h2a2 2 0 0 0 2-2v-2"></path><circle cx="12" cy="12" r="3"></circle><path d="M9 10h.01M15 10h.01"></path><path d="M9.5 15a3.5 3.5 0 0 0 5 0"></path></svg>
-        <span>Verifikasi Fokus (Face Scan)</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M7 3H5a2 2 0 0 0-2 2v2M17 3h2a2 2 0 0 1 2 2v2M7 21H5a2 2 0 0 1-2-2v-2M17 21h2a2 2 0 0 0 2-2v-2"></path><circle cx="12" cy="12" r="3"></circle><path d="M9 10h.01M15 10h.01"></path><path d="M9.5 15a3.5 3.5 0 0 0 5 0"></path></svg>
+        <span>Verifikasi Sesi (Face ID)</span>
       </button>
     </div>
 
-    <!-- 3 Big Metric Cards from Figma -->
+    <!-- 3 Big Metric Cards from Figma (Clean Vector SVGs, No Emojis) -->
     <div class="progress-stats-grid">
       <div class="progress-stat-card done-stat">
-        <div class="p-stat-icon">✓</div>
+        <div class="p-stat-icon-wrap icon-done">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+        </div>
         <div class="p-stat-meta">
           <span class="p-stat-num">6</span>
           <span class="p-stat-label">Tugas Selesai</span>
         </div>
-        <span class="p-stat-trend">+2 dari minggu lalu</span>
+        <span class="p-stat-trend">+2 dari rata-rata mingguan</span>
       </div>
 
       <div class="progress-stat-card working-stat">
-        <div class="p-stat-icon">⏳</div>
+        <div class="p-stat-icon-wrap icon-working">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+        </div>
         <div class="p-stat-meta">
           <span class="p-stat-num">2</span>
           <span class="p-stat-label">Sedang Dikerjakan</span>
         </div>
-        <span class="p-stat-trend">Dalam progres aktif</span>
+        <span class="p-stat-trend">Dalam alokasi jadwal aktif</span>
       </div>
 
       <div class="progress-stat-card pending-stat">
-        <div class="p-stat-icon">⚠️</div>
+        <div class="p-stat-icon-wrap icon-pending">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+        </div>
         <div class="p-stat-meta">
           <span class="p-stat-num">2</span>
           <span class="p-stat-label">Tertunda</span>
         </div>
-        <span class="p-stat-trend alert-trend">Perlu dijadwal ulang</span>
+        <span class="p-stat-trend alert-trend">Disarankan alokasi ulang slot</span>
       </div>
     </div>
 
@@ -57,14 +63,14 @@ import mascotImg from '../assets/craiyon.png';
     <div class="reschedule-alert-card">
       <div class="rac-content">
         <div class="rac-icon-wrap">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
         </div>
         <div>
-          <h4 class="rac-title">2 tugas belum selesai sesuai rencana</h4>
-          <p class="rac-desc">Atur ulang jadwal untuk kembali on-track tanpa membebani harimu.</p>
+          <h4 class="rac-title">2 tugas belum selesai sesuai estimasi awal</h4>
+          <p class="rac-desc">AI Beavy dapat menyisipkan kedua tugas ini ke slot longgar hari Minggu.</p>
         </div>
       </div>
-      <button id="btn-reschedule-now" class="btn-reschedule-action">Atur Ulang Jadwal</button>
+      <button id="btn-reschedule-now" class="btn-reschedule-action">Optimasi Jadwal Sekarang</button>
     </div>
 
     <!-- Desktop 2-Column: Weekly Bar Chart (Left) + Task Progress Detail (Right) -->
@@ -74,18 +80,18 @@ import mascotImg from '../assets/craiyon.png';
         <div class="panel-header">
           <div>
             <h3 class="panel-title">Tugas Selesai per Hari</h3>
-            <span class="panel-sub">Minggu Ini (19 - 25 Okt 2026)</span>
+            <span class="panel-sub">Pekan Ini (19 - 25 Okt 2026)</span>
           </div>
-          <span class="chart-avg-badge">Rata-rata 1.4 tugas / hari</span>
+          <span class="chart-avg-badge">Konsistensi: 85%</span>
         </div>
 
-        <!-- CSS Bar Chart (Figma Match) -->
+        <!-- CSS Bar Chart (Figma Match, High Polish) -->
         <div class="bar-chart-container">
           <!-- Sen (2) -->
           <div class="bar-col">
             <span class="bar-val">2</span>
             <div class="bar-wrapper">
-              <div class="bar-fill" style="height: 60%; background: #8b5cf6;"></div>
+              <div class="bar-fill" style="height: 60%; background: var(--color-primary);"></div>
             </div>
             <span class="bar-day">Sen</span>
           </div>
@@ -94,7 +100,7 @@ import mascotImg from '../assets/craiyon.png';
           <div class="bar-col">
             <span class="bar-val">1</span>
             <div class="bar-wrapper">
-              <div class="bar-fill" style="height: 35%; background: #8b5cf6;"></div>
+              <div class="bar-fill" style="height: 35%; background: var(--color-primary);"></div>
             </div>
             <span class="bar-day">Sel</span>
           </div>
@@ -103,7 +109,7 @@ import mascotImg from '../assets/craiyon.png';
           <div class="bar-col">
             <span class="bar-val">3</span>
             <div class="bar-wrapper">
-              <div class="bar-fill" style="height: 90%; background: #8b5cf6;"></div>
+              <div class="bar-fill" style="height: 90%; background: var(--color-primary);"></div>
             </div>
             <span class="bar-day">Rab</span>
           </div>
@@ -112,7 +118,7 @@ import mascotImg from '../assets/craiyon.png';
           <div class="bar-col">
             <span class="bar-val">0</span>
             <div class="bar-wrapper">
-              <div class="bar-fill" style="height: 5%; background: #e5dcf4;"></div>
+              <div class="bar-fill" style="height: 4%; background: #e5dcf4;"></div>
             </div>
             <span class="bar-day">Kam</span>
           </div>
@@ -121,7 +127,7 @@ import mascotImg from '../assets/craiyon.png';
           <div class="bar-col">
             <span class="bar-val">2</span>
             <div class="bar-wrapper">
-              <div class="bar-fill" style="height: 60%; background: #8b5cf6;"></div>
+              <div class="bar-fill" style="height: 60%; background: var(--color-primary);"></div>
             </div>
             <span class="bar-day">Jum</span>
           </div>
@@ -130,7 +136,7 @@ import mascotImg from '../assets/craiyon.png';
           <div class="bar-col active-today">
             <span class="bar-val">1</span>
             <div class="bar-wrapper">
-              <div class="bar-fill" style="height: 40%; background: #f59e0b;"></div>
+              <div class="bar-fill" style="height: 40%; background: var(--color-accent);"></div>
             </div>
             <span class="bar-day">Sab</span>
           </div>
@@ -146,40 +152,39 @@ import mascotImg from '../assets/craiyon.png';
         </div>
 
         <div class="chart-legend">
-          <span class="legend-item"><span class="legend-dot" style="background:#8b5cf6;"></span> Selesai</span>
-          <span class="legend-item"><span class="legend-dot" style="background:#f59e0b;"></span> Hari ini</span>
-          <span class="legend-item"><span class="legend-dot" style="background:#e5dcf4;"></span> Belum ada</span>
+          <span class="legend-item"><span class="legend-dot" style="background:var(--color-primary);"></span> Selesai</span>
+          <span class="legend-item"><span class="legend-dot" style="background:var(--color-accent);"></span> Hari ini</span>
+          <span class="legend-item"><span class="legend-dot" style="background:#e5dcf4;"></span> Istirahat</span>
         </div>
       </div>
 
       <!-- Right Column: Detail Status Tugas (Figma Match) -->
       <div class="tasks-progress-panel">
-        <h3 class="panel-title" style="margin-bottom: 1.2rem;">Detail Status Tugas Aktif</h3>
+        <h3 class="panel-title" style="margin-bottom: 1.1rem;">Status Pengerjaan Tugas</h3>
 
         <!-- Item 1: Rapat Tim Produk (Figma Match) -->
         <div class="progress-task-card">
           <div class="ptc-header">
             <div>
               <h4 class="ptc-title">Rapat Tim Produk</h4>
-              <span class="ptc-meta">09:00 • Estimasi 1,5 jam</span>
+              <span class="ptc-meta">09:00 • Estimasi 1.5 jam</span>
             </div>
-            <span class="status-pill status-working">Dikerjakan</span>
+            <span class="status-pill status-working">67% Selesai</span>
           </div>
 
           <div class="progress-bar-wrap">
-            <div class="pb-label-row">
-              <span class="pb-text">Kemajuan</span>
-              <span class="pb-percent">67%</span>
-            </div>
             <div class="pb-track">
-              <div class="pb-fill" style="width: 67%; background: linear-gradient(90deg, #8b5cf6, #a855f7);"></div>
+              <div class="pb-fill" style="width: 67%; background: var(--color-primary);"></div>
             </div>
-            <span class="pb-actual-note">Aktual: 2 jam / Estimasi: 1,5 jam</span>
+            <div class="pb-notes-row">
+              <span class="pb-actual-note">Aktual: 2 jam / Estimasi: 1.5 jam</span>
+              <span class="pb-extra-time">+30 mnt</span>
+            </div>
           </div>
 
           <div class="ptc-actions">
-            <button class="btn-update-progress" onclick="alert('Progress diperbarui!');">Update</button>
-            <button class="btn-finish-progress" onclick="alert('Tugas ditandai selesai!');">Tandai Selesai</button>
+            <button class="btn-update-progress" onclick="(window).jadwalinToast('Progres Disimpan', 'Rapat Tim Produk dinaikkan menjadi 80%.', 'info');">Update Progres</button>
+            <button class="btn-finish-progress" onclick="(window).jadwalinToast('Tugas Selesai', 'Rapat Tim Produk ditandai selesai.', 'success'); this.closest('.progress-task-card').style.opacity = '0.5';">Selesaikan</button>
           </div>
         </div>
 
@@ -190,38 +195,37 @@ import mascotImg from '../assets/craiyon.png';
               <h4 class="ptc-title">Laporan Mingguan</h4>
               <span class="ptc-meta">13:30 • Estimasi 45 menit</span>
             </div>
-            <span class="status-pill status-working">Dikerjakan</span>
+            <span class="status-pill status-working">82% Selesai</span>
           </div>
 
           <div class="progress-bar-wrap">
-            <div class="pb-label-row">
-              <span class="pb-text">Kemajuan</span>
-              <span class="pb-percent">82%</span>
-            </div>
             <div class="pb-track">
-              <div class="pb-fill" style="width: 82%; background: linear-gradient(90deg, #10b981, #059669);"></div>
+              <div class="pb-fill" style="width: 82%; background: #059669;"></div>
             </div>
-            <span class="pb-actual-note">Aktual: 40 mnt / Estimasi: 45 menit</span>
+            <div class="pb-notes-row">
+              <span class="pb-actual-note">Aktual: 40 mnt / Estimasi: 45 mnt</span>
+              <span class="pb-on-track">Tepat Waktu</span>
+            </div>
           </div>
 
           <div class="ptc-actions">
-            <button class="btn-update-progress" onclick="alert('Progress diperbarui!');">Update</button>
-            <button class="btn-finish-progress" onclick="alert('Tugas ditandai selesai!');">Tandai Selesai</button>
+            <button class="btn-update-progress" onclick="(window).jadwalinToast('Progres Disimpan', 'Laporan mingguan diperbarui.', 'info');">Update Progres</button>
+            <button class="btn-finish-progress" onclick="(window).jadwalinToast('Tugas Selesai', 'Laporan mingguan ditandai selesai.', 'success'); this.closest('.progress-task-card').style.opacity = '0.5';">Selesaikan</button>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Face Scan Verification Modal (From Figma Frame 165:425 & 227:796) -->
+  <!-- Face Scan Verification Modal (From Figma Frame 165:425 & 227:796, Refined Biometric Style) -->
   <div id="facescan-modal" class="modal-backdrop">
     <div class="facescan-box">
       <button id="close-facescan" class="btn-close-modal">✕</button>
 
       <div class="facescan-header">
-        <h3 class="fs-title">Arahkan Wajah ke Kamera</h3>
+        <h3 class="fs-title">Verifikasi Sesi Fokus</h3>
         <p class="fs-desc">
-          Pastikan wajahmu berada di dalam lingkaran dengan pencahayaan yang cukup dan tanpa penutup wajah untuk validasi fokus sesi.
+          Posisikan wajahmu di tengah bingkai untuk memastikan kamu siap memulai sesi pengerjaan tanpa distraksi.
         </p>
       </div>
 
@@ -230,29 +234,29 @@ import mascotImg from '../assets/craiyon.png';
         <div class="scanning-scanline"></div>
         <div class="camera-placeholder">
           <Image src={mascotImg} alt="Beavy" class="fs-beavy-guide" />
-          <span class="fs-cam-text">Menyiapkan sensor...</span>
+          <span class="fs-cam-text" id="fs-status-lbl">Kamera Aktif</span>
         </div>
       </div>
 
       <!-- 3 Criteria Checkpoints from Figma -->
       <div class="fs-criteria-list">
-        <div class="fs-crit-item active">
+        <div class="fs-crit-item">
           <span class="fs-crit-icon">✓</span>
-          <span>Cahaya Cukup</span>
+          <span>Pencahayaan Baik</span>
         </div>
-        <div class="fs-crit-item active">
+        <div class="fs-crit-item">
           <span class="fs-crit-icon">✓</span>
-          <span>Buka Mata</span>
+          <span>Fokus Terbuka</span>
         </div>
-        <div class="fs-crit-item active">
+        <div class="fs-crit-item">
           <span class="fs-crit-icon">✓</span>
-          <span>Wajah Rileks</span>
+          <span>Siap Belajar</span>
         </div>
       </div>
 
       <!-- Action Button -->
       <button id="btn-trigger-scan" class="btn-start-scan">
-        <span id="scan-btn-label">Pindai Sekarang</span>
+        <span id="scan-btn-label">Mulai Pindai Wajah</span>
       </button>
     </div>
   </div>
@@ -261,7 +265,7 @@ import mascotImg from '../assets/craiyon.png';
     .progress-page-wrap {
       display: flex;
       flex-direction: column;
-      gap: 1.8rem;
+      gap: 1.6rem;
     }
 
     .progress-header {
@@ -273,61 +277,71 @@ import mascotImg from '../assets/craiyon.png';
     }
 
     .page-title {
-      font-size: 2.2rem;
+      font-size: 1.85rem;
       font-weight: 800;
-      color: #201438;
-      letter-spacing: -0.5px;
+      color: var(--color-text-main);
+      letter-spacing: -0.02em;
     }
 
     .page-subtitle {
-      font-size: 0.95rem;
-      color: #6c5f85;
-      margin-top: 0.3rem;
+      font-size: 0.88rem;
+      color: var(--color-text-muted);
+      margin-top: 0.25rem;
     }
 
     .btn-facescan {
       display: flex;
       align-items: center;
-      gap: 0.6rem;
-      padding: 0.75rem 1.4rem;
-      border-radius: var(--radius-full);
-      border: 1.5px solid #d8b4fe;
+      gap: 0.55rem;
+      padding: 0.65rem 1.15rem;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--color-border);
       background: white;
-      color: #7c3aed;
-      font-size: 0.88rem;
+      color: var(--color-primary);
+      font-size: 0.82rem;
       font-weight: 700;
-      box-shadow: 0 4px 12px rgba(139, 92, 246, 0.15);
-      transition: all 0.2s;
+      box-shadow: var(--shadow-xs);
+      transition: all 0.15s;
     }
 
     .btn-facescan:hover {
-      background: #f3e8ff;
-      transform: translateY(-2px);
+      background: var(--color-primary-light);
+      border-color: var(--color-border-focus);
+      transform: translateY(-1px);
     }
 
     /* 3 Big Stats Grid */
     .progress-stats-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 1.2rem;
+      gap: 1.1rem;
     }
 
     .progress-stat-card {
-      background: rgba(255, 255, 255, 0.9);
-      backdrop-filter: blur(14px);
-      border: 1px solid rgba(255, 255, 255, 0.9);
+      background: #ffffff;
+      border: 1px solid var(--color-border);
       border-radius: var(--radius-lg);
-      padding: 1.5rem;
-      box-shadow: var(--shadow-sm);
+      padding: 1.3rem 1.4rem;
+      box-shadow: var(--shadow-xs);
       display: flex;
       flex-direction: column;
-      gap: 0.4rem;
+      gap: 0.35rem;
+      position: relative;
     }
 
-    .p-stat-icon {
-      font-size: 1.3rem;
+    .p-stat-icon-wrap {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       margin-bottom: 0.2rem;
     }
+
+    .icon-done { background: #ecfdf5; color: #059669; }
+    .icon-working { background: #fef3c7; color: #d97706; }
+    .icon-pending { background: #fee2e2; color: #dc2626; }
 
     .p-stat-meta {
       display: flex;
@@ -336,26 +350,27 @@ import mascotImg from '../assets/craiyon.png';
     }
 
     .p-stat-num {
-      font-size: 2.2rem;
+      font-family: var(--font-mono);
+      font-size: 1.85rem;
       font-weight: 800;
-      color: #1e1336;
+      color: var(--color-text-main);
       line-height: 1;
     }
 
     .p-stat-label {
-      font-size: 0.92rem;
+      font-size: 0.85rem;
       font-weight: 700;
-      color: #63537d;
+      color: var(--color-text-body);
     }
 
     .p-stat-trend {
-      font-size: 0.76rem;
-      font-weight: 600;
-      color: #16a34a;
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: #059669;
     }
 
     .alert-trend {
-      color: #dc2626 !important;
+      color: #b91c1c !important;
     }
 
     /* Reschedule Alert Card */
@@ -363,11 +378,12 @@ import mascotImg from '../assets/craiyon.png';
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: linear-gradient(135deg, #fef2f2 0%, #fff5f5 100%);
-      border: 1.5px solid #fecaca;
+      background: #ffffff;
+      border: 1px solid #fed7aa;
+      border-left: 4px solid #f97316;
       border-radius: var(--radius-lg);
-      padding: 1.2rem 1.6rem;
-      box-shadow: 0 4px 14px rgba(220, 38, 38, 0.08);
+      padding: 1.1rem 1.4rem;
+      box-shadow: var(--shadow-xs);
       flex-wrap: wrap;
       gap: 1rem;
     }
@@ -375,14 +391,14 @@ import mascotImg from '../assets/craiyon.png';
     .rac-content {
       display: flex;
       align-items: center;
-      gap: 1rem;
+      gap: 0.9rem;
     }
 
     .rac-icon-wrap {
-      width: 44px;
-      height: 44px;
-      border-radius: 12px;
-      background: #fee2e2;
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      background: #fff7ed;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -390,74 +406,73 @@ import mascotImg from '../assets/craiyon.png';
     }
 
     .rac-title {
-      font-size: 1.05rem;
-      font-weight: 800;
-      color: #991b1b;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #9a3412;
     }
 
     .rac-desc {
-      font-size: 0.85rem;
-      color: #7f1d1d;
+      font-size: 0.8rem;
+      color: #7c2d12;
       margin-top: 0.15rem;
     }
 
     .btn-reschedule-action {
-      background: #dc2626;
+      background: #ea580c;
       color: white;
       border: none;
       font-weight: 700;
-      font-size: 0.88rem;
-      padding: 0.75rem 1.4rem;
-      border-radius: var(--radius-full);
-      box-shadow: 0 6px 16px rgba(220, 38, 38, 0.3);
-      transition: transform 0.2s;
+      font-size: 0.82rem;
+      padding: 0.65rem 1.15rem;
+      border-radius: var(--radius-md);
+      transition: background 0.15s, transform 0.1s;
     }
 
     .btn-reschedule-action:hover {
-      transform: translateY(-2px);
+      background: #c2410c;
+      transform: translateY(-1px);
     }
 
     /* Desktop 2-Column */
     .progress-desktop-grid {
       display: grid;
-      grid-template-columns: 1.15fr 0.85fr;
+      grid-template-columns: 1.2fr 0.8fr;
       gap: 1.8rem;
       align-items: start;
     }
 
     .chart-panel, .tasks-progress-panel {
-      background: rgba(255, 255, 255, 0.9);
-      backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 0.9);
-      border-radius: var(--radius-lg);
-      padding: 1.8rem;
-      box-shadow: var(--shadow-sm);
+      background: #ffffff;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-xl);
+      padding: 1.6rem;
+      box-shadow: var(--shadow-xs);
     }
 
     .panel-header {
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
-      margin-bottom: 1.6rem;
+      margin-bottom: 1.4rem;
     }
 
     .panel-title {
-      font-size: 1.2rem;
+      font-size: 1.05rem;
       font-weight: 800;
-      color: #21143a;
+      color: var(--color-text-main);
     }
 
     .panel-sub {
-      font-size: 0.78rem;
-      color: #786991;
+      font-size: 0.75rem;
+      color: var(--color-text-muted);
     }
 
     .chart-avg-badge {
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       font-weight: 700;
-      color: #7c3aed;
-      background: #ede9fe;
-      padding: 0.3rem 0.75rem;
+      color: var(--color-primary);
+      background: var(--color-primary-light);
+      padding: 0.25rem 0.65rem;
       border-radius: var(--radius-full);
     }
 
@@ -466,10 +481,10 @@ import mascotImg from '../assets/craiyon.png';
       display: flex;
       align-items: flex-end;
       justify-content: space-between;
-      height: 220px;
-      padding: 1rem 0;
-      border-bottom: 1px solid #f0e9f8;
-      gap: 1rem;
+      height: 200px;
+      padding: 0.8rem 0;
+      border-bottom: 1px solid var(--color-border-subtle);
+      gap: 0.8rem;
     }
 
     .bar-col {
@@ -477,22 +492,23 @@ import mascotImg from '../assets/craiyon.png';
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 0.4rem;
+      gap: 0.35rem;
       height: 100%;
       justify-content: flex-end;
     }
 
     .bar-val {
-      font-size: 0.75rem;
-      font-weight: 800;
-      color: #63537d;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--color-text-muted);
     }
 
     .bar-wrapper {
-      width: 32px;
-      height: 150px;
-      background: #f7f3fd;
-      border-radius: 8px 8px 0 0;
+      width: 28px;
+      height: 140px;
+      background: #f7f4fc;
+      border-radius: 6px 6px 0 0;
       display: flex;
       align-items: flex-end;
       overflow: hidden;
@@ -500,18 +516,19 @@ import mascotImg from '../assets/craiyon.png';
 
     .bar-fill {
       width: 100%;
-      border-radius: 8px 8px 0 0;
-      transition: height 0.6s ease;
+      border-radius: 6px 6px 0 0;
+      transition: height 0.5s ease;
     }
 
     .bar-day {
-      font-size: 0.8rem;
-      font-weight: 700;
-      color: #6f5f88;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--color-text-muted);
     }
 
     .bar-col.active-today .bar-day {
-      color: #d97706;
+      color: var(--color-accent);
+      font-weight: 700;
     }
 
     .chart-legend {
@@ -519,9 +536,9 @@ import mascotImg from '../assets/craiyon.png';
       gap: 1.2rem;
       justify-content: center;
       margin-top: 1rem;
-      font-size: 0.78rem;
+      font-size: 0.75rem;
       font-weight: 600;
-      color: #685980;
+      color: var(--color-text-muted);
     }
 
     .legend-item {
@@ -531,70 +548,64 @@ import mascotImg from '../assets/craiyon.png';
     }
 
     .legend-dot {
-      width: 10px;
-      height: 10px;
+      width: 8px;
+      height: 8px;
       border-radius: 50%;
     }
 
     /* Task Progress Cards */
     .progress-task-card {
       background: #fbf9fe;
-      border: 1px solid #eee5f8;
+      border: 1px solid var(--color-border-subtle);
       border-radius: var(--radius-md);
-      padding: 1.2rem;
-      margin-bottom: 1rem;
+      padding: 1.1rem;
+      margin-bottom: 0.85rem;
+      transition: all 0.15s;
+    }
+
+    .progress-task-card:hover {
+      border-color: #d8b4fe;
     }
 
     .ptc-header {
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
-      margin-bottom: 0.9rem;
+      margin-bottom: 0.75rem;
     }
 
     .ptc-title {
-      font-size: 1.02rem;
-      font-weight: 800;
-      color: #21133a;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--color-text-main);
     }
 
     .ptc-meta {
-      font-size: 0.76rem;
-      color: #82729a;
+      font-size: 0.72rem;
+      color: var(--color-text-muted);
     }
 
     .status-pill {
-      font-size: 0.72rem;
-      font-weight: 800;
-      padding: 0.2rem 0.65rem;
-      border-radius: var(--radius-full);
-    }
-
-    .status-working {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 0.15rem 0.55rem;
+      border-radius: 4px;
       background: #fef3c7;
       color: #b45309;
     }
 
     .progress-bar-wrap {
-      margin-bottom: 1rem;
-    }
-
-    .pb-label-row {
-      display: flex;
-      justify-content: space-between;
-      font-size: 0.82rem;
-      font-weight: 700;
-      color: #51426d;
-      margin-bottom: 0.35rem;
+      margin-bottom: 0.9rem;
     }
 
     .pb-track {
       width: 100%;
-      height: 8px;
+      height: 6px;
       background: #ede6f6;
       border-radius: var(--radius-full);
       overflow: hidden;
-      margin-bottom: 0.3rem;
+      margin-bottom: 0.35rem;
     }
 
     .pb-fill {
@@ -602,93 +613,110 @@ import mascotImg from '../assets/craiyon.png';
       border-radius: var(--radius-full);
     }
 
-    .pb-actual-note {
+    .pb-notes-row {
+      display: flex;
+      justify-content: space-between;
       font-size: 0.72rem;
-      color: #87789f;
     }
+
+    .pb-actual-note { color: var(--color-text-muted); }
+    .pb-extra-time { color: #dc2626; font-weight: 600; }
+    .pb-on-track { color: #059669; font-weight: 600; }
 
     .ptc-actions {
       display: flex;
-      gap: 0.6rem;
+      gap: 0.5rem;
     }
 
     .btn-update-progress {
       flex: 1;
-      padding: 0.55rem;
-      border-radius: 8px;
-      border: 1px solid #d4c7e7;
+      padding: 0.5rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--color-border);
       background: white;
-      font-weight: 700;
-      font-size: 0.8rem;
-      color: #594876;
+      font-weight: 600;
+      font-size: 0.76rem;
+      color: var(--color-text-body);
+      cursor: pointer;
+    }
+
+    .btn-update-progress:hover {
+      background: #f4f0fa;
     }
 
     .btn-finish-progress {
-      flex: 1.2;
-      padding: 0.55rem;
-      border-radius: 8px;
+      flex: 1.1;
+      padding: 0.5rem;
+      border-radius: var(--radius-sm);
       border: none;
-      background: #8b5cf6;
+      background: var(--color-primary);
       color: white;
       font-weight: 700;
-      font-size: 0.8rem;
+      font-size: 0.76rem;
+      cursor: pointer;
     }
 
-    /* Face Scan Modal (From Figma Frame 165:425 & 227:796) */
+    .btn-finish-progress:hover {
+      background: var(--color-primary-dark);
+    }
+
+    /* Face Scan Modal (From Figma Frame 165:425 & 227:796, Refined Biometric Style) */
     .facescan-box {
       background: white;
-      border-radius: 28px;
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--color-border);
       width: 100%;
-      max-width: 440px;
-      padding: 2.2rem 1.8rem;
+      max-width: 420px;
+      padding: 2rem 1.8rem;
       text-align: center;
       position: relative;
       box-shadow: var(--shadow-lg);
-      animation: zoomIn 0.25s ease-out;
+      animation: zoomIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     @keyframes zoomIn {
-      from { transform: scale(0.9); opacity: 0; }
+      from { transform: scale(0.95); opacity: 0; }
       to { transform: scale(1); opacity: 1; }
     }
 
     .btn-close-modal {
       position: absolute;
-      top: 1.2rem;
-      right: 1.2rem;
+      top: 1.1rem;
+      right: 1.1rem;
       background: none;
       border: none;
-      font-size: 1.2rem;
-      color: #9d8fae;
+      font-size: 1.1rem;
+      color: var(--color-text-subtle);
+      cursor: pointer;
+      padding: 4px;
     }
 
     .fs-title {
-      font-size: 1.35rem;
+      font-size: 1.25rem;
       font-weight: 800;
-      color: #21133a;
-      margin-bottom: 0.5rem;
+      color: var(--color-text-main);
+      margin-bottom: 0.4rem;
     }
 
     .fs-desc {
-      font-size: 0.84rem;
-      color: #695b82;
+      font-size: 0.82rem;
+      color: var(--color-text-muted);
       line-height: 1.45;
-      margin-bottom: 1.6rem;
+      margin-bottom: 1.5rem;
     }
 
     .face-target-circle {
-      width: 190px;
-      height: 190px;
+      width: 170px;
+      height: 170px;
       border-radius: 50%;
-      margin: 0 auto 1.6rem;
-      border: 3px dashed #8b5cf6;
+      margin: 0 auto 1.4rem;
+      border: 2px dashed var(--color-primary);
       display: flex;
       align-items: center;
       justify-content: center;
       position: relative;
-      background: #fbf9ff;
+      background: #faf7fd;
       overflow: hidden;
-      box-shadow: 0 0 30px rgba(139, 92, 246, 0.15);
     }
 
     .scanning-scanline {
@@ -696,9 +724,8 @@ import mascotImg from '../assets/craiyon.png';
       top: 0;
       left: 0;
       right: 0;
-      height: 3px;
-      background: linear-gradient(90deg, transparent, #8b5cf6, transparent);
-      box-shadow: 0 0 10px #8b5cf6;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--color-primary), transparent);
       animation: scanSweep 2s ease-in-out infinite;
     }
 
@@ -712,66 +739,68 @@ import mascotImg from '../assets/craiyon.png';
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 0.4rem;
+      gap: 0.3rem;
     }
 
     .fs-beavy-guide {
-      width: 70px;
-      height: 70px;
+      width: 60px;
+      height: 60px;
       object-fit: contain;
-      opacity: 0.9;
+      opacity: 0.85;
     }
 
     .fs-cam-text {
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       font-weight: 700;
-      color: #8b5cf6;
+      color: var(--color-primary);
     }
 
     .fs-criteria-list {
       display: flex;
       justify-content: space-around;
-      margin-bottom: 1.8rem;
-      padding: 0.8rem;
-      background: #f8f5fc;
+      margin-bottom: 1.6rem;
+      padding: 0.65rem;
+      background: #f8f6fc;
       border-radius: var(--radius-md);
+      border: 1px solid var(--color-border-subtle);
     }
 
     .fs-crit-item {
       display: flex;
       align-items: center;
-      gap: 0.35rem;
-      font-size: 0.78rem;
-      font-weight: 700;
-      color: #15803d;
+      gap: 0.3rem;
+      font-size: 0.74rem;
+      font-weight: 600;
+      color: #047857;
     }
 
     .fs-crit-icon {
-      width: 18px;
-      height: 18px;
+      width: 16px;
+      height: 16px;
       border-radius: 50%;
       background: #dcfce7;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 0.7rem;
+      font-size: 0.65rem;
     }
 
     .btn-start-scan {
       width: 100%;
-      padding: 0.95rem;
-      border-radius: var(--radius-full);
+      padding: 0.85rem;
+      border-radius: var(--radius-md);
       border: none;
-      background: linear-gradient(135deg, #a855f7 0%, #8b5cf6 100%);
+      background: var(--color-primary);
       color: white;
-      font-size: 1rem;
-      font-weight: 800;
-      box-shadow: 0 8px 24px rgba(139, 92, 246, 0.35);
-      transition: transform 0.2s;
+      font-size: 0.92rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(124, 58, 237, 0.25);
+      transition: background 0.15s;
     }
 
     .btn-start-scan:hover {
-      transform: translateY(-2px);
+      background: var(--color-primary-dark);
     }
 
     @media (max-width: 960px) {
@@ -790,6 +819,7 @@ import mascotImg from '../assets/craiyon.png';
     const closeBtn = document.getElementById('close-facescan');
     const triggerScanBtn = document.getElementById('btn-trigger-scan');
     const scanLabel = document.getElementById('scan-btn-label');
+    const statusLbl = document.getElementById('fs-status-lbl');
 
     openBtn?.addEventListener('click', () => modal?.classList.add('active'));
     closeBtn?.addEventListener('click', () => modal?.classList.remove('active'));
@@ -798,19 +828,21 @@ import mascotImg from '../assets/craiyon.png';
     });
 
     triggerScanBtn?.addEventListener('click', () => {
-      if (scanLabel) scanLabel.textContent = 'Memproses... Mohon tunggu sebentar...';
+      if (scanLabel) scanLabel.textContent = 'Memindai biometrik...';
+      if (statusLbl) statusLbl.textContent = 'Mendeteksi titik fokus...';
       triggerScanBtn.style.opacity = '0.7';
 
       setTimeout(() => {
-        alert('🎉 Wajah Terverifikasi! Selamat Datang. Sesi fokus kamu telah dicatat!');
-        if (scanLabel) scanLabel.textContent = 'Pindai Sekarang';
+        (window as any).jadwalinToast('Verifikasi Berhasil', 'Sesi fokus aktif telah tervalidasi via Face ID.', 'success');
+        if (scanLabel) scanLabel.textContent = 'Mulai Pindai Wajah';
+        if (statusLbl) statusLbl.textContent = 'Kamera Aktif';
         triggerScanBtn.style.opacity = '1';
         modal?.classList.remove('active');
-      }, 1500);
+      }, 1200);
     });
 
     document.getElementById('btn-reschedule-now')?.addEventListener('click', () => {
-      alert('AI Beavy telah menggeser 2 tugas tertunda ke waktu luang hari Minggu pukul 14.00!');
+      (window as any).jadwalinToast('Jadwal Disesuaikan', 'AI Beavy telah mengalokasikan 2 tugas ke hari Minggu pukul 14.00.', 'info');
     });
   </script>
 </DashboardLayout>

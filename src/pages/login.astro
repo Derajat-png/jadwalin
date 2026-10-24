@@ -36,11 +36,11 @@ import mascotImg from '../assets/craiyon.png';
       .auth-container {
         width: 100%;
         max-width: 1050px;
-        background: rgba(255, 255, 255, 0.92);
+        background: rgba(255, 255, 255, 0.94);
         backdrop-filter: blur(24px);
-        border: 1px solid rgba(255, 255, 255, 0.9);
+        border: 1px solid rgba(226, 218, 238, 0.8);
         border-radius: 28px;
-        box-shadow: 0 16px 48px rgba(110, 50, 180, 0.12);
+        box-shadow: 0 20px 48px rgba(110, 50, 180, 0.1);
         display: grid;
         grid-template-columns: 1fr 1.15fr;
         overflow: hidden;
@@ -48,12 +48,12 @@ import mascotImg from '../assets/craiyon.png';
 
       /* Left Side: Brand & Visuals */
       .auth-visual-side {
-        background: linear-gradient(145deg, #f3e8ff 0%, #e9d5ff 50%, #fae8ff 100%);
+        background: linear-gradient(145deg, #f5edfd 0%, #ecdcf9 50%, #f7effe 100%);
         padding: 3rem 2.5rem;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        border-right: 1px solid rgba(139, 92, 246, 0.15);
+        border-right: 1px solid rgba(139, 92, 246, 0.12);
         position: relative;
         overflow: hidden;
       }
@@ -81,12 +81,13 @@ import mascotImg from '../assets/craiyon.png';
         width: 200px;
         height: 200px;
         border-radius: 50%;
-        background: rgba(255, 255, 255, 0.7);
+        background: rgba(255, 255, 255, 0.8);
         display: flex;
         align-items: center;
         justify-content: center;
-        box-shadow: 0 12px 30px rgba(139, 92, 246, 0.15);
+        box-shadow: 0 12px 30px rgba(139, 92, 246, 0.12);
         margin-bottom: 1.6rem;
+        border: 1px solid rgba(255, 255, 255, 0.9);
       }
 
       .mascot-img {
@@ -98,7 +99,8 @@ import mascotImg from '../assets/craiyon.png';
       .visual-title {
         font-size: 1.5rem;
         font-weight: 800;
-        color: #251642;
+        color: #1e1335;
+        letter-spacing: -0.3px;
         margin-bottom: 0.6rem;
       }
 
@@ -110,7 +112,7 @@ import mascotImg from '../assets/craiyon.png';
       }
 
       .visual-quote-pill {
-        background: rgba(255, 255, 255, 0.85);
+        background: rgba(255, 255, 255, 0.9);
         border: 1px solid rgba(139, 92, 246, 0.2);
         padding: 0.6rem 1rem;
         border-radius: 999px;
@@ -119,7 +121,13 @@ import mascotImg from '../assets/craiyon.png';
         font-weight: 700;
         display: flex;
         align-items: center;
-        gap: 0.5rem;
+        gap: 0.55rem;
+      }
+
+      .quote-icon {
+        color: #8b5cf6;
+        display: flex;
+        align-items: center;
       }
 
       /* Right Side: Login Form (Figma Match) */
@@ -137,7 +145,8 @@ import mascotImg from '../assets/craiyon.png';
       .form-title {
         font-size: 1.85rem;
         font-weight: 800;
-        color: #21133c;
+        color: #1e1335;
+        letter-spacing: -0.3px;
       }
 
       .form-subtitle {
@@ -154,7 +163,7 @@ import mascotImg from '../assets/craiyon.png';
       }
 
       .form-label {
-        font-size: 0.88rem;
+        font-size: 0.86rem;
         font-weight: 700;
         color: #3b2b57;
       }
@@ -171,8 +180,8 @@ import mascotImg from '../assets/craiyon.png';
         border: 1.5px solid #ded5eb;
         border-radius: 12px;
         font-family: inherit;
-        font-size: 0.95rem;
-        color: #22143a;
+        font-size: 0.92rem;
+        color: #1e1335;
         background: #fdfcff;
         outline: none;
         transition: border-color 0.2s, box-shadow 0.2s;
@@ -180,17 +189,25 @@ import mascotImg from '../assets/craiyon.png';
 
       .form-input:focus {
         border-color: #8b5cf6;
-        box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.15);
+        box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.12);
       }
 
       .btn-toggle-pwd {
         position: absolute;
-        right: 1rem;
+        right: 0.9rem;
         background: none;
         border: none;
-        color: #9283aa;
+        color: #8c7e9f;
         cursor: pointer;
-        font-size: 0.85rem;
+        padding: 0.3rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 6px;
+      }
+
+      .btn-toggle-pwd:hover {
+        color: #6d28d9;
       }
 
       .form-options-row {
@@ -218,8 +235,12 @@ import mascotImg from '../assets/craiyon.png';
       .link-forgot {
         font-size: 0.82rem;
         font-weight: 700;
-        color: #8b5cf6;
+        color: #7c3aed;
         text-decoration: none;
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-family: inherit;
       }
 
       .link-forgot:hover {
@@ -228,32 +249,32 @@ import mascotImg from '../assets/craiyon.png';
 
       .btn-submit-login {
         width: 100%;
-        padding: 0.95rem;
+        padding: 0.9rem;
         border-radius: 999px;
         border: none;
-        background: linear-gradient(135deg, #a855f7 0%, #8b5cf6 100%);
+        background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
         color: white;
-        font-size: 1rem;
+        font-size: 0.98rem;
         font-weight: 700;
         cursor: pointer;
-        box-shadow: 0 8px 24px rgba(139, 92, 246, 0.35);
+        box-shadow: 0 6px 18px rgba(139, 92, 246, 0.28);
         transition: transform 0.2s, box-shadow 0.2s;
         margin-bottom: 1.6rem;
       }
 
       .btn-submit-login:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 12px 28px rgba(139, 92, 246, 0.45);
+        transform: translateY(-1px);
+        box-shadow: 0 8px 24px rgba(139, 92, 246, 0.38);
       }
 
-      /* Divider & Social Buttons (Figma Match) */
+      /* Divider & Social Buttons */
       .divider-line {
         display: flex;
         align-items: center;
         text-align: center;
         margin-bottom: 1.4rem;
         color: #9c8eaf;
-        font-size: 0.75rem;
+        font-size: 0.72rem;
         font-weight: 700;
         letter-spacing: 0.6px;
       }
@@ -294,7 +315,7 @@ import mascotImg from '../assets/craiyon.png';
       .btn-social:hover {
         border-color: #8b5cf6;
         background: #fbf9ff;
-        transform: translateY(-2px);
+        transform: translateY(-1px);
       }
 
       .auth-switch-text {
@@ -304,7 +325,7 @@ import mascotImg from '../assets/craiyon.png';
       }
 
       .auth-switch-text a {
-        color: #8b5cf6;
+        color: #7c3aed;
         font-weight: 700;
         text-decoration: none;
       }
@@ -313,12 +334,12 @@ import mascotImg from '../assets/craiyon.png';
         text-decoration: underline;
       }
 
-      /* Login Success / Feedback Modal (From Figma Frame 92:247) */
+      /* Login Success / Feedback Modal */
       .modal-backdrop {
         display: none;
         position: fixed;
         inset: 0;
-        background: rgba(20, 10, 35, 0.5);
+        background: rgba(18, 10, 30, 0.55);
         backdrop-filter: blur(8px);
         z-index: 999;
         align-items: center;
@@ -337,32 +358,34 @@ import mascotImg from '../assets/craiyon.png';
         max-width: 400px;
         width: 100%;
         text-align: center;
-        box-shadow: 0 16px 40px rgba(110, 50, 180, 0.2);
-        animation: popUp 0.3s ease-out;
+        box-shadow: 0 20px 48px rgba(110, 50, 180, 0.18);
+        border: 1px solid #ebdff5;
+        animation: popUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
       }
 
       @keyframes popUp {
-        from { transform: scale(0.9); opacity: 0; }
+        from { transform: scale(0.92); opacity: 0; }
         to { transform: scale(1); opacity: 1; }
       }
 
       .success-icon-circle {
-        width: 64px;
-        height: 64px;
+        width: 60px;
+        height: 60px;
         border-radius: 50%;
-        background: #dcfce7;
-        color: #16a34a;
-        font-size: 1.8rem;
+        background: #d1fae5;
+        color: #059669;
         display: flex;
         align-items: center;
         justify-content: center;
         margin: 0 auto 1.2rem;
+        border: 1px solid #a7f3d0;
       }
 
       .success-title {
         font-size: 1.35rem;
         font-weight: 800;
-        color: #21133c;
+        color: #1e1335;
+        letter-spacing: -0.2px;
         margin-bottom: 0.4rem;
       }
 
@@ -377,13 +400,38 @@ import mascotImg from '../assets/craiyon.png';
         padding: 0.85rem;
         border-radius: 999px;
         border: none;
-        background: #8b5cf6;
+        background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
         color: white;
         font-size: 0.95rem;
         font-weight: 700;
         cursor: pointer;
         display: block;
         text-decoration: none;
+        box-shadow: 0 4px 14px rgba(139, 92, 246, 0.25);
+      }
+
+      /* In-Page Toast */
+      .auth-toast {
+        position: fixed;
+        bottom: 2rem;
+        left: 50%;
+        transform: translateX(-50%) translateY(30px);
+        background: #1e1335;
+        color: white;
+        padding: 0.75rem 1.4rem;
+        border-radius: 999px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        opacity: 0;
+        pointer-events: none;
+        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        z-index: 1000;
+      }
+
+      .auth-toast.show {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
       }
 
       @media (max-width: 860px) {
@@ -394,7 +442,7 @@ import mascotImg from '../assets/craiyon.png';
           display: none;
         }
         .auth-form-side {
-          padding: 2rem 1.5rem;
+          padding: 2.2rem 1.8rem;
         }
       }
     </style>
@@ -415,13 +463,17 @@ import mascotImg from '../assets/craiyon.png';
           </div>
           <h2 class="visual-title">Siap Produktif Hari Ini?</h2>
           <p class="visual-desc">
-            Biar Beavy yang pusing mikirin urutan dan jadwal, kamu tinggal fokus satu per satu!
+            Biar Beavy yang memprioritaskan jadwal dan tugasmu, kamu tinggal eksekusi satu per satu!
           </p>
         </div>
 
         <div class="visual-quote-pill">
-          <span>🦫</span>
-          <span>"Kerja cerdas, jangan panik pas deadline!"</span>
+          <span class="quote-icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+            </svg>
+          </span>
+          <span>"Kerja cerdas, tenang tanpa panik deadline."</span>
         </div>
       </div>
 
@@ -460,7 +512,16 @@ import mascotImg from '../assets/craiyon.png';
                 placeholder="Masukkan kata sandi" 
                 required 
               />
-              <button type="button" id="toggle-pwd" class="btn-toggle-pwd">👁️</button>
+              <button type="button" id="toggle-pwd" class="btn-toggle-pwd" aria-label="Toggle password visibility">
+                <svg id="icon-eye" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                  <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+                <svg id="icon-eye-off" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
+                  <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                  <line x1="1" y1="1" x2="23" y2="23"></line>
+                </svg>
+              </button>
             </div>
           </div>
 
@@ -470,7 +531,7 @@ import mascotImg from '../assets/craiyon.png';
               <input type="checkbox" id="remember" checked />
               <span>Ingat saya</span>
             </label>
-            <a href="#" class="link-forgot" onclick="alert('Petunjuk pemulihan telah dikirim ke email!'); return false;">Lupa Kata Sandi?</a>
+            <button type="button" id="btn-forgot" class="link-forgot">Lupa Kata Sandi?</button>
           </div>
 
           <!-- Submit Button -->
@@ -485,11 +546,11 @@ import mascotImg from '../assets/craiyon.png';
 
           <!-- Social Buttons -->
           <div class="social-buttons-grid">
-            <button type="button" class="btn-social" onclick="simulateOAuth('Google')">
+            <button type="button" class="btn-social" id="btn-google">
               <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#EA4335" d="M12 5c1.7 0 3 .7 3.9 1.5l2.9-2.9C17 1.9 14.7 1 12 1 7.5 1 3.7 3.6 1.9 7.3l3.7 2.9C6.5 7.4 9 5 12 5z"/><path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.7-.2-2.3H12v4.5h6.5c-.3 1.5-1.1 2.8-2.4 3.7l3.7 2.9c2.2-2 3.7-5 3.7-8.8z"/><path fill="#FBBC05" d="M5.6 14.8c-.2-.7-.4-1.5-.4-2.3 0-.8.1-1.6.4-2.3L1.9 7.3C.7 9.7 0 12.3 0 15.2c0 2.8.7 5.4 1.9 7.8l3.7-3.2z"/><path fill="#34A853" d="M12 24c3.2 0 6-1.1 8-3l-3.7-2.9c-1.1.7-2.5 1.2-4.3 1.2-3 0-5.5-2-6.4-4.8L1.9 17.6C3.7 21.4 7.5 24 12 24z"/></svg>
               <span>Google</span>
             </button>
-            <button type="button" class="btn-social" onclick="simulateOAuth('Apple')">
+            <button type="button" class="btn-social" id="btn-apple">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.42c.64-.78 1.08-1.86.96-2.94-.93.04-2.05.62-2.72 1.4-.59.68-1.11 1.77-.97 2.83 1.04.08 2.09-.51 2.73-1.29z"/></svg>
               <span>Apple</span>
             </button>
@@ -506,26 +567,47 @@ import mascotImg from '../assets/craiyon.png';
     <!-- Login Success Modal (Figma Frame 92:247) -->
     <div id="login-success-modal" class="modal-backdrop">
       <div class="success-modal-card">
-        <div class="success-icon-circle">✓</div>
+        <div class="success-icon-circle">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+        </div>
         <h3 class="success-title">Berhasil Masuk!</h3>
-        <p class="success-desc">Wajah Terverifikasi. Selamat Datang kembali, Daffa!</p>
+        <p class="success-desc">Autentikasi selesai. Selamat datang kembali, Daffa!</p>
         <a href="/beranda" class="btn-continue-dashboard">Lanjut ke Beranda</a>
       </div>
     </div>
+
+    <!-- Toast Component -->
+    <div id="auth-toast" class="auth-toast"></div>
 
     <script>
       const form = document.getElementById('login-form');
       const modal = document.getElementById('login-success-modal');
       const togglePwd = document.getElementById('toggle-pwd');
       const pwdInput = document.getElementById('password') as HTMLInputElement;
+      const iconEye = document.getElementById('icon-eye');
+      const iconEyeOff = document.getElementById('icon-eye-off');
+      const authToast = document.getElementById('auth-toast');
+
+      function showToast(msg: string) {
+        if (!authToast) return;
+        authToast.textContent = msg;
+        authToast.classList.add('show');
+        setTimeout(() => {
+          authToast.classList.remove('show');
+        }, 3200);
+      }
 
       togglePwd?.addEventListener('click', () => {
         if (pwdInput.type === 'password') {
           pwdInput.type = 'text';
-          togglePwd.textContent = '🔒';
+          if (iconEye) iconEye.style.display = 'none';
+          if (iconEyeOff) iconEyeOff.style.display = 'block';
         } else {
           pwdInput.type = 'password';
-          togglePwd.textContent = '👁️';
+          if (iconEye) iconEye.style.display = 'block';
+          if (iconEyeOff) iconEyeOff.style.display = 'none';
         }
       });
 
@@ -534,13 +616,26 @@ import mascotImg from '../assets/craiyon.png';
         modal?.classList.add('active');
         setTimeout(() => {
           window.location.href = '/beranda';
-        }, 1500);
+        }, 1200);
       });
 
-      function simulateOAuth(provider: string) {
-        alert(`Login dengan ${provider} berhasil! Menghubungkan ke profil...`);
-        window.location.href = '/beranda';
-      }
+      document.getElementById('btn-forgot')?.addEventListener('click', () => {
+        showToast('Tautan instruksi pemulihan kata sandi telah dikirim ke email kamu.');
+      });
+
+      document.getElementById('btn-google')?.addEventListener('click', () => {
+        showToast('Menghubungkan akun Google SSO...');
+        setTimeout(() => {
+          window.location.href = '/beranda';
+        }, 800);
+      });
+
+      document.getElementById('btn-apple')?.addEventListener('click', () => {
+        showToast('Menghubungkan Apple ID...');
+        setTimeout(() => {
+          window.location.href = '/beranda';
+        }, 800);
+      });
     </script>
   </body>
 </html>
