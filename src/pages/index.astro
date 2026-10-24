@@ -1,5 +1,8 @@
 ---
 // src/pages/index.astro
+import { Image } from 'astro:assets';
+import logoImg from '../assets/jadwal.in.png';
+import mascotImg from '../assets/craiyon.png';
 ---
 
 <!doctype html>
@@ -88,7 +91,7 @@
       }
 
       .header-logo {
-        height: 34px;
+        height: 60px;
         width: auto;
         object-fit: contain;
       }
@@ -156,16 +159,6 @@
         width: 250px;
         height: auto;
         filter: drop-shadow(0 15px 25px rgba(93, 44, 150, 0.15));
-        animation: floatMascot 4s ease-in-out infinite;
-      }
-
-      @keyframes floatMascot {
-        0%, 100% {
-          transform: translateY(0px);
-        }
-        50% {
-          transform: translateY(-8px);
-        }
       }
 
       /* Floating Badge 1: Top-Right Sparkle */
@@ -345,6 +338,10 @@
           padding: 1.2rem 1.2rem 1.5rem;
         }
 
+        .header-logo {
+          height: 48px;
+        }
+
         .onboarding-main {
           grid-template-columns: 1fr;
           gap: 1.5rem;
@@ -397,15 +394,18 @@
   <body>
     <!-- 1. LOADING SCREEN -->
     <div id="loading-screen">
-      <img src="/jadwal.in.png" alt="jadwal.in" class="loading-logo" />
+      <Image src={logoImg} alt="jadwal.in" class="loading-logo" loading="eager" />
     </div>
 
     <!-- 2. ONBOARDING SECTION -->
     <div class="onboarding-wrapper">
       <!-- Header -->
       <header class="onboarding-header">
-        <img src="/jadwal.in.png" alt="jadwal.in" class="header-logo" />
-        <button id="btn-skip" class="btn-skip" type="button">Lewati</button>
+        <Image src={logoImg} alt="jadwal.in" class="header-logo" loading="eager" />
+        <div style="display: flex; gap: 0.6rem; align-items: center;">
+          <a href="/login" class="btn-skip" style="color: #7c3aed;">Masuk</a>
+          <button id="btn-skip" class="btn-skip" type="button">Lewati</button>
+        </div>
       </header>
 
       <!-- Main Section (Desktop 2-Column / Mobile Stacked) -->
@@ -424,10 +424,11 @@
             </div>
 
             <!-- Mascot Beavy -->
-            <img 
-              src="/craiyon.png" 
+            <Image 
+              src={mascotImg} 
               alt="Beavy Assistant AI" 
               class="mascot-img" 
+              loading="eager"
             />
 
             <!-- Bottom-Left Time Badge -->
@@ -554,12 +555,12 @@
         if (currentStep < steps.length - 1) {
           renderStep(currentStep + 1);
         } else {
-          alert('Onboarding selesai! Selamat datang di Jadwal.in 🎉');
+          window.location.href = '/beranda';
         }
       });
 
       btnSkip?.addEventListener('click', () => {
-        renderStep(steps.length - 1);
+        window.location.href = '/beranda';
       });
 
       dots.forEach((dot) => {

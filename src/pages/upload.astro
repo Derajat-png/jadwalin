@@ -1,0 +1,672 @@
+---
+// src/pages/upload.astro
+import DashboardLayout from '../layouts/DashboardLayout.astro';
+import { Image } from 'astro:assets';
+import mascotImg from '../assets/craiyon.png';
+---
+
+<DashboardLayout title="Upload Jadwal & Tugas" activeNav="jadwal">
+  <div class="upload-page-wrap">
+    <!-- Header with 3-Step Breadcrumb Progress (Figma Frame 117:755) -->
+    <div class="upload-header-row">
+      <div>
+        <h1 class="page-title">Tambah Tugas & Jadwal</h1>
+        <p class="page-subtitle">Upload silabus, dokumen PDF, atau screenshot jadwal kuliahmu untuk dianalisis oleh AI.</p>
+      </div>
+
+      <!-- Step Indicator from Figma -->
+      <div class="step-indicator-bar">
+        <div class="step-item active">
+          <span class="step-num">1</span>
+          <span class="step-lbl">Upload</span>
+        </div>
+        <div class="step-line"></div>
+        <div class="step-item" id="step-review-tab">
+          <span class="step-num">2</span>
+          <span class="step-lbl">Review AI</span>
+        </div>
+        <div class="step-line"></div>
+        <div class="step-item" id="step-done-tab">
+          <span class="step-num">3</span>
+          <span class="step-lbl">Selesai</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Desktop 2-Column: Upload Zone (Left) + File Queue & Scope Settings (Right) -->
+    <div class="upload-desktop-grid" id="upload-stage-1">
+      <!-- Left Column: Dropzone & 4 Upload Mode Buttons -->
+      <div class="dropzone-col">
+        <!-- Big Drag & Drop Area -->
+        <div class="big-dropzone" id="dropzone-area">
+          <div class="dropzone-icon">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="17 8 12 3 7 8"></polyline>
+              <line x1="12" y1="3" x2="12" y2="15"></line>
+            </svg>
+          </div>
+          <h3 class="dropzone-title">Ketuk untuk upload foto atau PDF</h3>
+          <p class="dropzone-sub">Tarik file ke sini atau pilih metode di bawah</p>
+          <input type="file" id="file-input" style="display: none;" multiple accept="image/*,.pdf" />
+          <button type="button" class="btn-browse-file" onclick="document.getElementById('file-input').click();">Pilih File dari Komputer</button>
+        </div>
+
+        <!-- 4 Upload Modes (From Figma Frame 117:755) -->
+        <div class="upload-modes-grid">
+          <button class="mode-card active" data-mode="foto">
+            <span class="mode-icon">📸</span>
+            <span class="mode-title">Foto / Screenshot</span>
+            <span class="mode-sub">JPG, PNG, WebP</span>
+          </button>
+
+          <button class="mode-card" data-mode="pdf">
+            <span class="mode-icon">📄</span>
+            <span class="mode-title">PDF / Dokumen</span>
+            <span class="mode-sub">Silabus & Modul</span>
+          </button>
+
+          <button class="mode-card" data-mode="text">
+            <span class="mode-icon">📋</span>
+            <span class="mode-title">Tempel Teks</span>
+            <span class="mode-sub">Salin dari Chat / Web</span>
+          </button>
+
+          <button class="mode-card" data-mode="voice">
+            <span class="mode-icon">🎙️</span>
+            <span class="mode-title">Ketik / Suara</span>
+            <span class="mode-sub">Diktekan ke Beavy</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Right Column: Selected Files & AI Scope (From Figma Frame 117:755) -->
+      <div class="settings-col">
+        <!-- Selected Files List -->
+        <div class="panel-box">
+          <h4 class="panel-box-title">File Terpilih (2)</h4>
+
+          <div class="selected-files-list">
+            <!-- File 1 from Figma -->
+            <div class="file-item">
+              <div class="file-icon-box">🖼️</div>
+              <div class="file-info">
+                <span class="file-name">jadwal-kuliah.jpg</span>
+                <span class="file-size">1.4 MB • Gambar Jadwal Semester</span>
+              </div>
+              <button class="btn-remove-file" title="Hapus">✕</button>
+            </div>
+
+            <!-- File 2 from Figma -->
+            <div class="file-item">
+              <div class="file-icon-box">📑</div>
+              <div class="file-info">
+                <span class="file-name">daftar-tugas.pdf</span>
+                <span class="file-size">2.8 MB • Silabus Pemrograman</span>
+              </div>
+              <button class="btn-remove-file" title="Hapus">✕</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- AI Extraction Scope (From Figma Frame 117:755) -->
+        <div class="panel-box">
+          <h4 class="panel-box-title">Target Ekstraksi AI</h4>
+          <p class="panel-box-sub">Tentukan data apa saja yang ingin diekstrak oleh Beavy:</p>
+
+          <div class="scope-options-list">
+            <label class="scope-option">
+              <input type="radio" name="scope" value="jadwal" />
+              <div>
+                <strong>Jadwal Tetap</strong>
+                <p>Jam kuliah rutin, praktikum, atau rapat mingguan.</p>
+              </div>
+            </label>
+
+            <label class="scope-option">
+              <input type="radio" name="scope" value="tugas" />
+              <div>
+                <strong>Daftar Tugas</strong>
+                <p>Deadline PR, kuis, laporan, dan proyek kelompok.</p>
+              </div>
+            </label>
+
+            <label class="scope-option selected">
+              <input type="radio" name="scope" value="keduanya" checked />
+              <div>
+                <strong>Keduanya (Direkomendasikan)</strong>
+                <p>Ekstrak jadwal rutin sekaligus tugas dan cocokkan slotnya.</p>
+              </div>
+            </label>
+          </div>
+
+          <button id="btn-start-ai-analysis" class="btn-analyze-ai">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+            <span>Analisis dengan AI</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- AI Reading & Review State (From Figma Frame 57:2810 & 115:52) -->
+    <div class="ai-processing-state" id="ai-processing-view" style="display: none;">
+      <div class="ai-process-card">
+        <div class="beavy-scanning-halo">
+          <Image src={mascotImg} alt="Beavy AI" class="beavy-process-img" />
+        </div>
+        <h3 class="process-title" id="process-status-text">Beavy sedang membaca dokumenmu...</h3>
+        <p class="process-desc">
+          Mendeteksi mata kuliah, jam pertemuan, tanggal tenggat tugas, dan estimasi waktu pengerjaan secara otomatis.
+        </p>
+
+        <div class="process-progress-bar">
+          <div class="ppb-fill" id="ppb-fill-el"></div>
+        </div>
+
+        <div class="extracted-preview-box" id="extracted-preview" style="display: none;">
+          <h4 class="ep-title">🎉 3 Tugas & 2 Jadwal Rutin Ditemukan!</h4>
+          <ul class="ep-list">
+            <li>✓ <strong>Laporan Praktikum Pemrograman</strong> (Tenggat: Hari ini 17.00, Durasi: 2 jam)</li>
+            <li>✓ <strong>Slide Presentasi Kelompok</strong> (Tenggat: Besok 09.00, Durasi: 1.5 jam)</li>
+            <li>✓ <strong>Kuliah Basis Data</strong> (Jadwal Tetap: Kamis 10.00 - 12.00)</li>
+          </ul>
+
+          <div style="display: flex; gap: 0.8rem; margin-top: 1.2rem;">
+            <a href="/beranda" class="btn-confirm-all">Terapkan ke Kalender & Selesai</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    .upload-page-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 1.8rem;
+    }
+
+    .upload-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1.2rem;
+    }
+
+    .page-title {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: #201438;
+      letter-spacing: -0.5px;
+    }
+
+    .page-subtitle {
+      font-size: 0.95rem;
+      color: #6c5f85;
+      margin-top: 0.3rem;
+    }
+
+    /* Step Indicator Bar */
+    .step-indicator-bar {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      background: rgba(255, 255, 255, 0.85);
+      padding: 0.5rem 1.2rem;
+      border-radius: var(--radius-full);
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .step-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      opacity: 0.5;
+    }
+
+    .step-item.active {
+      opacity: 1;
+    }
+
+    .step-num {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #8b5cf6;
+      color: white;
+      font-size: 0.75rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .step-lbl {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #2b1d44;
+    }
+
+    .step-line {
+      width: 24px;
+      height: 2px;
+      background: #e2d8ee;
+    }
+
+    /* Desktop 2-Column */
+    .upload-desktop-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 1.8rem;
+      align-items: start;
+    }
+
+    .dropzone-col, .settings-col {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    /* Big Dropzone */
+    .big-dropzone {
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(16px);
+      border: 2px dashed #c4b5fd;
+      border-radius: var(--radius-lg);
+      padding: 3.5rem 2rem;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .big-dropzone:hover {
+      border-color: #8b5cf6;
+      background: #faf6ff;
+      transform: translateY(-2px);
+    }
+
+    .dropzone-icon {
+      width: 76px;
+      height: 76px;
+      border-radius: 50%;
+      background: #f3e8ff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.2rem;
+    }
+
+    .dropzone-title {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #21133c;
+      margin-bottom: 0.35rem;
+    }
+
+    .dropzone-sub {
+      font-size: 0.88rem;
+      color: #786991;
+      margin-bottom: 1.4rem;
+    }
+
+    .btn-browse-file {
+      padding: 0.75rem 1.6rem;
+      border-radius: var(--radius-full);
+      border: none;
+      background: #8b5cf6;
+      color: white;
+      font-weight: 700;
+      font-size: 0.88rem;
+      box-shadow: 0 4px 14px rgba(139, 92, 246, 0.35);
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .btn-browse-file:hover {
+      transform: translateY(-2px);
+    }
+
+    /* 4 Upload Modes */
+    .upload-modes-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.8rem;
+    }
+
+    .mode-card {
+      background: rgba(255, 255, 255, 0.88);
+      border: 1.5px solid #ded5ec;
+      border-radius: var(--radius-md);
+      padding: 1rem 0.6rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .mode-card:hover {
+      border-color: #8b5cf6;
+      transform: translateY(-2px);
+    }
+
+    .mode-card.active {
+      border-color: #8b5cf6;
+      background: #f4ecfd;
+    }
+
+    .mode-icon {
+      font-size: 1.5rem;
+      margin-bottom: 0.35rem;
+    }
+
+    .mode-title {
+      font-size: 0.82rem;
+      font-weight: 800;
+      color: #24153f;
+    }
+
+    .mode-sub {
+      font-size: 0.7rem;
+      color: #83749c;
+      margin-top: 0.15rem;
+    }
+
+    /* Settings Panel */
+    .panel-box {
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      border-radius: var(--radius-lg);
+      padding: 1.6rem;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .panel-box-title {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: #22143b;
+      margin-bottom: 0.3rem;
+    }
+
+    .panel-box-sub {
+      font-size: 0.82rem;
+      color: #796a92;
+      margin-bottom: 1rem;
+    }
+
+    /* File List */
+    .selected-files-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+    }
+
+    .file-item {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      background: #faf7fd;
+      border: 1px solid #ebe2f5;
+      padding: 0.8rem 1rem;
+      border-radius: var(--radius-md);
+    }
+
+    .file-icon-box {
+      font-size: 1.3rem;
+    }
+
+    .file-info {
+      flex: 1;
+    }
+
+    .file-name {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #251640;
+      display: block;
+    }
+
+    .file-size {
+      font-size: 0.74rem;
+      color: #86779e;
+    }
+
+    .btn-remove-file {
+      background: none;
+      border: none;
+      color: #a79abf;
+      font-size: 0.9rem;
+      padding: 0.3rem;
+      cursor: pointer;
+    }
+
+    .btn-remove-file:hover {
+      color: #dc2626;
+    }
+
+    /* Scope Options */
+    .scope-options-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+      margin-bottom: 1.6rem;
+    }
+
+    .scope-option {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.8rem;
+      padding: 0.85rem 1rem;
+      border-radius: var(--radius-md);
+      background: #fbf9fe;
+      border: 1.5px solid #ebe3f6;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .scope-option.selected {
+      border-color: #8b5cf6;
+      background: #f5edff;
+    }
+
+    .scope-option input {
+      accent-color: #8b5cf6;
+      margin-top: 0.2rem;
+    }
+
+    .scope-option strong {
+      font-size: 0.88rem;
+      color: #24153e;
+      display: block;
+    }
+
+    .scope-option p {
+      font-size: 0.76rem;
+      color: #796b92;
+      margin-top: 0.15rem;
+      line-height: 1.35;
+    }
+
+    .btn-analyze-ai {
+      width: 100%;
+      padding: 0.95rem;
+      border-radius: var(--radius-full);
+      border: none;
+      background: linear-gradient(135deg, #a855f7 0%, #8b5cf6 100%);
+      color: white;
+      font-size: 1rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      box-shadow: 0 8px 24px rgba(139, 92, 246, 0.35);
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .btn-analyze-ai:hover {
+      transform: translateY(-2px);
+    }
+
+    /* AI Processing View */
+    .ai-processing-state {
+      padding: 3rem 1.5rem;
+      display: flex;
+      justify-content: center;
+    }
+
+    .ai-process-card {
+      background: white;
+      border-radius: 28px;
+      padding: 3rem 2.5rem;
+      max-width: 600px;
+      width: 100%;
+      text-align: center;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .beavy-scanning-halo {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #f3e8ff, #fef3c7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.6rem;
+      box-shadow: 0 0 30px rgba(139, 92, 246, 0.3);
+      animation: pulseAI 2s ease-in-out infinite;
+    }
+
+    @keyframes pulseAI {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.06); }
+    }
+
+    .beavy-process-img {
+      width: 80px;
+      height: 80px;
+      object-fit: contain;
+    }
+
+    .process-title {
+      font-size: 1.45rem;
+      font-weight: 800;
+      color: #21133c;
+      margin-bottom: 0.6rem;
+    }
+
+    .process-desc {
+      font-size: 0.9rem;
+      color: #6d5f85;
+      line-height: 1.5;
+      margin-bottom: 2rem;
+    }
+
+    .process-progress-bar {
+      width: 100%;
+      height: 8px;
+      background: #f0e8f8;
+      border-radius: var(--radius-full);
+      overflow: hidden;
+      margin-bottom: 2rem;
+    }
+
+    .ppb-fill {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, #a855f7, #8b5cf6);
+      transition: width 0.3s ease;
+    }
+
+    .extracted-preview-box {
+      text-align: left;
+      background: #f8f5fc;
+      border-radius: var(--radius-md);
+      padding: 1.4rem;
+      border: 1px solid #ebdff5;
+    }
+
+    .ep-title {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: #15803d;
+      margin-bottom: 0.8rem;
+    }
+
+    .ep-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      font-size: 0.86rem;
+      color: #3f315a;
+    }
+
+    .btn-confirm-all {
+      width: 100%;
+      padding: 0.9rem;
+      border-radius: var(--radius-full);
+      border: none;
+      background: #8b5cf6;
+      color: white;
+      font-weight: 800;
+      font-size: 0.95rem;
+      text-align: center;
+      box-shadow: 0 6px 18px rgba(139, 92, 246, 0.3);
+      cursor: pointer;
+    }
+
+    @media (max-width: 960px) {
+      .upload-desktop-grid {
+        grid-template-columns: 1fr;
+      }
+      .upload-modes-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+  </style>
+
+  <script>
+    const btnAnalyze = document.getElementById('btn-start-ai-analysis');
+    const stage1 = document.getElementById('upload-stage-1');
+    const processView = document.getElementById('ai-processing-view');
+    const fillEl = document.getElementById('ppb-fill-el');
+    const previewBox = document.getElementById('extracted-preview');
+    const statusText = document.getElementById('process-status-text');
+
+    btnAnalyze?.addEventListener('click', () => {
+      if (stage1 && processView) {
+        stage1.style.display = 'none';
+        processView.style.display = 'flex';
+
+        // Simulate progress
+        let p = 0;
+        const interval = setInterval(() => {
+          p += 20;
+          if (fillEl) fillEl.style.width = p + '%';
+
+          if (p === 60 && statusText) {
+            statusText.textContent = 'Mengekstrak tanggal & jam tenggat waktu...';
+          }
+
+          if (p >= 100) {
+            clearInterval(interval);
+            if (statusText) statusText.textContent = 'Analisis AI Selesai!';
+            if (previewBox) previewBox.style.display = 'block';
+          }
+        }, 400);
+      }
+    });
+  </script>
+</DashboardLayout>
