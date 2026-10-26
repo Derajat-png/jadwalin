@@ -75,7 +75,7 @@ const recurringSchedules = [
         <div class="profile-surface user-card">
           <div class="user-row-header">
             <div class="avatar-wrap">
-              <div class="avatar-circle">D</div>
+              <div class="avatar-circle" id="user-avatar-display">D</div>
               <button type="button" class="btn-avatar-edit" id="btn-edit-avatar" aria-label="Ganti foto profil">
                 <svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
@@ -137,7 +137,7 @@ const recurringSchedules = [
 
           <div class="routine-items-list" id="routine-list">
             {recurringSchedules.map((item) => (
-              <article class="routine-item-row" data-id={item.id}>
+              <article class="routine-item-row" data-id={item.id} data-title={item.title} data-time={item.time} data-dur={item.duration} data-days={item.days}>
                 <div class="routine-time-box">
                   <span class="routine-time-clock">{item.time}</span>
                   <span class="routine-time-span">{item.duration}</span>
@@ -268,11 +268,11 @@ const recurringSchedules = [
       </aside>
     </div>
 
-    <!-- Routine Modal -->
-    <div id="routine-modal" class="modal-backdrop-overlay" style="display: none;">
+    <!-- 1. MODAL TAMBAH RUTINITAS -->
+    <div id="routine-modal" class="modal-backdrop-overlay" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="modal-routine-title">
       <div class="modal-container-card">
         <div class="modal-head-line">
-          <h2 class="modal-dialog-title">Tambah Rutinitas Mingguan</h2>
+          <h2 class="modal-dialog-title" id="modal-routine-title">Tambah Rutinitas Mingguan</h2>
           <button type="button" class="btn-modal-dismiss" id="btn-close-routine-modal" aria-label="Tutup jendela">
             <svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
               <line x1="18" y1="6" x2="6" y2="18"></line>
@@ -309,6 +309,178 @@ const recurringSchedules = [
           <button type="button" class="btn-cancel-dialog" id="btn-cancel-routine">Batal</button>
           <button type="button" class="btn-save-dialog" id="btn-submit-routine">Simpan Rutinitas</button>
         </div>
+      </div>
+    </div>
+
+    <!-- 2. MODAL GANTI KATA SANDI -->
+    <div id="pwd-modal" class="modal-backdrop-overlay" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="modal-pwd-title">
+      <div class="modal-container-card">
+        <div class="modal-head-line">
+          <h2 class="modal-dialog-title" id="modal-pwd-title">Perbarui Kata Sandi</h2>
+          <button type="button" class="btn-modal-dismiss" id="btn-close-pwd-modal" aria-label="Tutup jendela">
+            <svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+        <p class="modal-context-desc">Gunakan kombinasi minimal 8 karakter dengan huruf besar, angka, dan simbol unik.</p>
+        
+        <form id="form-change-pwd" class="modal-fields-group">
+          <div class="dialog-field">
+            <label class="dialog-label" for="pwd-current">Kata Sandi Saat Ini</label>
+            <input type="password" id="pwd-current" required class="dialog-input" placeholder="Masukkan kata sandi lama" />
+          </div>
+
+          <div class="dialog-field">
+            <label class="dialog-label" for="pwd-new">Kata Sandi Baru</label>
+            <input type="password" id="pwd-new" required class="dialog-input" placeholder="Minimal 8 karakter" />
+          </div>
+
+          <div class="dialog-field">
+            <label class="dialog-label" for="pwd-confirm">Konfirmasi Kata Sandi Baru</label>
+            <input type="password" id="pwd-confirm" required class="dialog-input" placeholder="Ulangi kata sandi baru" />
+          </div>
+
+          <div class="modal-footer-cluster">
+            <button type="button" class="btn-cancel-dialog" id="btn-cancel-pwd">Batal</button>
+            <button type="submit" class="btn-save-dialog">Simpan Kata Sandi</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- 3. MODAL BIOMETRIK / FACE ID -->
+    <div id="face-id-modal" class="modal-backdrop-overlay" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="modal-face-title">
+      <div class="modal-container-card text-center">
+        <div class="modal-head-line">
+          <h2 class="modal-dialog-title" id="modal-face-title">Konfigurasi Face ID</h2>
+          <button type="button" class="btn-modal-dismiss" id="btn-close-face-modal" aria-label="Tutup jendela">
+            <svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+
+        <div class="face-scan-box">
+          <div class="scan-reticle">
+            <svg aria-hidden="true" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M7 3H5a2 2 0 0 0-2 2v2"></path>
+              <path d="M17 3h2a2 2 0 0 1 2 2v2"></path>
+              <path d="M21 17v2a2 2 0 0 1-2 2h-2"></path>
+              <path d="M3 17v2a2 2 0 0 0 2 2h2"></path>
+              <circle cx="12" cy="12" r="3"></circle>
+            </svg>
+          </div>
+          <span class="scan-status-pill" id="scan-status-text">Sensor Kamera Siap</span>
+        </div>
+
+        <p class="modal-context-desc">
+          Pastikan wajah Anda berada di area pencahayaan yang cukup. Data biometrik diproses lokal secara aman melalui WebAuthn.
+        </p>
+
+        <div class="modal-footer-cluster">
+          <button type="button" class="btn-cancel-dialog" id="btn-cancel-face">Batal</button>
+          <button type="button" class="btn-save-dialog" id="btn-start-scan">Daftarkan Wajah Sekarang</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. MODAL GANTI AVATAR / FOTO PROFIL -->
+    <div id="avatar-modal" class="modal-backdrop-overlay" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="modal-avatar-title">
+      <div class="modal-container-card">
+        <div class="modal-head-line">
+          <h2 class="modal-dialog-title" id="modal-avatar-title">Pilih Foto Profil</h2>
+          <button type="button" class="btn-modal-dismiss" id="btn-close-avatar-modal" aria-label="Tutup jendela">
+            <svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+        <p class="modal-context-desc">Gunakan inisial bawaan, pilih avatar mahasiswa, atau unggah foto dari komputer.</p>
+
+        <div class="avatar-presets-grid">
+          <button type="button" class="preset-avatar-btn active" data-preset="D">
+            <span class="preset-circle c-purple">D</span>
+            <span class="preset-name">Inisial</span>
+          </button>
+          <button type="button" class="preset-avatar-btn" data-preset="A">
+            <span class="preset-circle c-amber">A</span>
+            <span class="preset-name">Gold</span>
+          </button>
+          <button type="button" class="preset-avatar-btn" data-preset="B">
+            <span class="preset-circle c-emerald">B</span>
+            <span class="preset-name">Studi</span>
+          </button>
+          <button type="button" class="preset-avatar-btn" data-preset="M">
+            <span class="preset-circle c-slate">M</span>
+            <span class="preset-name">Minimal</span>
+          </button>
+        </div>
+
+        <div class="avatar-upload-drop">
+          <input type="file" id="avatar-file-input" style="display: none;" accept="image/png, image/jpeg" />
+          <button type="button" class="btn-choose-photo" onclick="document.getElementById('avatar-file-input')?.click();">
+            <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+              <circle cx="8.5" cy="8.5" r="1.5"></circle>
+              <polyline points="21 15 16 10 5 21"></polyline>
+            </svg>
+            <span>Unggah Foto dari Komputer</span>
+          </button>
+        </div>
+
+        <div class="modal-footer-cluster">
+          <button type="button" class="btn-cancel-dialog" id="btn-cancel-avatar">Batal</button>
+          <button type="button" class="btn-save-dialog" id="btn-save-avatar">Terapkan Foto</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. MODAL KELOLA / EDIT RUTINITAS -->
+    <div id="edit-routine-modal" class="modal-backdrop-overlay" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="modal-edit-routine-title">
+      <div class="modal-container-card">
+        <div class="modal-head-line">
+          <h2 class="modal-dialog-title" id="modal-edit-routine-title">Kelola Rutinitas</h2>
+          <button type="button" class="btn-modal-dismiss" id="btn-close-edit-routine-modal" aria-label="Tutup jendela">
+            <svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+        <p class="modal-context-desc">Sesuaikan rincian jadwal rutin ini atau hapus agar slot waktu kembali dibuka.</p>
+
+        <form id="form-edit-routine" class="modal-fields-group">
+          <div class="dialog-field">
+            <label class="dialog-label" for="edit-routine-title">Nama Rutinitas</label>
+            <input type="text" id="edit-routine-title" class="dialog-input" />
+          </div>
+
+          <div class="dialog-row-2">
+            <div class="dialog-field">
+              <label class="dialog-label" for="edit-routine-time">Jam Mulai</label>
+              <input type="text" id="edit-routine-time" class="dialog-input" />
+            </div>
+            <div class="dialog-field">
+              <label class="dialog-label" for="edit-routine-dur">Durasi</label>
+              <input type="text" id="edit-routine-dur" class="dialog-input" />
+            </div>
+          </div>
+
+          <div class="dialog-field">
+            <label class="dialog-label" for="edit-routine-days">Hari</label>
+            <input type="text" id="edit-routine-days" class="dialog-input" />
+          </div>
+
+          <div class="modal-footer-cluster">
+            <button type="button" class="btn-danger-dialog" id="btn-delete-routine">Hapus Rutinitas</button>
+            <button type="button" class="btn-cancel-dialog" id="btn-cancel-edit-routine">Batal</button>
+            <button type="submit" class="btn-save-dialog">Simpan Perubahan</button>
+          </div>
+        </form>
       </div>
     </div>
 
@@ -906,7 +1078,7 @@ const recurringSchedules = [
       border-color: var(--color-primary);
     }
 
-    /* Modal */
+    /* Modals Generic Styling */
     .modal-backdrop-overlay {
       position: fixed;
       inset: 0;
@@ -1051,6 +1223,130 @@ const recurringSchedules = [
       background: var(--color-primary-dark);
     }
 
+    .btn-danger-dialog {
+      padding: 0.75rem 1rem;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--color-border);
+      background: var(--color-surface);
+      color: var(--color-text-main);
+      font-weight: 700;
+      font-size: 0.82rem;
+      cursor: pointer;
+      transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+    }
+
+    .btn-danger-dialog:hover {
+      background: var(--color-primary-light);
+      border-color: var(--color-primary);
+    }
+
+    /* Face ID Reticle */
+    .face-scan-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      margin: 1.2rem 0 1.5rem;
+    }
+
+    .scan-reticle {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      background: var(--color-primary-light);
+      border: 2px dashed var(--color-border-focus);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-primary);
+    }
+
+    .scan-status-pill {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--color-primary-dark);
+      background: var(--color-primary-light);
+      border: 1px solid var(--color-border-focus);
+      padding: 0.25rem 0.85rem;
+      border-radius: var(--radius-full);
+    }
+
+    /* Avatar Presets Grid */
+    .avatar-presets-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.8rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .preset-avatar-btn {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      padding: 0.75rem 0.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.45rem;
+      cursor: pointer;
+      transition: border-color 0.15s ease, background-color 0.15s ease;
+    }
+
+    .preset-avatar-btn:hover {
+      border-color: var(--color-border-focus);
+      background: var(--color-primary-light);
+    }
+
+    .preset-avatar-btn.active {
+      border-color: var(--color-primary);
+      background: var(--color-primary-light);
+    }
+
+    .preset-circle {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-surface);
+      font-family: var(--font-mono);
+      font-weight: 800;
+      font-size: 1.2rem;
+    }
+
+    .c-purple { background: var(--color-primary); }
+    .c-amber { background: var(--color-accent); }
+    .c-emerald { background: var(--color-primary-dark); }
+    .c-slate { background: var(--color-text-main); }
+
+    .preset-name {
+      font-size: 0.74rem;
+      font-weight: 700;
+      color: var(--color-text-main);
+    }
+
+    .avatar-upload-drop {
+      border: 1px dashed var(--color-border-focus);
+      border-radius: var(--radius-md);
+      padding: 1rem;
+      text-align: center;
+      margin-bottom: 1.5rem;
+      background: var(--color-surface);
+    }
+
+    .btn-choose-photo {
+      background: none;
+      border: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--color-primary);
+      cursor: pointer;
+    }
+
     @media (max-width: 960px) {
       .profile-grid {
         grid-template-columns: 1fr;
@@ -1069,23 +1365,16 @@ const recurringSchedules = [
       }
     }
 
-    // Modal Routine Controls
-    const modal = document.getElementById('routine-modal');
-    const btnAddRoutine = document.getElementById('btn-add-routine');
-    const btnCloseModal = document.getElementById('btn-close-routine-modal');
-    const btnCancel = document.getElementById('btn-cancel-routine');
-    const btnSubmit = document.getElementById('btn-submit-routine');
-    const routineList = document.getElementById('routine-list');
+    // Modal Helper
+    const openModal = (id: string) => document.getElementById(id)?.classList.add('active');
+    const closeModal = (id: string) => document.getElementById(id)?.classList.remove('active');
 
-    btnAddRoutine?.addEventListener('click', () => {
-      modal?.classList.add('active');
-    });
+    // 1. Routine Add Modal
+    document.getElementById('btn-add-routine')?.addEventListener('click', () => openModal('routine-modal'));
+    document.getElementById('btn-close-routine-modal')?.addEventListener('click', () => closeModal('routine-modal'));
+    document.getElementById('btn-cancel-routine')?.addEventListener('click', () => closeModal('routine-modal'));
 
-    const closeModal = () => modal?.classList.remove('active');
-    btnCloseModal?.addEventListener('click', closeModal);
-    btnCancel?.addEventListener('click', closeModal);
-
-    btnSubmit?.addEventListener('click', () => {
+    document.getElementById('btn-submit-routine')?.addEventListener('click', () => {
       const titleInput = document.getElementById('routine-input-title') as HTMLInputElement;
       const timeInput = document.getElementById('routine-input-time') as HTMLInputElement;
       const durInput = document.getElementById('routine-input-dur') as HTMLInputElement;
@@ -1098,6 +1387,10 @@ const recurringSchedules = [
 
       const newArticle = document.createElement('article');
       newArticle.className = 'routine-item-row';
+      newArticle.setAttribute('data-title', title);
+      newArticle.setAttribute('data-time', time);
+      newArticle.setAttribute('data-dur', dur);
+      newArticle.setAttribute('data-days', days);
       newArticle.innerHTML = `
         <div class="routine-time-box">
           <span class="routine-time-clock">${time}</span>
@@ -1111,7 +1404,7 @@ const recurringSchedules = [
           <span class="routine-recurrence">${days}</span>
         </div>
         <div class="routine-actions-box">
-          <button type="button" class="btn-routine-action" title="Kelola Jadwal" aria-label="Opsi ${title}">
+          <button type="button" class="btn-routine-action" title="Kelola Jadwal" aria-label="Opsi ${title}" data-title="${title}">
             <svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <circle cx="12" cy="12" r="1"></circle>
               <circle cx="19" cy="12" r="1"></circle>
@@ -1121,15 +1414,128 @@ const recurringSchedules = [
         </div>
       `;
 
-      routineList?.prepend(newArticle);
-      closeModal();
+      attachRoutineAction(newArticle.querySelector('.btn-routine-action') as HTMLElement);
+      document.getElementById('routine-list')?.prepend(newArticle);
+      closeModal('routine-modal');
       window.jadwalinToast?.('Rutinitas Ditambahkan', `Rutinitas "${title}" berhasil dikunci di kalender.`, 'success');
       titleInput.value = '';
     });
 
-    // Edit Avatar
-    document.getElementById('btn-edit-avatar')?.addEventListener('click', () => {
-      window.jadwalinToast?.('Ganti Foto Profil', 'Pilih berkas gambar foto profil baru (PNG atau JPG).', 'info');
+    // 2. Password Modal
+    document.getElementById('btn-change-pwd')?.addEventListener('click', () => openModal('pwd-modal'));
+    document.getElementById('btn-close-pwd-modal')?.addEventListener('click', () => closeModal('pwd-modal'));
+    document.getElementById('btn-cancel-pwd')?.addEventListener('click', () => closeModal('pwd-modal'));
+
+    document.getElementById('form-change-pwd')?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      closeModal('pwd-modal');
+      window.jadwalinToast?.('Kata Sandi Diperbarui', 'Kata sandi Anda berhasil diubah dengan aman.', 'success');
+    });
+
+    // 3. Face ID Modal
+    document.getElementById('btn-face-id')?.addEventListener('click', () => openModal('face-id-modal'));
+    document.getElementById('btn-close-face-modal')?.addEventListener('click', () => closeModal('face-id-modal'));
+    document.getElementById('btn-cancel-face')?.addEventListener('click', () => closeModal('face-id-modal'));
+
+    document.getElementById('btn-start-scan')?.addEventListener('click', () => {
+      const statusText = document.getElementById('scan-status-text');
+      if (statusText) statusText.textContent = 'Memindai kontur wajah...';
+      setTimeout(() => {
+        if (statusText) statusText.textContent = 'Verifikasi Wajah Berhasil';
+        setTimeout(() => {
+          closeModal('face-id-modal');
+          window.jadwalinToast?.('Face ID Aktif', 'Wajah berhasil didaftarkan untuk autentikasi kilat.', 'success');
+          if (statusText) statusText.textContent = 'Sensor Kamera Siap';
+        }, 600);
+      }, 900);
+    });
+
+    // 4. Avatar Modal
+    let selectedAvatar = 'D';
+    document.getElementById('btn-edit-avatar')?.addEventListener('click', () => openModal('avatar-modal'));
+    document.getElementById('btn-close-avatar-modal')?.addEventListener('click', () => closeModal('avatar-modal'));
+    document.getElementById('btn-cancel-avatar')?.addEventListener('click', () => closeModal('avatar-modal'));
+
+    const presetBtns = document.querySelectorAll('.preset-avatar-btn');
+    presetBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        presetBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        selectedAvatar = btn.getAttribute('data-preset') || 'D';
+      });
+    });
+
+    document.getElementById('btn-save-avatar')?.addEventListener('click', () => {
+      const display = document.getElementById('user-avatar-display');
+      if (display) display.textContent = selectedAvatar;
+      closeModal('avatar-modal');
+      window.jadwalinToast?.('Foto Profil Diperbarui', `Avatar berhasil diganti dengan inisial ${selectedAvatar}.`, 'success');
+    });
+
+    // 5. Edit Routine Modal
+    let activeRoutineRow: HTMLElement | null = null;
+    const attachRoutineAction = (btn: HTMLElement) => {
+      btn.addEventListener('click', () => {
+        const row = btn.closest('.routine-item-row') as HTMLElement;
+        activeRoutineRow = row;
+        const title = row?.getAttribute('data-title') || 'Rutinitas';
+        const time = row?.getAttribute('data-time') || '10.00';
+        const dur = row?.getAttribute('data-dur') || '60 mnt';
+        const days = row?.getAttribute('data-days') || 'Setiap hari';
+
+        const titleEl = document.getElementById('edit-routine-title') as HTMLInputElement;
+        const timeEl = document.getElementById('edit-routine-time') as HTMLInputElement;
+        const durEl = document.getElementById('edit-routine-dur') as HTMLInputElement;
+        const daysEl = document.getElementById('edit-routine-days') as HTMLInputElement;
+
+        if (titleEl) titleEl.value = title;
+        if (timeEl) timeEl.value = time;
+        if (durEl) durEl.value = dur;
+        if (daysEl) daysEl.value = days;
+
+        openModal('edit-routine-modal');
+      });
+    };
+
+    document.querySelectorAll('.btn-routine-action').forEach((btn) => attachRoutineAction(btn as HTMLElement));
+    document.getElementById('btn-close-edit-routine-modal')?.addEventListener('click', () => closeModal('edit-routine-modal'));
+    document.getElementById('btn-cancel-edit-routine')?.addEventListener('click', () => closeModal('edit-routine-modal'));
+
+    document.getElementById('form-edit-routine')?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (activeRoutineRow) {
+        const title = (document.getElementById('edit-routine-title') as HTMLInputElement).value;
+        const time = (document.getElementById('edit-routine-time') as HTMLInputElement).value;
+        const dur = (document.getElementById('edit-routine-dur') as HTMLInputElement).value;
+        const days = (document.getElementById('edit-routine-days') as HTMLInputElement).value;
+
+        activeRoutineRow.setAttribute('data-title', title);
+        activeRoutineRow.setAttribute('data-time', time);
+        activeRoutineRow.setAttribute('data-dur', dur);
+        activeRoutineRow.setAttribute('data-days', days);
+
+        const clock = activeRoutineRow.querySelector('.routine-time-clock');
+        const span = activeRoutineRow.querySelector('.routine-time-span');
+        const heading = activeRoutineRow.querySelector('.routine-task-title');
+        const recur = activeRoutineRow.querySelector('.routine-recurrence');
+
+        if (clock) clock.textContent = time;
+        if (span) span.textContent = dur;
+        if (heading) heading.textContent = title;
+        if (recur) recur.textContent = days;
+
+        closeModal('edit-routine-modal');
+        window.jadwalinToast?.('Rutinitas Diperbarui', `Jadwal "${title}" berhasil disesuaikan.`, 'success');
+      }
+    });
+
+    document.getElementById('btn-delete-routine')?.addEventListener('click', () => {
+      if (activeRoutineRow) {
+        const title = activeRoutineRow.getAttribute('data-title') || 'Rutinitas';
+        activeRoutineRow.remove();
+        closeModal('edit-routine-modal');
+        window.jadwalinToast?.('Rutinitas Dihapus', `Aktivitas "${title}" dihapus dari jadwal terproteksi.`, 'info');
+      }
     });
 
     // Save Preferences
@@ -1137,21 +1543,11 @@ const recurringSchedules = [
       window.jadwalinToast?.('Preferensi Tersimpan', 'Preferensi belajar dan jam aktif Beavy berhasil diperbarui.', 'success');
     });
 
-    // Password & Face ID
-    document.getElementById('btn-change-pwd')?.addEventListener('click', () => {
-      window.jadwalinToast?.('Kata Sandi', 'Tautan pembaruan kata sandi telah dikirim ke email.', 'info');
-    });
-
-    document.getElementById('btn-face-id')?.addEventListener('click', () => {
-      window.jadwalinToast?.('Face ID', 'Verifikasi wajah aktif untuk autentikasi kilat.', 'success');
-    });
-
-    // Routine Options Click
-    document.querySelectorAll('.btn-routine-action').forEach((btn) => {
-      btn.addEventListener('click', (e) => {
-        const title = (e.currentTarget as HTMLElement).getAttribute('data-title') || 'Rutinitas';
-        window.jadwalinToast?.('Jadwal Terproteksi', `Aktivitas "${title}" berada dalam perlindungan AI Beavy.`, 'info');
-      });
+    // Global ESC to close active modal
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('.modal-backdrop-overlay.active').forEach(m => m.classList.remove('active'));
+      }
     });
   </script>
 </DashboardLayout>

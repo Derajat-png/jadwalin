@@ -64,7 +64,7 @@ const initialTasks = [
       <div class="hero-left">
         <h1 class="hero-statement">
           Kalkulasi urutan pengerjaan:<br />
-          <span class="hero-highlight">Berdasarkan Urgensi & Energi Mental</span>
+          <span class="hero-highlight">Berdasarkan Urgensi dan Energi Mental</span>
         </h1>
         <p class="hero-sub">
           Dihitung secara adaptif oleh AI untuk meminimalkan beban switching kognitif di antara tenggat akademik.
@@ -83,22 +83,33 @@ const initialTasks = [
       </div>
     </header>
 
-    <!-- 2. MAIN GRID: Ranked Tasks Flow (Left) + AI Logic & Matrix (Right) -->
+    <!-- 2. MAIN GRID -->
     <div class="priority-grid">
 
-      <!-- LEFT: Ranked Task Stack (Unnested Clean Rows) -->
+      <!-- LEFT: Ranked Task Stack -->
       <section class="task-rank-surface">
         <div class="surface-header">
           <div>
             <h2 class="surface-title">Daftar Prioritas Terkini</h2>
             <p class="surface-caption">Selesaikan dari urutan nomor 1 untuk efisiensi puncak</p>
           </div>
-          <span class="count-tag">4 Tugas Aktif</span>
+          <span class="count-tag" id="active-tasks-count">4 Tugas Aktif</span>
         </div>
 
         <div class="rank-stack" id="priority-task-list">
           {initialTasks.map((task) => (
-            <article class="rank-item" data-task-id={task.id}>
+            <article 
+              class="rank-item clickable-task" 
+              data-task-id={task.id}
+              data-rank={task.rank}
+              data-title={task.title}
+              data-priority={task.priority}
+              data-priority-class={task.priorityClass}
+              data-category={task.category}
+              data-deadline={task.deadline}
+              data-duration={task.duration}
+              data-reason={task.reason}
+            >
               <span class="rank-number">#{task.rank}</span>
 
               <div class="rank-content">
@@ -124,14 +135,7 @@ const initialTasks = [
               </div>
 
               <div class="rank-action-col">
-                <button type="button" class="btn-check-task" title="Selesaikan Tugas" aria-label="Tandai tugas selesai" onclick="
-                  const item = this.closest('.rank-item');
-                  item.classList.toggle('is-done');
-                  (window).jadwalinToast('Tugas Selesai', 'Tugas berhasil dipindahkan ke riwayat.', 'success', {
-                    label: 'Urungkan',
-                    onClick: () => item.classList.toggle('is-done')
-                  });
-                ">
+                <button type="button" class="btn-check-task" title="Selesaikan Tugas" aria-label="Tandai tugas selesai">
                   <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
                 </button>
               </div>
@@ -140,46 +144,57 @@ const initialTasks = [
         </div>
       </section>
 
-      <!-- RIGHT: AI Rationale & Focus Load -->
-      <aside class="side-insights-col">
+      <!-- RIGHT: AI Reasoning & Cognitive Load Matrix -->
+      <aside class="priority-side-col">
 
-        <!-- AI Decision Explanation -->
-        <div class="side-surface companion-insight">
-          <div class="ci-head">
-            <div class="ci-avatar-disc">
-              <Image src={mascotImg} alt="Beavy" class="ci-avatar-img" />
+        <!-- AI Logic Deep Dive -->
+        <div class="side-surface reasoning-card">
+          <div class="card-head">
+            <div class="companion-avatar-wrap">
+              <Image src={mascotImg} alt="Beavy" class="c-avatar-img" />
             </div>
             <div>
-              <h3 class="side-title">Pertimbangan Beavy AI</h3>
-              <p class="ci-role">Logika Penentuan Prioritas</p>
+              <h3 class="side-title">Pertimbangan Beavy</h3>
+              <p class="side-sub">Optimasi beban kognitif hari ini</p>
             </div>
           </div>
           <p class="side-desc">
-            <strong>Laporan Praktikum Pemrograman</strong> ditempatkan di posisi teratas karena tenggatnya berada dalam 28 jam ke depan dan menjadi prasyarat modul berikutnya.
+            Urutan ini menempatkan tugas dengan risiko hambatan tertinggi di jam produktif awal, sehingga sisa hari Anda terbebas dari kecemasan deadline mendesak.
           </p>
-          <a href="/beavy-ai" class="link-editorial">Diskusikan dengan Beavy</a>
+          <a href="/beavy-ai" class="link-editorial">
+            <span>Diskusikan pembagian tugas ini dengan Beavy</span>
+            <svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </a>
         </div>
 
         <!-- Cognitive Load Matrix -->
-        <div class="side-surface load-matrix-card">
-          <h3 class="side-title">Distribusi Beban Belajar</h3>
-          <p class="side-desc">Estimasi alokasi waktu berdasarkan kategori tugas.</p>
+        <div class="side-surface load-card">
+          <h3 class="side-title">Alokasi Kapasitas Kognitif</h3>
+          <p class="side-sub">Persentase fokus per ranah tanggung jawab</p>
 
           <div class="load-bars">
             <div class="load-row">
               <div class="load-meta">
-                <span>Kuliah & Praktikum</span>
-                <span class="load-val">5.5 Jam</span>
+                <span>Tugas Kuliah / Akademik</span>
+                <span class="load-val">68%</span>
               </div>
-              <div class="track"><div class="fill academic" style="width: 75%;"></div></div>
+              <div class="track"><div class="fill academic" style="width: 68%;"></div></div>
             </div>
 
             <div class="load-row">
               <div class="load-meta">
-                <span>Pekerjaan & Sampingan</span>
-                <span class="load-val">1.0 Jam</span>
+                <span>Kerja Freelance / Proyek</span>
+                <span class="load-val">22%</span>
               </div>
-              <div class="track"><div class="fill work" style="width: 25%;"></div></div>
+              <div class="track"><div class="fill work" style="width: 22%;"></div></div>
+            </div>
+
+            <div class="load-row">
+              <div class="load-meta">
+                <span>Pribadi / Self-Care</span>
+                <span class="load-val">10%</span>
+              </div>
+              <div class="track"><div class="fill personal" style="width: 10%;"></div></div>
             </div>
           </div>
         </div>
@@ -188,13 +203,116 @@ const initialTasks = [
 
     </div>
 
+    <!-- MODAL 1: RINCIAN DETAIL TUGAS & BREAKDOWN SESI -->
+    <div id="priority-detail-modal" class="modal-backdrop-overlay" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="modal-task-title">
+      <div class="modal-container-card">
+        <div class="modal-head-line">
+          <div>
+            <h2 class="modal-dialog-title" id="modal-task-title">Rincian Prioritas</h2>
+            <div class="modal-badge-group">
+              <span class="modal-priority-pill" id="detail-task-prio">#1 Kritis</span>
+              <span class="modal-cat-pill" id="detail-task-cat">Kuliah</span>
+            </div>
+          </div>
+          <button type="button" class="btn-modal-dismiss" id="btn-close-detail-modal" aria-label="Tutup jendela">
+            <svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+
+        <div class="task-modal-body">
+          <h3 class="task-modal-name" id="detail-task-name">Laporan Praktikum Pemrograman</h3>
+          
+          <div class="task-meta-metrics">
+            <div class="metric-box">
+              <span class="metric-lbl">Tenggat Waktu</span>
+              <span class="metric-val" id="detail-task-deadline">Hari ini, 17.00</span>
+            </div>
+            <div class="metric-box">
+              <span class="metric-lbl">Estimasi Waktu</span>
+              <span class="metric-val" id="detail-task-duration">2 jam</span>
+            </div>
+          </div>
+
+          <div class="task-ai-analysis-box">
+            <h4 class="analysis-box-title">Analisis Pembobotan Beavy</h4>
+            <p class="analysis-box-text" id="detail-task-reason">
+              Tenggat dekat hari ini dan menjadi syarat untuk tugas praktikum berikutnya.
+            </p>
+          </div>
+
+          <div class="session-breakdown-box">
+            <h4 class="breakdown-title">Strategi Eksekusi Rekomendasi</h4>
+            <div class="breakdown-pills">
+              <span class="break-chip">Sesi 1: 50 mnt riset & draft</span>
+              <span class="break-chip">Jeda: 10 mnt rehat</span>
+              <span class="break-chip">Sesi 2: 50 mnt finalisasi</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer-cluster">
+          <button type="button" class="btn-cancel-dialog" id="btn-done-from-modal">Tandai Selesai</button>
+          <a href="/jadwal" class="btn-save-dialog text-center" id="btn-go-schedule">Buka di Kalender</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL 2: KALKULASI ULANG PRIORITAS AI -->
+    <div id="reorder-modal" class="modal-backdrop-overlay" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="modal-reorder-title">
+      <div class="modal-container-card">
+        <div class="modal-head-line">
+          <h2 class="modal-dialog-title" id="modal-reorder-title">Kalkulasi Ulang Prioritas</h2>
+          <button type="button" class="btn-modal-dismiss" id="btn-close-reorder-modal" aria-label="Tutup jendela">
+            <svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+        <p class="modal-context-desc">Pilih parameter pembobotan agar AI Beavy mengurutkan antrean tugas sesuai preferensi Anda hari ini.</p>
+
+        <form id="form-reorder-prio" class="modal-fields-group">
+          <div class="dialog-field">
+            <label class="dialog-label" for="reorder-mode">Fokus Optimasi</label>
+            <select id="reorder-mode" class="dialog-input">
+              <option value="balanced" selected>Keseimbangan Urgensi dan Energi (Rekomendasi)</option>
+              <option value="deadline">Strict Deadline (Tenggat Paling Cepat)</option>
+              <option value="quickwins">Quick Wins (Durasi Paling Singkat)</option>
+            </select>
+          </div>
+
+          <div class="reorder-preview-box">
+            <span class="preview-tag">Pratinjau Hasil</span>
+            <ol class="preview-mini-list">
+              <li>1. Laporan Praktikum Pemrograman (Hari ini 17.00)</li>
+              <li>2. Slide Presentasi Kelompok (Besok 09.00)</li>
+              <li>3. Revisi Dokumen Klien (23 Okt 15.00)</li>
+              <li>4. Belajar Ujian Basis Data (26 Okt 08.00)</li>
+            </ol>
+          </div>
+
+          <div class="modal-footer-cluster">
+            <button type="button" class="btn-cancel-dialog" id="btn-cancel-reorder">Batal</button>
+            <button type="submit" class="btn-save-dialog">Terapkan Urutan Baru</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
   </div>
 
   <style>
     /* =========================================================
        AWWWARDS EDITORIAL PRIORITY STYLES
-       Spacious, Flat Surface, Editorial Typography
+       Minimal, Flat Surfaces, Crisp Tokens, Deep Scanning
        ========================================================= */
+
+    :root {
+      --overlay-scrim: rgba(18, 10, 30, 0.4);
+    }
 
     :focus-visible {
       outline: 2px solid var(--color-primary);
@@ -215,8 +333,8 @@ const initialTasks = [
       margin: 0 auto;
       display: flex;
       flex-direction: column;
-      gap: 2.2rem;
-      padding-bottom: 3rem;
+      gap: 2rem;
+      padding-bottom: 3.5rem;
     }
 
     /* 1. EDITORIAL HEADER */
@@ -225,7 +343,7 @@ const initialTasks = [
       justify-content: space-between;
       align-items: flex-end;
       gap: 2rem;
-      padding: 1.5rem 0 0.5rem;
+      padding: 1rem 0 0.5rem;
       border-bottom: 1px solid var(--color-border-subtle);
     }
 
@@ -234,7 +352,7 @@ const initialTasks = [
       font-weight: 800;
       color: var(--color-text-main);
       line-height: 1.2;
-      letter-spacing: -0.025em;
+      letter-spacing: -0.03em;
     }
 
     .hero-highlight {
@@ -242,83 +360,81 @@ const initialTasks = [
     }
 
     .hero-sub {
-      font-size: 0.95rem;
+      font-size: 0.92rem;
       color: var(--color-text-muted);
-      line-height: 1.6;
-      margin-top: 0.6rem;
-      max-width: 650px;
+      line-height: 1.5;
+      margin-top: 0.5rem;
+      max-width: 600px;
     }
 
     .hero-action-cluster {
       display: flex;
-      gap: 0.75rem;
       align-items: center;
-      flex-shrink: 0;
+      gap: 0.75rem;
     }
 
     .btn-hero-reorder {
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--color-text-main);
       background: var(--color-surface);
-      color: var(--color-text-body);
       border: 1px solid var(--color-border);
-      font-size: 0.88rem;
-      font-weight: 600;
-      padding: 0.8rem 1.2rem;
+      padding: 0.65rem 1.15rem;
       border-radius: var(--radius-full);
-      box-shadow: var(--shadow-xs);
       cursor: pointer;
-      transition: background-color 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+      box-shadow: var(--shadow-xs);
+      transition: background-color 0.15s ease, border-color 0.15s ease;
     }
 
     .btn-hero-reorder:hover {
+      background: var(--color-primary-light);
       border-color: var(--color-border-focus);
-      transform: translateY(-2px);
     }
 
     .btn-hero-add {
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
-      background: var(--color-primary);
-      color: var(--color-surface);
-      border: none;
-      font-size: 0.88rem;
+      font-size: 0.82rem;
       font-weight: 700;
-      padding: 0.8rem 1.4rem;
+      color: var(--color-surface);
+      background: var(--color-primary);
+      border: none;
+      padding: 0.65rem 1.3rem;
       border-radius: var(--radius-full);
-      box-shadow: var(--shadow-sm);
       cursor: pointer;
-      transition: background-color 0.15s ease, transform 0.15s ease;
+      box-shadow: var(--shadow-xs);
+      transition: background-color 0.15s ease;
     }
 
     .btn-hero-add:hover {
       background: var(--color-primary-dark);
-      transform: translateY(-2px);
     }
 
-    /* 2. GRID */
+    /* 2. MAIN GRID */
     .priority-grid {
       display: grid;
-      grid-template-columns: 1.4fr 0.8fr;
+      grid-template-columns: 1.45fr 0.85fr;
       gap: 2rem;
       align-items: start;
     }
 
-    .task-rank-surface, .side-surface {
+    .task-rank-surface {
       background: var(--color-surface);
       border: 1px solid var(--color-border);
       border-radius: var(--radius-xl);
-      padding: 1.8rem;
+      padding: 2.2rem;
       box-shadow: var(--shadow-xs);
     }
 
     .surface-header {
       display: flex;
       justify-content: space-between;
-      align-items: baseline;
-      margin-bottom: 1.6rem;
+      align-items: flex-end;
+      margin-bottom: 2rem;
       padding-bottom: 1rem;
       border-bottom: 1px solid var(--color-border-subtle);
     }
@@ -327,24 +443,27 @@ const initialTasks = [
       font-size: 1.25rem;
       font-weight: 800;
       color: var(--color-text-main);
+      letter-spacing: -0.02em;
     }
 
     .surface-caption {
-      font-size: 0.8rem;
+      font-size: 0.82rem;
       color: var(--color-text-muted);
       margin-top: 0.2rem;
     }
 
     .count-tag {
-      font-size: 0.74rem;
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
       font-weight: 700;
       color: var(--color-text-muted);
-      background: var(--color-canvas);
+      background: var(--color-primary-light);
+      border: 1px solid var(--color-border-focus);
       padding: 0.25rem 0.65rem;
       border-radius: var(--radius-full);
     }
 
-    /* RANK STACK */
+    /* Rank Stack */
     .rank-stack {
       display: flex;
       flex-direction: column;
@@ -352,57 +471,74 @@ const initialTasks = [
     }
 
     .rank-item {
-      display: flex;
-      gap: 1.2rem;
+      display: grid;
+      grid-template-columns: 46px 1fr 40px;
+      gap: 1.1rem;
       align-items: center;
-      padding: 1.15rem 1.35rem;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
       border-radius: var(--radius-lg);
-      background: var(--color-surface-subtle);
-      border: 1px solid var(--color-border-subtle);
-      transition: border-color 0.15s ease, transform 0.15s ease, opacity 0.2s ease;
+      padding: 1.2rem 1.4rem;
+      box-shadow: var(--shadow-xs);
+      transition: border-color 0.15s ease, background-color 0.15s ease;
+      cursor: pointer;
     }
 
     .rank-item:hover {
       border-color: var(--color-border-focus);
-      transform: translateX(3px);
+      background: var(--color-primary-light);
     }
 
     .rank-item.is-done {
       opacity: 0.45;
-      filter: grayscale(50%);
-    }
-
-    .rank-badge-col {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.35rem;
-      min-width: 50px;
     }
 
     .rank-number {
       font-family: var(--font-mono);
-      font-size: 1.2rem;
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: var(--color-primary-dark);
+      text-align: center;
+    }
+
+    .rank-content {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .rank-title-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .task-title {
+      font-size: 1.05rem;
       font-weight: 800;
       color: var(--color-text-main);
-      line-height: 1;
+      letter-spacing: -0.01em;
     }
 
     .priority-badge {
-      font-size: 0.68rem;
+      font-size: 0.7rem;
       font-weight: 700;
-      padding: 0.15rem 0.45rem;
+      padding: 0.15rem 0.55rem;
       border-radius: var(--radius-sm);
     }
 
     .priority-badge.critical {
-      background: var(--color-danger-bg);
-      color: var(--color-danger);
+      background: var(--color-primary-light);
+      color: var(--color-primary-dark);
+      border: 1px solid var(--color-border-focus);
     }
 
     .priority-badge.high {
-      background: var(--color-warning-bg);
-      color: var(--color-warning);
+      background: var(--color-surface);
+      color: var(--color-primary);
+      border: 1px solid var(--color-border);
     }
 
     .priority-badge.medium {
@@ -414,97 +550,89 @@ const initialTasks = [
     .priority-badge.low {
       background: var(--color-surface);
       color: var(--color-text-muted);
-      border: 1px solid var(--color-border);
-    }
-
-    .rank-content {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 0.35rem;
-    }
-
-    .rank-title-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .task-title {
-      font-size: 0.98rem;
-      font-weight: 800;
-      color: var(--color-text-main);
+      border: 1px solid var(--color-border-subtle);
     }
 
     .category-chip {
       font-size: 0.7rem;
       font-weight: 600;
-      color: var(--color-text-muted);
+      padding: 0.15rem 0.55rem;
+      border-radius: var(--radius-sm);
       background: var(--color-surface);
-      border: 1px solid var(--color-border);
-      padding: 0.15rem 0.5rem;
-      border-radius: var(--radius-full);
+      border: 1px solid var(--color-border-subtle);
+      color: var(--color-text-muted);
     }
 
     .task-reason {
-      font-size: 0.8rem;
-      color: var(--color-text-body);
+      font-size: 0.82rem;
+      color: var(--color-text-muted);
       line-height: 1.45;
     }
 
     .task-meta-row {
       display: flex;
-      gap: 1rem;
-      margin-top: 0.3rem;
+      gap: 1.2rem;
+      margin-top: 0.2rem;
     }
 
     .meta-item {
       display: flex;
       align-items: center;
       gap: 0.35rem;
-      font-size: 0.74rem;
-      font-weight: 600;
+      font-size: 0.76rem;
       color: var(--color-text-muted);
+      font-weight: 600;
+    }
+
+    .rank-action-col {
+      display: flex;
+      justify-content: flex-end;
     }
 
     .btn-check-task {
-      width: 30px;
-      height: 30px;
-      border-radius: 50%;
-      border: 1px solid var(--color-border);
+      width: 32px;
+      height: 32px;
+      border-radius: var(--radius-sm);
       background: var(--color-surface);
-      color: var(--color-primary);
+      border: 1px solid var(--color-border);
+      color: var(--color-text-muted);
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      transition: background-color 0.15s ease, color 0.15s ease, transform 0.15s ease;
+      transition: color 0.15s ease, border-color 0.15s ease;
     }
 
     .btn-check-task:hover {
-      background: var(--color-success);
-      color: var(--color-surface);
-      border-color: var(--color-success);
-      transform: scale(1.08);
+      color: var(--color-primary);
+      border-color: var(--color-primary);
     }
 
     /* RIGHT COLUMN */
-    .side-insights-col {
+    .priority-side-col {
       display: flex;
       flex-direction: column;
       gap: 1.8rem;
     }
 
-    .ci-head {
+    .side-surface {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-xl);
+      padding: 1.8rem;
+      box-shadow: var(--shadow-xs);
+    }
+
+    .card-head {
       display: flex;
       align-items: center;
-      gap: 0.85rem;
+      gap: 0.9rem;
       margin-bottom: 0.8rem;
     }
 
-    .ci-avatar-disc {
-      width: 44px;
-      height: 44px;
+    .companion-avatar-wrap {
+      width: 42px;
+      height: 42px;
       border-radius: 50%;
       background: var(--color-primary-light);
       border: 1px solid var(--color-border-focus);
@@ -514,49 +642,53 @@ const initialTasks = [
       flex-shrink: 0;
     }
 
-    .ci-avatar-img {
-      width: 30px;
-      height: 30px;
+    .c-avatar-img {
+      width: 28px;
+      height: 28px;
       object-fit: contain;
-    }
-
-    .ci-role {
-      font-size: 0.74rem;
-      color: var(--color-text-muted);
-      margin-top: 0.1rem;
     }
 
     .side-title {
       font-size: 1.05rem;
       font-weight: 800;
       color: var(--color-text-main);
+      letter-spacing: -0.01em;
+    }
+
+    .side-sub {
+      font-size: 0.78rem;
+      color: var(--color-text-muted);
+      margin-top: 0.1rem;
     }
 
     .side-desc {
-      font-size: 0.8rem;
-      color: var(--color-text-body);
+      font-size: 0.82rem;
+      color: var(--color-text-muted);
       line-height: 1.5;
-      margin-bottom: 1.1rem;
+      margin-bottom: 1.2rem;
     }
 
     .link-editorial {
-      font-size: 0.82rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.78rem;
       font-weight: 700;
       color: var(--color-primary-dark);
       text-decoration: underline;
-      text-underline-offset: 4px;
-      transition: color 0.15s ease;
+      text-underline-offset: 3px;
     }
 
     .link-editorial:hover {
       color: var(--color-primary);
     }
 
-    /* Load Matrix */
+    /* Load Bars */
     .load-bars {
       display: flex;
       flex-direction: column;
       gap: 0.95rem;
+      margin-top: 1.2rem;
     }
 
     .load-row {
@@ -594,6 +726,292 @@ const initialTasks = [
 
     .fill.academic { background: var(--color-primary); }
     .fill.work { background: var(--color-accent); }
+    .fill.personal { background: var(--color-text-muted); }
+
+    /* MODALS */
+    .modal-backdrop-overlay {
+      position: fixed;
+      inset: 0;
+      background: var(--overlay-scrim);
+      backdrop-filter: blur(8px);
+      z-index: 999;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+
+    .modal-backdrop-overlay.active {
+      display: flex !important;
+    }
+
+    .modal-container-card {
+      background: var(--color-surface);
+      border-radius: var(--radius-xl);
+      padding: 2.2rem;
+      max-width: 500px;
+      width: 100%;
+      box-shadow: var(--shadow-lg);
+      border: 1px solid var(--color-border);
+    }
+
+    .modal-head-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 0.5rem;
+    }
+
+    .modal-dialog-title {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--color-text-main);
+    }
+
+    .modal-badge-group {
+      display: flex;
+      gap: 0.4rem;
+      align-items: center;
+      margin-top: 0.35rem;
+    }
+
+    .modal-priority-pill {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--color-primary-dark);
+      background: var(--color-primary-light);
+      padding: 0.15rem 0.5rem;
+      border-radius: var(--radius-sm);
+    }
+
+    .modal-cat-pill {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--color-text-muted);
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      padding: 0.15rem 0.5rem;
+      border-radius: var(--radius-sm);
+    }
+
+    .btn-modal-dismiss {
+      background: none;
+      border: none;
+      color: var(--color-text-muted);
+      cursor: pointer;
+      padding: 0.35rem;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: color 0.15s ease;
+    }
+
+    .btn-modal-dismiss:hover {
+      color: var(--color-text-main);
+    }
+
+    .modal-context-desc {
+      font-size: 0.8rem;
+      color: var(--color-text-muted);
+      margin-bottom: 1.4rem;
+      line-height: 1.45;
+    }
+
+    .task-modal-body {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+      margin: 1.2rem 0 1.8rem;
+    }
+
+    .task-modal-name {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--color-text-main);
+    }
+
+    .task-meta-metrics {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.8rem;
+    }
+
+    .metric-box {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-md);
+      padding: 0.85rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+
+    .metric-lbl {
+      font-size: 0.72rem;
+      color: var(--color-text-muted);
+      font-weight: 600;
+    }
+
+    .metric-val {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--color-text-main);
+    }
+
+    .task-ai-analysis-box {
+      background: var(--color-primary-light);
+      border: 1px solid var(--color-border-focus);
+      border-radius: var(--radius-md);
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .analysis-box-title {
+      font-size: 0.82rem;
+      font-weight: 800;
+      color: var(--color-primary-dark);
+    }
+
+    .analysis-box-text {
+      font-size: 0.8rem;
+      color: var(--color-text-body);
+      line-height: 1.45;
+    }
+
+    .session-breakdown-box {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .breakdown-title {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--color-text-main);
+    }
+
+    .breakdown-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+    }
+
+    .break-chip {
+      font-size: 0.74rem;
+      padding: 0.3rem 0.65rem;
+      border-radius: var(--radius-full);
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      color: var(--color-text-body);
+    }
+
+    .modal-fields-group {
+      display: flex;
+      flex-direction: column;
+      gap: 1.1rem;
+      margin-bottom: 1.8rem;
+    }
+
+    .dialog-field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .dialog-label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--color-text-main);
+    }
+
+    .dialog-input {
+      width: 100%;
+      padding: 0.75rem 0.95rem;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      font-family: inherit;
+      font-size: 0.88rem;
+      color: var(--color-text-main);
+      background: var(--color-surface);
+    }
+
+    .dialog-input:focus {
+      outline: 2px solid var(--color-primary);
+      outline-offset: 1px;
+    }
+
+    .reorder-preview-box {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-md);
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+    }
+
+    .preview-tag {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--color-text-muted);
+    }
+
+    .preview-mini-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+      font-size: 0.78rem;
+      color: var(--color-text-body);
+    }
+
+    .modal-footer-cluster {
+      display: flex;
+      gap: 0.85rem;
+    }
+
+    .btn-cancel-dialog {
+      flex: 1;
+      padding: 0.75rem;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--color-border);
+      background: var(--color-surface);
+      color: var(--color-text-muted);
+      font-weight: 700;
+      font-size: 0.88rem;
+      cursor: pointer;
+      transition: color 0.15s ease, border-color 0.15s ease;
+    }
+
+    .btn-cancel-dialog:hover {
+      border-color: var(--color-border-focus);
+      color: var(--color-text-main);
+    }
+
+    .btn-save-dialog {
+      flex: 1.5;
+      padding: 0.75rem;
+      border-radius: var(--radius-full);
+      border: none;
+      background: var(--color-primary);
+      color: var(--color-surface);
+      font-weight: 700;
+      font-size: 0.88rem;
+      cursor: pointer;
+      box-shadow: var(--shadow-sm);
+      transition: background-color 0.15s ease;
+    }
+
+    .btn-save-dialog:hover {
+      background: var(--color-primary-dark);
+    }
+
+    .text-center {
+      text-align: center;
+      display: inline-block;
+    }
 
     @media (max-width: 1040px) {
       .priority-grid {
@@ -607,8 +1025,88 @@ const initialTasks = [
   </style>
 
   <script>
-    document.getElementById('btn-reorder')?.addEventListener('click', () => {
-      (window as any).jadwalinToast('Kalkulasi Selesai', 'Urutan prioritas disesuaikan dengan tenggat terbaru.', 'info');
+    declare global {
+      interface Window {
+        jadwalinToast?: (title: string, msg: string, type?: 'success' | 'info' | 'warning' | 'error') => void;
+      }
+    }
+
+    const openModal = (id: string) => document.getElementById(id)?.classList.add('active');
+    const closeModal = (id: string) => document.getElementById(id)?.classList.remove('active');
+
+    // Task Check buttons toggle
+    const attachCheckListener = (btn: HTMLElement) => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const item = btn.closest('.rank-item');
+        item?.classList.toggle('is-done');
+        window.jadwalinToast?.('Tugas Diperbarui', 'Status tugas telah dicatat.', 'success');
+      });
+    };
+    document.querySelectorAll('.btn-check-task').forEach(b => attachCheckListener(b as HTMLElement));
+
+    // Active task for detail
+    let activeTaskItem: HTMLElement | null = null;
+
+    const attachDetailListener = (taskCard: HTMLElement) => {
+      taskCard.addEventListener('click', (e) => {
+        if ((e.target as HTMLElement).closest('.btn-check-task')) return;
+
+        activeTaskItem = taskCard;
+        const rank = taskCard.getAttribute('data-rank') || '1';
+        const title = taskCard.getAttribute('data-title') || 'Tugas';
+        const prio = taskCard.getAttribute('data-priority') || 'Kritis';
+        const cat = taskCard.getAttribute('data-category') || 'Kuliah';
+        const deadline = taskCard.getAttribute('data-deadline') || 'Hari ini';
+        const dur = taskCard.getAttribute('data-duration') || '1 jam';
+        const reason = taskCard.getAttribute('data-reason') || 'Alasan pembobotan otomatis.';
+
+        const nameEl = document.getElementById('detail-task-name');
+        const prioEl = document.getElementById('detail-task-prio');
+        const catEl = document.getElementById('detail-task-cat');
+        const dlineEl = document.getElementById('detail-task-deadline');
+        const durEl = document.getElementById('detail-task-duration');
+        const reasonEl = document.getElementById('detail-task-reason');
+
+        if (nameEl) nameEl.textContent = title;
+        if (prioEl) prioEl.textContent = `#${rank} ${prio}`;
+        if (catEl) catEl.textContent = cat;
+        if (dlineEl) dlineEl.textContent = deadline;
+        if (durEl) durEl.textContent = dur;
+        if (reasonEl) reasonEl.textContent = reason;
+
+        openModal('priority-detail-modal');
+      });
+    };
+    document.querySelectorAll('.rank-item').forEach(c => attachDetailListener(c as HTMLElement));
+
+    // Close detail modal
+    document.getElementById('btn-close-detail-modal')?.addEventListener('click', () => closeModal('priority-detail-modal'));
+
+    document.getElementById('btn-done-from-modal')?.addEventListener('click', () => {
+      if (activeTaskItem) {
+        activeTaskItem.classList.toggle('is-done');
+      }
+      closeModal('priority-detail-modal');
+      window.jadwalinToast?.('Tugas Selesai', 'Tugas berhasil dipindahkan ke riwayat.', 'success');
+    });
+
+    // Reorder Modal
+    document.getElementById('btn-reorder')?.addEventListener('click', () => openModal('reorder-modal'));
+    document.getElementById('btn-close-reorder-modal')?.addEventListener('click', () => closeModal('reorder-modal'));
+    document.getElementById('btn-cancel-reorder')?.addEventListener('click', () => closeModal('reorder-modal'));
+
+    document.getElementById('form-reorder-prio')?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      closeModal('reorder-modal');
+      window.jadwalinToast?.('Kalkulasi Selesai', 'Urutan prioritas disesuaikan dengan parameter optimasi.', 'info');
+    });
+
+    // Global ESC key
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('.modal-backdrop-overlay.active').forEach(m => m.classList.remove('active'));
+      }
     });
   </script>
 </DashboardLayout>

@@ -5,25 +5,25 @@ import { Image } from 'astro:assets';
 import mascotImg from '../assets/craiyon.png';
 
 const days = [
-  { day: "Sen", date: "19", full: "Senin, 19 Okt", active: false },
-  { day: "Sel", date: "20", full: "Selasa, 20 Okt", active: false },
-  { day: "Rab", date: "21", full: "Rabu, 21 Okt", active: false },
-  { day: "Kam", date: "22", full: "Kamis, 22 Okt", active: false },
-  { day: "Jum", date: "23", full: "Jumat, 23 Okt", active: false },
-  { day: "Sab", date: "24", full: "Sabtu, 24 Okt", active: true },
-  { day: "Min", date: "25", full: "Minggu, 25 Okt", active: false }
+  { day: 'SEN', date: '19', active: false, full: 'Senin, 19 Okt' },
+  { day: 'SEL', date: '20', active: false, full: 'Selasa, 20 Okt' },
+  { day: 'RAB', date: '21', active: false, full: 'Rabu, 21 Okt' },
+  { day: 'KAM', date: '22', active: false, full: 'Kamis, 22 Okt' },
+  { day: 'JUM', date: '23', active: false, full: 'Jumat, 23 Okt' },
+  { day: 'SAB', date: '24', active: true, full: 'Sabtu, 24 Okt' },
+  { day: 'MIN', date: '25', active: false, full: 'Minggu, 25 Okt' },
 ];
 ---
 
-<DashboardLayout title="Jadwal : Time Blocking" activeNav="jadwal">
-  <div class="sanctuary-wrap">
+<DashboardLayout title="Jadwal & Kalender" activeNav="jadwal">
+  <div class="calendar-workspace">
 
     <!-- 1. EDITORIAL HEADER -->
     <header class="schedule-hero">
       <div class="hero-left">
         <h1 class="hero-statement">
-          Alokasi waktu & ritme harian:<br />
-          <span class="hero-highlight">Sabtu, 24 Oktober 2026</span>
+          Alokasi waktu dan ritme harian:<br />
+          <span class="hero-highlight" id="current-day-label">Sabtu, 24 Oktober 2026</span>
         </h1>
         <p class="hero-sub">
           Total <strong>270 menit</strong> sesi fokus aktif dengan jeda istirahat terproteksi untuk mencegah kelelahan kognitif.
@@ -35,6 +35,13 @@ const days = [
           <span class="dot-indicator"></span>
           <span>Kapasitas Kerja Terkendali (94%)</span>
         </div>
+        <button type="button" class="btn-add-slot-hero" id="btn-open-add-slot">
+          <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+          <span>Tambah Sesi</span>
+        </button>
       </div>
     </header>
 
@@ -48,7 +55,7 @@ const days = [
       ))}
     </nav>
 
-    <!-- 3. MAIN WORKSPACE GRID: Time Flow (Left) + Protected Leisure & Routines (Right) -->
+    <!-- 3. MAIN WORKSPACE GRID -->
     <div class="schedule-grid">
 
       <!-- LEFT: The Daily Time-Block Sequence -->
@@ -58,69 +65,80 @@ const days = [
             <h2 class="surface-title">Urutan Sesi Hari Ini</h2>
             <p class="surface-caption">Blok fokus dioptimalkan berdasarkan kurva energi belajar</p>
           </div>
-          <span class="count-tag">4 Blok Terjadwal</span>
+          <span class="count-tag" id="active-slots-count">4 Blok Terjadwal</span>
         </div>
 
-        <div class="blocks-sequence">
+        <div class="blocks-sequence" id="blocks-container">
           <!-- Block 1 -->
-          <article class="block-row active-block">
+          <article class="block-row active-block" data-title="Fokus: Pemrograman Web dan API" data-time="10.00 - 12.00" data-dur="120 mnt" data-cat="Akademik" data-notes="Implementasi endpoint auth JWT dan validasi schema database PostgreSQL." data-loc="Lab Komputer 3 (Tatap Muka)">
             <div class="block-time-col">
               <time class="time-range">10.00 - 12.00</time>
               <span class="time-badge">120 mnt</span>
             </div>
-            <div class="block-card">
+            <div class="block-card clickable-slot">
               <div class="block-head">
                 <span class="category-chip academic">Akademik</span>
-                <button type="button" class="btn-check-slot" title="Tandai Selesai" aria-label="Tandai sesi selesai" onclick="
-                  const row = this.closest('.block-row');
-                  row.classList.toggle('is-done');
-                  (window).jadwalinToast('Sesi Selesai', 'Sesi pemrograman web telah dicatat.', 'success', {
-                    label: 'Urungkan',
-                    onClick: () => row.classList.toggle('is-done')
-                  });
-                ">
-                  <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                </button>
+                <div class="block-actions-right">
+                  <button type="button" class="btn-slot-info" title="Lihat Rincian Sesi" aria-label="Lihat rincian sesi">
+                    <svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <line x1="12" y1="16" x2="12" y2="12"></line>
+                      <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                    </svg>
+                  </button>
+                  <button type="button" class="btn-check-slot" title="Tandai Selesai" aria-label="Tandai sesi selesai">
+                    <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                  </button>
+                </div>
               </div>
-              <h3 class="block-name">Fokus: Pemrograman Web & API</h3>
+              <h3 class="block-name">Fokus: Pemrograman Web dan API</h3>
               <p class="block-notes">Implementasi endpoint auth JWT dan validasi schema database PostgreSQL.</p>
             </div>
           </article>
 
           <!-- Block 2 -->
-          <article class="block-row">
+          <article class="block-row" data-title="Istirahat Siang dan Makan" data-time="12.30 - 13.30" data-dur="60 mnt" data-cat="Jeda Rehat" data-notes="Rehat bebas layar untuk menjaga fokus dan energi mental sesi siang." data-loc="Area Bebas Layar">
             <div class="block-time-col">
               <time class="time-range">12.30 - 13.30</time>
               <span class="time-badge">60 mnt</span>
             </div>
-            <div class="block-card break-card">
+            <div class="block-card break-card clickable-slot">
               <div class="block-head">
                 <span class="category-chip break">Jeda Rehat</span>
+                <button type="button" class="btn-slot-info" title="Lihat Rincian Sesi" aria-label="Lihat rincian sesi">
+                  <svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="16" x2="12" y2="12"></line>
+                    <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                  </svg>
+                </button>
               </div>
-              <h3 class="block-name muted">Istirahat Siang & Makan</h3>
+              <h3 class="block-name muted">Istirahat Siang dan Makan</h3>
               <p class="block-notes">Rehat bebas layar untuk menjaga fokus dan energi mental sesi siang.</p>
             </div>
           </article>
 
           <!-- Block 3 -->
-          <article class="block-row">
+          <article class="block-row" data-title="Laporan Praktikum Sistem Informasi" data-time="15.00 - 16.30" data-dur="90 mnt" data-cat="Praktikum" data-notes="Analisis query join relasional dan diagram alur data modul 3." data-loc="Ruang Mandiri Perpustakaan">
             <div class="block-time-col">
               <time class="time-range">15.00 - 16.30</time>
               <span class="time-badge">90 mnt</span>
             </div>
-            <div class="block-card">
+            <div class="block-card clickable-slot">
               <div class="block-head">
                 <span class="category-chip academic">Praktikum</span>
-                <button type="button" class="btn-check-slot" title="Tandai Selesai" aria-label="Tandai sesi selesai" onclick="
-                  const row = this.closest('.block-row');
-                  row.classList.toggle('is-done');
-                  (window).jadwalinToast('Sesi Selesai', 'Sesi praktikum telah dicatat.', 'success', {
-                    label: 'Urungkan',
-                    onClick: () => row.classList.toggle('is-done')
-                  });
-                ">
-                  <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                </button>
+                <div class="block-actions-right">
+                  <button type="button" class="btn-slot-info" title="Lihat Rincian Sesi" aria-label="Lihat rincian sesi">
+                    <svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <line x1="12" y1="16" x2="12" y2="12"></line>
+                      <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                    </svg>
+                  </button>
+                  <button type="button" class="btn-check-slot" title="Tandai Selesai" aria-label="Tandai sesi selesai">
+                    <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                  </button>
+                </div>
               </div>
               <h3 class="block-name">Laporan Praktikum Sistem Informasi</h3>
               <p class="block-notes">Analisis query join relasional dan diagram alur data modul 3.</p>
@@ -128,24 +146,26 @@ const days = [
           </article>
 
           <!-- Block 4 -->
-          <article class="block-row">
+          <article class="block-row" data-title="Slide Presentasi Kelompok" data-time="19.00 - 20.00" data-dur="60 mnt" data-cat="Kelompok" data-notes="Penyusunan materi slide presentasi akhir dan pembagian peran bicara." data-loc="Daring via Google Meet">
             <div class="block-time-col">
               <time class="time-range">19.00 - 20.00</time>
               <span class="time-badge">60 mnt</span>
             </div>
-            <div class="block-card">
+            <div class="block-card clickable-slot">
               <div class="block-head">
                 <span class="category-chip collab">Kelompok</span>
-                <button type="button" class="btn-check-slot" title="Tandai Selesai" aria-label="Tandai sesi selesai" onclick="
-                  const row = this.closest('.block-row');
-                  row.classList.toggle('is-done');
-                  (window).jadwalinToast('Sesi Selesai', 'Sesi kelompok telah dicatat.', 'success', {
-                    label: 'Urungkan',
-                    onClick: () => row.classList.toggle('is-done')
-                  });
-                ">
-                  <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                </button>
+                <div class="block-actions-right">
+                  <button type="button" class="btn-slot-info" title="Lihat Rincian Sesi" aria-label="Lihat rincian sesi">
+                    <svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <line x1="12" y1="16" x2="12" y2="12"></line>
+                      <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                    </svg>
+                  </button>
+                  <button type="button" class="btn-check-slot" title="Tandai Selesai" aria-label="Tandai sesi selesai">
+                    <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                  </button>
+                </div>
               </div>
               <h3 class="block-name">Slide Presentasi Kelompok</h3>
               <p class="block-notes">Penyusunan materi slide presentasi akhir dan pembagian peran bicara.</p>
@@ -213,13 +233,158 @@ const days = [
 
     </div>
 
+    <!-- MODAL 1: DETAIL SESI KALENDER -->
+    <div id="slot-detail-modal" class="modal-backdrop-overlay" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="modal-detail-title">
+      <div class="modal-container-card">
+        <div class="modal-head-line">
+          <div>
+            <h2 class="modal-dialog-title" id="modal-detail-title">Detail Sesi Kalender</h2>
+            <span class="modal-category-tag" id="detail-slot-cat">Akademik</span>
+          </div>
+          <button type="button" class="btn-modal-dismiss" id="btn-close-detail-modal" aria-label="Tutup jendela">
+            <svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+
+        <div class="slot-detail-body">
+          <div class="detail-time-row">
+            <span class="detail-clock-icon">
+              <svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 6 12 12 16 14"></polyline>
+              </svg>
+            </span>
+            <span class="detail-time-text" id="detail-slot-time">10.00 - 12.00 (120 menit)</span>
+          </div>
+
+          <div class="detail-desc-card">
+            <h3 class="detail-task-name" id="detail-slot-name">Fokus: Pemrograman Web dan API</h3>
+            <p class="detail-task-notes" id="detail-slot-notes">Implementasi endpoint auth JWT dan validasi schema database PostgreSQL.</p>
+            <div class="detail-loc-line">
+              <span class="loc-label">Lokasi / Tautan:</span>
+              <span class="loc-val" id="detail-slot-loc">Lab Komputer 3 (Tatap Muka)</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer-cluster">
+          <button type="button" class="btn-reschedule-action" id="btn-open-reschedule">Jadwal Ulang</button>
+          <button type="button" class="btn-save-dialog" id="btn-start-focus-timer">Mulai Sesi Fokus</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL 2: TAMBAH SESI KALENDER -->
+    <div id="add-slot-modal" class="modal-backdrop-overlay" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="modal-add-slot-title">
+      <div class="modal-container-card">
+        <div class="modal-head-line">
+          <h2 class="modal-dialog-title" id="modal-add-slot-title">Tambah Sesi Kalender</h2>
+          <button type="button" class="btn-modal-dismiss" id="btn-close-add-slot-modal" aria-label="Tutup jendela">
+            <svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+        <p class="modal-context-desc">Blok waktu baru akan otomatis diselaraskan dengan batas kapasitas belajar harian.</p>
+
+        <form id="form-add-slot" class="modal-fields-group">
+          <div class="dialog-field">
+            <label class="dialog-label" for="new-slot-title">Nama Sesi atau Aktivitas</label>
+            <input type="text" id="new-slot-title" required class="dialog-input" placeholder="Contoh: Belajar Mandiri Algoritma" />
+          </div>
+
+          <div class="dialog-row-2">
+            <div class="dialog-field">
+              <label class="dialog-label" for="new-slot-cat">Kategori</label>
+              <select id="new-slot-cat" class="dialog-input">
+                <option value="Akademik">Akademik</option>
+                <option value="Praktikum">Praktikum</option>
+                <option value="Kelompok">Kelompok</option>
+                <option value="Jeda Rehat">Jeda Rehat</option>
+              </select>
+            </div>
+            <div class="dialog-field">
+              <label class="dialog-label" for="new-slot-dur">Estimasi Durasi</label>
+              <select id="new-slot-dur" class="dialog-input">
+                <option value="45 mnt">45 menit</option>
+                <option value="60 mnt">60 menit</option>
+                <option value="90 mnt" selected>90 menit</option>
+                <option value="120 mnt">120 menit</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="dialog-row-2">
+            <div class="dialog-field">
+              <label class="dialog-label" for="new-slot-time">Jam Mulai</label>
+              <input type="text" id="new-slot-time" required class="dialog-input" value="14.00" />
+            </div>
+            <div class="dialog-field">
+              <label class="dialog-label" for="new-slot-loc">Ruang / Tautan</label>
+              <input type="text" id="new-slot-loc" class="dialog-input" placeholder="Lab 2 / Google Meet" />
+            </div>
+          </div>
+
+          <div class="modal-footer-cluster">
+            <button type="button" class="btn-cancel-dialog" id="btn-cancel-add-slot">Batal</button>
+            <button type="submit" class="btn-save-dialog">Jadwalkan Sesi</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- MODAL 3: JADWAL ULANG SESI -->
+    <div id="reschedule-slot-modal" class="modal-backdrop-overlay" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="modal-reschedule-title">
+      <div class="modal-container-card">
+        <div class="modal-head-line">
+          <h2 class="modal-dialog-title" id="modal-reschedule-title">Jadwal Ulang Sesi</h2>
+          <button type="button" class="btn-modal-dismiss" id="btn-close-reschedule-modal" aria-label="Tutup jendela">
+            <svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+        <p class="modal-context-desc" id="reschedule-desc-text">Pindahkan sesi ke hari atau slot waktu lain yang masih tersedia.</p>
+
+        <form id="form-reschedule-slot" class="modal-fields-group">
+          <div class="dialog-field">
+            <label class="dialog-label" for="reschedule-day">Pilih Hari Baru</label>
+            <select id="reschedule-day" class="dialog-input">
+              <option value="Sabtu, 24 Okt (Hari Ini)">Sabtu, 24 Okt (Hari Ini)</option>
+              <option value="Minggu, 25 Okt">Minggu, 25 Okt (Slot Bebas Sore)</option>
+              <option value="Senin, 26 Okt">Senin, 26 Okt</option>
+            </select>
+          </div>
+
+          <div class="dialog-field">
+            <label class="dialog-label" for="reschedule-time">Jam Pelaksanaan Baru</label>
+            <input type="text" id="reschedule-time" required class="dialog-input" value="16.30 - 18.00" />
+          </div>
+
+          <div class="modal-footer-cluster">
+            <button type="button" class="btn-cancel-dialog" id="btn-cancel-reschedule">Batal</button>
+            <button type="submit" class="btn-save-dialog">Terapkan Jadwal Baru</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
   </div>
 
   <style>
     /* =========================================================
        AWWWARDS EDITORIAL TIME-BLOCKING STYLES
-       Quiet, Structured, Unnested Container Layers
+       Minimalist, Generous Whitespace, Restrained Typography
        ========================================================= */
+
+    :root {
+      --overlay-scrim: rgba(18, 10, 30, 0.4);
+    }
 
     :focus-visible {
       outline: 2px solid var(--color-primary);
@@ -235,13 +400,13 @@ const days = [
       }
     }
 
-    .sanctuary-wrap {
+    .calendar-workspace {
       max-width: 1240px;
       margin: 0 auto;
       display: flex;
       flex-direction: column;
-      gap: 2.2rem;
-      padding-bottom: 3rem;
+      gap: 2rem;
+      padding-bottom: 3.5rem;
     }
 
     /* 1. EDITORIAL HEADER */
@@ -250,7 +415,7 @@ const days = [
       justify-content: space-between;
       align-items: flex-end;
       gap: 2rem;
-      padding: 1.5rem 0 0.5rem;
+      padding: 1rem 0 0.5rem;
       border-bottom: 1px solid var(--color-border-subtle);
     }
 
@@ -259,7 +424,7 @@ const days = [
       font-weight: 800;
       color: var(--color-text-main);
       line-height: 1.2;
-      letter-spacing: -0.025em;
+      letter-spacing: -0.03em;
     }
 
     .hero-highlight {
@@ -267,23 +432,29 @@ const days = [
     }
 
     .hero-sub {
-      font-size: 0.95rem;
+      font-size: 0.92rem;
       color: var(--color-text-muted);
-      line-height: 1.6;
-      margin-top: 0.6rem;
-      max-width: 650px;
+      line-height: 1.5;
+      margin-top: 0.5rem;
+      max-width: 600px;
+    }
+
+    .hero-right {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
     }
 
     .ambient-pill {
       display: inline-flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: 0.55rem;
       font-size: 0.8rem;
       font-weight: 600;
-      color: var(--color-text-muted);
+      color: var(--color-text-body);
       background: var(--color-surface);
       border: 1px solid var(--color-border);
-      padding: 0.45rem 1rem;
+      padding: 0.5rem 1rem;
       border-radius: var(--radius-full);
       box-shadow: var(--shadow-xs);
     }
@@ -292,48 +463,64 @@ const days = [
       width: 7px;
       height: 7px;
       border-radius: 50%;
-      background: var(--color-success);
+      background: var(--color-primary);
+    }
+
+    .btn-add-slot-hero {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--color-surface);
+      background: var(--color-primary);
+      border: none;
+      padding: 0.55rem 1.1rem;
+      border-radius: var(--radius-full);
+      cursor: pointer;
+      box-shadow: var(--shadow-xs);
+      transition: background-color 0.15s ease;
+    }
+
+    .btn-add-slot-hero:hover {
+      background: var(--color-primary-dark);
     }
 
     /* 2. CALENDAR DAYS STRIP */
     .days-nav-strip {
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      gap: 0.75rem;
+      display: flex;
+      gap: 0.65rem;
     }
 
     .day-item-btn {
+      flex: 1;
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 0.95rem 0.5rem;
-      border-radius: var(--radius-lg);
+      padding: 0.85rem 0.5rem;
+      border-radius: var(--radius-md);
       background: var(--color-surface);
       border: 1px solid var(--color-border);
       cursor: pointer;
       box-shadow: var(--shadow-xs);
-      transition: background-color 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+      transition: border-color 0.15s ease, background-color 0.15s ease;
     }
 
     .day-item-btn:hover {
       border-color: var(--color-border-focus);
-      transform: translateY(-2px);
+      background: var(--color-primary-light);
     }
 
     .day-item-btn.active {
-      background: var(--color-primary-light);
       border-color: var(--color-primary);
+      background: var(--color-primary-light);
     }
 
     .day-code {
-      font-size: 0.76rem;
-      font-weight: 600;
-      color: var(--color-text-muted);
-    }
-
-    .day-item-btn.active .day-code {
-      color: var(--color-primary-dark);
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
       font-weight: 700;
+      color: var(--color-text-muted);
     }
 
     .day-num {
@@ -344,31 +531,32 @@ const days = [
       margin-top: 0.2rem;
     }
 
+    .day-item-btn.active .day-code,
     .day-item-btn.active .day-num {
       color: var(--color-primary-dark);
     }
 
-    /* 3. ASYMMETRIC GRID */
+    /* 3. WORKSPACE GRID */
     .schedule-grid {
       display: grid;
-      grid-template-columns: 1.4fr 0.8fr;
+      grid-template-columns: 1.45fr 0.85fr;
       gap: 2rem;
       align-items: start;
     }
 
-    .flow-surface, .side-surface {
+    .flow-surface {
       background: var(--color-surface);
       border: 1px solid var(--color-border);
       border-radius: var(--radius-xl);
-      padding: 1.8rem;
+      padding: 2.2rem;
       box-shadow: var(--shadow-xs);
     }
 
     .surface-header {
       display: flex;
       justify-content: space-between;
-      align-items: baseline;
-      margin-bottom: 1.6rem;
+      align-items: flex-end;
+      margin-bottom: 2rem;
       padding-bottom: 1rem;
       border-bottom: 1px solid var(--color-border-subtle);
     }
@@ -377,52 +565,54 @@ const days = [
       font-size: 1.25rem;
       font-weight: 800;
       color: var(--color-text-main);
+      letter-spacing: -0.02em;
     }
 
     .surface-caption {
-      font-size: 0.8rem;
+      font-size: 0.82rem;
       color: var(--color-text-muted);
       margin-top: 0.2rem;
     }
 
     .count-tag {
-      font-size: 0.74rem;
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
       font-weight: 700;
       color: var(--color-text-muted);
-      background: var(--color-canvas);
+      background: var(--color-primary-light);
+      border: 1px solid var(--color-border-focus);
       padding: 0.25rem 0.65rem;
       border-radius: var(--radius-full);
     }
 
-    /* TIME-BLOCKS SEQUENCE (ONE Containment Layer, Zero Clutter) */
+    /* Time Blocks */
     .blocks-sequence {
       display: flex;
       flex-direction: column;
-      gap: 1.1rem;
+      gap: 1rem;
     }
 
     .block-row {
-      display: flex;
+      display: grid;
+      grid-template-columns: 110px 1fr;
       gap: 1.2rem;
-      transition: opacity 0.2s ease;
+      align-items: stretch;
     }
 
     .block-row.is-done {
       opacity: 0.45;
-      filter: grayscale(50%);
     }
 
     .block-time-col {
-      min-width: 105px;
       display: flex;
       flex-direction: column;
-      align-items: flex-end;
-      padding-top: 0.35rem;
+      justify-content: flex-start;
+      padding-top: 0.75rem;
     }
 
     .time-range {
       font-family: var(--font-mono);
-      font-size: 0.88rem;
+      font-size: 0.86rem;
       font-weight: 700;
       color: var(--color-text-main);
     }
@@ -431,25 +621,25 @@ const days = [
       font-size: 0.72rem;
       font-weight: 600;
       color: var(--color-text-muted);
-      margin-top: 0.2rem;
+      margin-top: 0.15rem;
     }
 
     .block-card {
-      flex: 1;
-      background: var(--color-surface-subtle);
-      border: 1px solid var(--color-border-subtle);
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
       border-radius: var(--radius-lg);
-      padding: 1.1rem 1.3rem;
+      padding: 1.2rem 1.4rem;
+      box-shadow: var(--shadow-xs);
       transition: border-color 0.15s ease, background-color 0.15s ease;
+      cursor: pointer;
     }
 
-    .active-block .block-card {
-      background: var(--color-primary-light);
+    .block-card:hover {
       border-color: var(--color-border-focus);
+      background: var(--color-primary-light);
     }
 
     .break-card {
-      background: transparent;
       border-style: dashed;
     }
 
@@ -460,111 +650,143 @@ const days = [
       margin-bottom: 0.5rem;
     }
 
+    .block-actions-right {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
     .category-chip {
       font-size: 0.7rem;
       font-weight: 700;
-      padding: 0.2rem 0.55rem;
-      border-radius: var(--radius-full);
-    }
-
-    .category-chip.academic {
-      background: var(--color-surface);
+      padding: 0.15rem 0.55rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--color-border-focus);
+      background: var(--color-primary-light);
       color: var(--color-primary-dark);
-      border: 1px solid var(--color-border);
     }
 
     .category-chip.break {
       background: var(--color-surface);
       color: var(--color-text-muted);
-      border: 1px solid var(--color-border);
+      border-color: var(--color-border);
     }
 
     .category-chip.collab {
-      background: var(--color-warning-bg);
-      color: var(--color-warning);
-      border: 1px solid var(--color-warning-border);
-    }
-
-    .block-name {
-      font-size: 0.98rem;
-      font-weight: 800;
-      color: var(--color-text-main);
-      line-height: 1.3;
-    }
-
-    .block-name.muted {
-      color: var(--color-text-muted);
-      font-weight: 600;
-    }
-
-    .block-notes {
-      font-size: 0.82rem;
-      color: var(--color-text-body);
-      line-height: 1.5;
-      margin-top: 0.35rem;
-    }
-
-    .btn-check-slot {
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      border: 1px solid var(--color-border);
       background: var(--color-surface);
       color: var(--color-primary);
+      border-color: var(--color-border);
+    }
+
+    .btn-slot-info {
+      width: 26px;
+      height: 26px;
+      border-radius: var(--radius-sm);
+      background: none;
+      border: 1px solid transparent;
+      color: var(--color-text-muted);
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      transition: background-color 0.15s ease, color 0.15s ease, transform 0.15s ease;
+      transition: color 0.15s ease, border-color 0.15s ease;
+    }
+
+    .btn-slot-info:hover {
+      color: var(--color-primary);
+      border-color: var(--color-border-focus);
+    }
+
+    .btn-check-slot {
+      width: 26px;
+      height: 26px;
+      border-radius: var(--radius-sm);
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      color: var(--color-text-muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: color 0.15s ease, border-color 0.15s ease;
     }
 
     .btn-check-slot:hover {
-      background: var(--color-success);
-      color: var(--color-surface);
-      border-color: var(--color-success);
-      transform: scale(1.08);
+      color: var(--color-primary);
+      border-color: var(--color-primary);
     }
 
-    /* RIGHT COLUMN STACK */
+    .block-name {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--color-text-main);
+      letter-spacing: -0.01em;
+    }
+
+    .block-name.muted {
+      color: var(--color-text-muted);
+      font-weight: 700;
+    }
+
+    .block-notes {
+      font-size: 0.82rem;
+      color: var(--color-text-muted);
+      line-height: 1.45;
+      margin-top: 0.35rem;
+    }
+
+    /* RIGHT COLUMN */
     .side-flow-col {
       display: flex;
       flex-direction: column;
       gap: 1.8rem;
     }
 
+    .side-surface {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-xl);
+      padding: 1.8rem;
+      box-shadow: var(--shadow-xs);
+    }
+
     .side-surface-head {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 0.4rem;
+      margin-bottom: 0.3rem;
     }
 
     .side-title {
       font-size: 1.05rem;
       font-weight: 800;
       color: var(--color-text-main);
-    }
-
-    .side-desc {
-      font-size: 0.78rem;
-      color: var(--color-text-muted);
-      line-height: 1.5;
-      margin-bottom: 1.1rem;
+      letter-spacing: -0.01em;
     }
 
     .time-avail-badge {
+      font-family: var(--font-mono);
       font-size: 0.72rem;
       font-weight: 700;
-      color: var(--color-success);
-      background: var(--color-success-bg);
+      color: var(--color-primary-dark);
+      background: var(--color-primary-light);
+      border: 1px solid var(--color-border-focus);
       padding: 0.2rem 0.55rem;
       border-radius: var(--radius-full);
+    }
+
+    .side-desc {
+      font-size: 0.8rem;
+      color: var(--color-text-muted);
+      line-height: 1.45;
+      margin-top: 0.25rem;
+      margin-bottom: 1.2rem;
     }
 
     .leisure-chips {
       display: flex;
       flex-direction: column;
-      gap: 0.65rem;
+      gap: 0.6rem;
     }
 
     .l-chip {
@@ -573,13 +795,13 @@ const days = [
       align-items: center;
       padding: 0.75rem 0.95rem;
       border-radius: var(--radius-md);
-      background: var(--color-surface-subtle);
+      background: var(--color-surface);
       border: 1px solid var(--color-border-subtle);
     }
 
     .l-hour {
       font-family: var(--font-mono);
-      font-size: 0.8rem;
+      font-size: 0.82rem;
       font-weight: 700;
       color: var(--color-text-main);
     }
@@ -590,12 +812,11 @@ const days = [
       color: var(--color-text-muted);
     }
 
-    /* Routines List */
     .routines-list {
       list-style: none;
       display: flex;
       flex-direction: column;
-      gap: 0.65rem;
+      gap: 0.7rem;
     }
 
     .routine-row {
@@ -604,12 +825,12 @@ const days = [
       align-items: center;
       padding: 0.75rem 0.95rem;
       border-radius: var(--radius-md);
-      background: var(--color-surface-subtle);
       border: 1px solid var(--color-border-subtle);
+      background: var(--color-surface);
     }
 
     .routine-name {
-      font-size: 0.82rem;
+      font-size: 0.84rem;
       font-weight: 700;
       color: var(--color-text-main);
     }
@@ -621,7 +842,6 @@ const days = [
       color: var(--color-text-muted);
     }
 
-    /* Companion card */
     .companion-head {
       display: flex;
       align-items: center;
@@ -659,6 +879,244 @@ const days = [
       margin-top: 0.15rem;
     }
 
+    /* MODAL STYLES */
+    .modal-backdrop-overlay {
+      position: fixed;
+      inset: 0;
+      background: var(--overlay-scrim);
+      backdrop-filter: blur(8px);
+      z-index: 999;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+
+    .modal-backdrop-overlay.active {
+      display: flex !important;
+    }
+
+    .modal-container-card {
+      background: var(--color-surface);
+      border-radius: var(--radius-xl);
+      padding: 2.2rem;
+      max-width: 480px;
+      width: 100%;
+      box-shadow: var(--shadow-lg);
+      border: 1px solid var(--color-border);
+    }
+
+    .modal-head-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 0.5rem;
+    }
+
+    .modal-category-tag {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--color-primary-dark);
+      background: var(--color-primary-light);
+      padding: 0.15rem 0.5rem;
+      border-radius: var(--radius-sm);
+      display: inline-block;
+      margin-top: 0.35rem;
+    }
+
+    .modal-dialog-title {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--color-text-main);
+    }
+
+    .btn-modal-dismiss {
+      background: none;
+      border: none;
+      color: var(--color-text-muted);
+      cursor: pointer;
+      padding: 0.35rem;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: color 0.15s ease;
+    }
+
+    .btn-modal-dismiss:hover {
+      color: var(--color-text-main);
+    }
+
+    .modal-context-desc {
+      font-size: 0.8rem;
+      color: var(--color-text-muted);
+      margin-bottom: 1.4rem;
+      line-height: 1.45;
+    }
+
+    .slot-detail-body {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+      margin: 1.2rem 0 1.8rem;
+    }
+
+    .detail-time-row {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      color: var(--color-primary-dark);
+      font-family: var(--font-mono);
+      font-size: 0.88rem;
+      font-weight: 700;
+    }
+
+    .detail-clock-icon {
+      display: flex;
+      align-items: center;
+    }
+
+    .detail-desc-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-md);
+      padding: 1.2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .detail-task-name {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--color-text-main);
+    }
+
+    .detail-task-notes {
+      font-size: 0.82rem;
+      color: var(--color-text-muted);
+      line-height: 1.45;
+    }
+
+    .detail-loc-line {
+      display: flex;
+      gap: 0.4rem;
+      font-size: 0.78rem;
+      margin-top: 0.3rem;
+      padding-top: 0.6rem;
+      border-top: 1px solid var(--color-border-subtle);
+    }
+
+    .loc-label {
+      color: var(--color-text-muted);
+      font-weight: 600;
+    }
+
+    .loc-val {
+      color: var(--color-text-main);
+      font-weight: 700;
+    }
+
+    .modal-fields-group {
+      display: flex;
+      flex-direction: column;
+      gap: 1.1rem;
+      margin-bottom: 1.8rem;
+    }
+
+    .dialog-field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .dialog-row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .dialog-label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--color-text-main);
+    }
+
+    .dialog-input {
+      width: 100%;
+      padding: 0.75rem 0.95rem;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      font-family: inherit;
+      font-size: 0.88rem;
+      color: var(--color-text-main);
+      background: var(--color-surface);
+    }
+
+    .dialog-input:focus {
+      outline: 2px solid var(--color-primary);
+      outline-offset: 1px;
+    }
+
+    .modal-footer-cluster {
+      display: flex;
+      gap: 0.85rem;
+    }
+
+    .btn-cancel-dialog {
+      flex: 1;
+      padding: 0.75rem;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--color-border);
+      background: var(--color-surface);
+      color: var(--color-text-muted);
+      font-weight: 700;
+      font-size: 0.88rem;
+      cursor: pointer;
+      transition: color 0.15s ease, border-color 0.15s ease;
+    }
+
+    .btn-cancel-dialog:hover {
+      border-color: var(--color-border-focus);
+      color: var(--color-text-main);
+    }
+
+    .btn-reschedule-action {
+      flex: 1;
+      padding: 0.75rem;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--color-border);
+      background: var(--color-surface);
+      color: var(--color-text-body);
+      font-weight: 700;
+      font-size: 0.88rem;
+      cursor: pointer;
+      transition: border-color 0.15s ease, background-color 0.15s ease;
+    }
+
+    .btn-reschedule-action:hover {
+      border-color: var(--color-border-focus);
+      background: var(--color-primary-light);
+      color: var(--color-primary);
+    }
+
+    .btn-save-dialog {
+      flex: 1.5;
+      padding: 0.75rem;
+      border-radius: var(--radius-full);
+      border: none;
+      background: var(--color-primary);
+      color: var(--color-surface);
+      font-weight: 700;
+      font-size: 0.88rem;
+      cursor: pointer;
+      box-shadow: var(--shadow-sm);
+      transition: background-color 0.15s ease;
+    }
+
+    .btn-save-dialog:hover {
+      background: var(--color-primary-dark);
+    }
+
     @media (max-width: 1040px) {
       .schedule-grid {
         grid-template-columns: 1fr;
@@ -673,4 +1131,180 @@ const days = [
       }
     }
   </style>
+
+  <script>
+    declare global {
+      interface Window {
+        jadwalinToast?: (title: string, msg: string, type?: 'success' | 'info' | 'warning' | 'error') => void;
+      }
+    }
+
+    const openModal = (id: string) => document.getElementById(id)?.classList.add('active');
+    const closeModal = (id: string) => document.getElementById(id)?.classList.remove('active');
+
+    // Day navigation
+    const dayBtns = document.querySelectorAll('.day-item-btn');
+    const heroDayLabel = document.getElementById('current-day-label');
+    dayBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        dayBtns.forEach(b => {
+          b.classList.remove('active');
+          b.setAttribute('aria-pressed', 'false');
+        });
+        btn.classList.add('active');
+        btn.setAttribute('aria-pressed', 'true');
+        const dayFull = btn.getAttribute('data-day') || '';
+        if (heroDayLabel) heroDayLabel.textContent = `${dayFull} 2026`;
+      });
+    });
+
+    // Checkmark slots toggle
+    const attachCheckListener = (btn: HTMLElement) => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const row = btn.closest('.block-row');
+        row?.classList.toggle('is-done');
+        window.jadwalinToast?.('Sesi Diperbarui', 'Status pengerjaan sesi telah dicatat.', 'success');
+      });
+    };
+    document.querySelectorAll('.btn-check-slot').forEach(b => attachCheckListener(b as HTMLElement));
+
+    // Active session for detail & reschedule
+    let activeSessionRow: HTMLElement | null = null;
+
+    const attachDetailListener = (slotCard: HTMLElement) => {
+      slotCard.addEventListener('click', (e) => {
+        // Prevent if check button was clicked
+        if ((e.target as HTMLElement).closest('.btn-check-slot')) return;
+
+        const row = slotCard.closest('.block-row') as HTMLElement;
+        activeSessionRow = row;
+
+        const title = row?.getAttribute('data-title') || 'Sesi Kalender';
+        const time = row?.getAttribute('data-time') || '10.00 - 12.00';
+        const dur = row?.getAttribute('data-dur') || '120 mnt';
+        const cat = row?.getAttribute('data-cat') || 'Akademik';
+        const notes = row?.getAttribute('data-notes') || 'Tidak ada catatan tambahan.';
+        const loc = row?.getAttribute('data-loc') || 'Ruang Belajar Mandiri';
+
+        const nameEl = document.getElementById('detail-slot-name');
+        const timeEl = document.getElementById('detail-slot-time');
+        const catEl = document.getElementById('detail-slot-cat');
+        const notesEl = document.getElementById('detail-slot-notes');
+        const locEl = document.getElementById('detail-slot-loc');
+
+        if (nameEl) nameEl.textContent = title;
+        if (timeEl) timeEl.textContent = `${time} (${dur})`;
+        if (catEl) catEl.textContent = cat;
+        if (notesEl) notesEl.textContent = notes;
+        if (locEl) locEl.textContent = loc;
+
+        openModal('slot-detail-modal');
+      });
+    };
+    document.querySelectorAll('.block-card').forEach(c => attachDetailListener(c as HTMLElement));
+
+    // Close detail modal
+    document.getElementById('btn-close-detail-modal')?.addEventListener('click', () => closeModal('slot-detail-modal'));
+
+    // Start Focus Timer from detail modal
+    document.getElementById('btn-start-focus-timer')?.addEventListener('click', () => {
+      const title = document.getElementById('detail-slot-name')?.textContent || 'Sesi';
+      closeModal('slot-detail-modal');
+      window.jadwalinToast?.('Timer Fokus Dimulai', `Sesi fokus 25 menit untuk "${title}" aktif.`, 'success');
+    });
+
+    // Open Reschedule Modal from detail modal
+    document.getElementById('btn-open-reschedule')?.addEventListener('click', () => {
+      closeModal('slot-detail-modal');
+      const title = document.getElementById('detail-slot-name')?.textContent || 'Sesi';
+      const desc = document.getElementById('reschedule-desc-text');
+      if (desc) desc.textContent = `Pindahkan sesi "${title}" ke hari atau slot waktu lain yang masih tersedia.`;
+      openModal('reschedule-slot-modal');
+    });
+
+    // Close Reschedule Modal
+    document.getElementById('btn-close-reschedule-modal')?.addEventListener('click', () => closeModal('reschedule-slot-modal'));
+    document.getElementById('btn-cancel-reschedule')?.addEventListener('click', () => closeModal('reschedule-slot-modal'));
+
+    // Submit Reschedule
+    document.getElementById('form-reschedule-slot')?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const newDay = (document.getElementById('reschedule-day') as HTMLSelectElement).value;
+      const newTime = (document.getElementById('reschedule-time') as HTMLInputElement).value;
+
+      if (activeSessionRow) {
+        activeSessionRow.setAttribute('data-time', newTime);
+        const timeRange = activeSessionRow.querySelector('.time-range');
+        if (timeRange) timeRange.textContent = newTime;
+      }
+
+      closeModal('reschedule-slot-modal');
+      window.jadwalinToast?.('Jadwal Berhasil Diubah', `Sesi dipindahkan ke ${newDay} pada ${newTime}.`, 'success');
+    });
+
+    // Add Session Modal
+    document.getElementById('btn-open-add-slot')?.addEventListener('click', () => openModal('add-slot-modal'));
+    document.getElementById('btn-close-add-slot-modal')?.addEventListener('click', () => closeModal('add-slot-modal'));
+    document.getElementById('btn-cancel-add-slot')?.addEventListener('click', () => closeModal('add-slot-modal'));
+
+    document.getElementById('form-add-slot')?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const title = (document.getElementById('new-slot-title') as HTMLInputElement).value;
+      const cat = (document.getElementById('new-slot-cat') as HTMLSelectElement).value;
+      const dur = (document.getElementById('new-slot-dur') as HTMLSelectElement).value;
+      const time = (document.getElementById('new-slot-time') as HTMLInputElement).value;
+      const loc = (document.getElementById('new-slot-loc') as HTMLInputElement).value || 'Ruang Mandiri';
+
+      const newArticle = document.createElement('article');
+      newArticle.className = 'block-row';
+      newArticle.setAttribute('data-title', title);
+      newArticle.setAttribute('data-time', time);
+      newArticle.setAttribute('data-dur', dur);
+      newArticle.setAttribute('data-cat', cat);
+      newArticle.setAttribute('data-notes', 'Sesi ditambahkan manual oleh pengguna.');
+      newArticle.setAttribute('data-loc', loc);
+
+      newArticle.innerHTML = `
+        <div class="block-time-col">
+          <time class="time-range">${time}</time>
+          <span class="time-badge">${dur}</span>
+        </div>
+        <div class="block-card clickable-slot">
+          <div class="block-head">
+            <span class="category-chip academic">${cat}</span>
+            <div class="block-actions-right">
+              <button type="button" class="btn-slot-info" title="Lihat Rincian Sesi" aria-label="Lihat rincian sesi">
+                <svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="12" y1="16" x2="12" y2="12"></line>
+                  <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                </svg>
+              </button>
+              <button type="button" class="btn-check-slot" title="Tandai Selesai" aria-label="Tandai sesi selesai">
+                <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              </button>
+            </div>
+          </div>
+          <h3 class="block-name">${title}</h3>
+          <p class="block-notes">Sesi ditambahkan manual oleh pengguna.</p>
+        </div>
+      `;
+
+      attachCheckListener(newArticle.querySelector('.btn-check-slot') as HTMLElement);
+      attachDetailListener(newArticle.querySelector('.block-card') as HTMLElement);
+
+      document.getElementById('blocks-container')?.prepend(newArticle);
+      closeModal('add-slot-modal');
+      window.jadwalinToast?.('Sesi Dijadwalkan', `Sesi "${title}" berhasil ditambahkan ke kalender.`, 'success');
+      (document.getElementById('new-slot-title') as HTMLInputElement).value = '';
+    });
+
+    // Global ESC key
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('.modal-backdrop-overlay.active').forEach(m => m.classList.remove('active'));
+      }
+    });
+  </script>
 </DashboardLayout>

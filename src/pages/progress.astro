@@ -5,22 +5,30 @@ import { Image } from 'astro:assets';
 import mascotImg from '../assets/craiyon.png';
 ---
 
-<DashboardLayout title="Progres & Analisis" activeNav="progress">
-  <div class="sanctuary-wrap">
+<DashboardLayout title="Progres Belajar" activeNav="progress">
+  <div class="progress-workspace">
 
-    <!-- 1. EDITORIAL HEADER -->
+    <!-- 1. EDITORIAL HERO -->
     <header class="progress-hero">
       <div class="hero-left">
         <h1 class="hero-statement">
-          Evaluasi ritme & efisiensi:<br />
-          <span class="hero-highlight">Pencapaian Pekan Ini</span>
+          Evaluasi kecepatan & velositas:<br />
+          <span class="hero-highlight">Pekan 4 Oktober 2026</span>
         </h1>
         <p class="hero-sub">
-          Ringkasan waktu belajar terpakai, tugas terselesaikan, dan prediksi ketepatan jadwal akademik.
+          Tingkat penyelesaian tugas minggu ini mencapai <strong>75%</strong> dari target mingguan dengan total fokus <strong>18.5 jam</strong>.
         </p>
       </div>
 
       <div class="hero-right">
+        <button type="button" class="btn-target-secondary" id="btn-open-target">
+          <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <circle cx="12" cy="12" r="6"></circle>
+            <circle cx="12" cy="12" r="2"></circle>
+          </svg>
+          <span>Atur Target</span>
+        </button>
         <a href="/prioritas" class="btn-hero-action">
           <span>Masuk Sesi Fokus</span>
           <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
@@ -47,7 +55,7 @@ import mascotImg from '../assets/craiyon.png';
       <div class="p-divider"></div>
       <div class="p-companion-hint">
         <span class="p-efficiency-label">Skor Efisiensi Belajar</span>
-        <span class="p-efficiency-num">88%</span>
+        <span class="p-efficiency-num" id="stat-efficiency">88%</span>
       </div>
     </section>
 
@@ -148,17 +156,20 @@ import mascotImg from '../assets/craiyon.png';
 
         <!-- Weekly Summary Metrics -->
         <div class="side-surface summary-card">
-          <h3 class="side-title">Statistik Total Jam</h3>
-          <p class="side-desc">Pencatatan waktu belajar mandiri di luar kelas.</p>
-
-          <div class="summary-meta-grid">
-            <div class="meta-box">
-              <span class="meta-label">Total Fokus</span>
-              <span class="meta-num">17.5 Jam</span>
+          <h3 class="side-title">Distribusi Kategori Pekan Ini</h3>
+          
+          <div class="meta-data-list">
+            <div class="meta-row">
+              <span class="meta-label">Total Sesi Fokus</span>
+              <span class="meta-num">14 Sesi</span>
             </div>
-            <div class="meta-box">
-              <span class="meta-label">Target Pekanan</span>
-              <span class="meta-num">20 Jam</span>
+            <div class="meta-row">
+              <span class="meta-label">Rata-rata Waktu Rehat</span>
+              <span class="meta-num">18 mnt</span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-label">Ketepatan Tenggat</span>
+              <span class="meta-num">92%</span>
             </div>
           </div>
         </div>
@@ -167,13 +178,110 @@ import mascotImg from '../assets/craiyon.png';
 
     </div>
 
+    <!-- MODAL 1: PRATINJAU PENYESUAIAN JADWAL BEAVY -->
+    <div id="reschedule-modal" class="modal-backdrop-overlay" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="modal-resched-title">
+      <div class="modal-container-card">
+        <div class="modal-head-line">
+          <div>
+            <h2 class="modal-dialog-title" id="modal-resched-title">Pratinjau Penyesuaian AI</h2>
+            <span class="modal-subtitle-tag">Optimasi Ritme Otomatis</span>
+          </div>
+          <button type="button" class="btn-modal-dismiss" id="btn-close-resched-modal" aria-label="Tutup jendela">
+            <svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+        <p class="modal-context-desc">
+          Beavy mendeteksi kelebihan beban kognitif pada hari kerja. Dua sesi dialihkan ke slot luang hari Minggu agar ritme tetap seimbang:
+        </p>
+
+        <div class="resched-comparison-stack">
+          <div class="resched-item-card">
+            <div class="resched-head">
+              <strong class="resched-name">Laporan Praktikum Sistem Informasi</strong>
+              <span class="badge-shifted">Dialihkan</span>
+            </div>
+            <div class="resched-shift-row">
+              <span class="time-before">Sebelum: Sabtu, 21.00</span>
+              <span class="shift-arrow">-></span>
+              <span class="time-after">Minggu, 14.00 - 15.30</span>
+            </div>
+          </div>
+
+          <div class="resched-item-card">
+            <div class="resched-head">
+              <strong class="resched-name">Revisi Dokumen Klien</strong>
+              <span class="badge-shifted">Dialihkan</span>
+            </div>
+            <div class="resched-shift-row">
+              <span class="time-before">Sebelum: Minggu, 09.00</span>
+              <span class="shift-arrow">-></span>
+              <span class="time-after">Minggu, 16.00 - 17.00</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer-cluster">
+          <button type="button" class="btn-cancel-dialog" id="btn-cancel-resched">Batal</button>
+          <button type="button" class="btn-save-dialog" id="btn-confirm-apply-resched">Terapkan ke Kalender</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL 2: PENGATURAN TARGET BELAJAR MINGGUAN -->
+    <div id="target-modal" class="modal-backdrop-overlay" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="modal-target-title">
+      <div class="modal-container-card">
+        <div class="modal-head-line">
+          <h2 class="modal-dialog-title" id="modal-target-title">Atur Target Belajar</h2>
+          <button type="button" class="btn-modal-dismiss" id="btn-close-target-modal" aria-label="Tutup jendela">
+            <svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+        <p class="modal-context-desc">Tentukan target waktu fokus pekanan agar Beavy dapat memberikan peringatan kapasitas yang akurat.</p>
+
+        <form id="form-study-target" class="modal-fields-group">
+          <div class="dialog-field">
+            <label class="dialog-label" for="target-hours">Target Total Fokus per Pekan</label>
+            <select id="target-hours" class="dialog-input">
+              <option value="15">15 Jam / Pekan (Santai)</option>
+              <option value="20" selected>20 Jam / Pekan (Standar Akademik)</option>
+              <option value="25">25 Jam / Pekan (Pekan Ujian)</option>
+            </select>
+          </div>
+
+          <div class="dialog-field">
+            <label class="dialog-label" for="target-daily-sessions">Maksimal Sesi Fokus per Hari</label>
+            <select id="target-daily-sessions" class="dialog-input">
+              <option value="2">2 Sesi (Maksimal 3 jam)</option>
+              <option value="3" selected>3 Sesi (Maksimal 4.5 jam)</option>
+              <option value="4">4 Sesi (Maksimal 6 jam)</option>
+            </select>
+          </div>
+
+          <div class="modal-footer-cluster">
+            <button type="button" class="btn-cancel-dialog" id="btn-cancel-target">Batal</button>
+            <button type="submit" class="btn-save-dialog">Simpan Target</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
   </div>
 
   <style>
     /* =========================================================
-       AWWWARDS EDITORIAL PROGRESS & ANALYTICS STYLES
-       Spacious, Flat Surface, Editorial Typography
+       AWWWARDS EDITORIAL PROGRESS STYLES
+       Minimal, Generous Whitespace, Deep Hierarchy
        ========================================================= */
+
+    :root {
+      --overlay-scrim: rgba(18, 10, 30, 0.4);
+    }
 
     :focus-visible {
       outline: 2px solid var(--color-primary);
@@ -189,13 +297,13 @@ import mascotImg from '../assets/craiyon.png';
       }
     }
 
-    .sanctuary-wrap {
+    .progress-workspace {
       max-width: 1240px;
       margin: 0 auto;
       display: flex;
       flex-direction: column;
-      gap: 2.2rem;
-      padding-bottom: 3rem;
+      gap: 2rem;
+      padding-bottom: 3.5rem;
     }
 
     /* 1. HERO */
@@ -204,7 +312,7 @@ import mascotImg from '../assets/craiyon.png';
       justify-content: space-between;
       align-items: flex-end;
       gap: 2rem;
-      padding: 1.5rem 0 0.5rem;
+      padding: 1rem 0 0.5rem;
       border-bottom: 1px solid var(--color-border-subtle);
     }
 
@@ -213,7 +321,7 @@ import mascotImg from '../assets/craiyon.png';
       font-weight: 800;
       color: var(--color-text-main);
       line-height: 1.2;
-      letter-spacing: -0.025em;
+      letter-spacing: -0.03em;
     }
 
     .hero-highlight {
@@ -221,31 +329,56 @@ import mascotImg from '../assets/craiyon.png';
     }
 
     .hero-sub {
-      font-size: 0.95rem;
+      font-size: 0.92rem;
       color: var(--color-text-muted);
-      line-height: 1.6;
-      margin-top: 0.6rem;
-      max-width: 650px;
+      line-height: 1.5;
+      margin-top: 0.5rem;
+      max-width: 600px;
+    }
+
+    .hero-right {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .btn-target-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.65rem 1.15rem;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--color-border);
+      background: var(--color-surface);
+      color: var(--color-text-main);
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: var(--shadow-xs);
+      transition: background-color 0.15s ease, border-color 0.15s ease;
+    }
+
+    .btn-target-secondary:hover {
+      background: var(--color-primary-light);
+      border-color: var(--color-border-focus);
     }
 
     .btn-hero-action {
       display: inline-flex;
       align-items: center;
-      gap: 0.6rem;
-      background: var(--color-primary);
-      color: var(--color-surface);
-      font-size: 0.9rem;
+      gap: 0.5rem;
+      font-size: 0.82rem;
       font-weight: 700;
-      padding: 0.85rem 1.5rem;
+      color: var(--color-surface);
+      background: var(--color-primary);
+      padding: 0.65rem 1.3rem;
       border-radius: var(--radius-full);
-      box-shadow: var(--shadow-sm);
-      flex-shrink: 0;
-      transition: background-color 0.15s ease, transform 0.15s ease;
+      box-shadow: var(--shadow-xs);
+      transition: background-color 0.15s ease;
     }
 
     .btn-hero-action:hover {
       background: var(--color-primary-dark);
-      transform: translateY(-2px);
     }
 
     /* 2. AMBIENT STRIP */
@@ -291,11 +424,12 @@ import mascotImg from '../assets/craiyon.png';
       display: flex;
       flex-direction: column;
       align-items: flex-end;
+      gap: 0.15rem;
     }
 
     .p-efficiency-label {
-      font-size: 0.74rem;
-      font-weight: 600;
+      font-size: 0.72rem;
+      font-weight: 700;
       color: var(--color-text-muted);
     }
 
@@ -303,32 +437,31 @@ import mascotImg from '../assets/craiyon.png';
       font-family: var(--font-mono);
       font-size: 1.85rem;
       font-weight: 800;
-      color: var(--color-success);
+      color: var(--color-primary-dark);
       line-height: 1;
-      margin-top: 0.2rem;
     }
 
-    /* 3. GRID */
+    /* 3. MAIN GRID */
     .progress-grid {
       display: grid;
-      grid-template-columns: 1.4fr 0.8fr;
+      grid-template-columns: 1.45fr 0.85fr;
       gap: 2rem;
       align-items: start;
     }
 
-    .progress-surface, .side-surface {
+    .progress-surface {
       background: var(--color-surface);
       border: 1px solid var(--color-border);
       border-radius: var(--radius-xl);
-      padding: 1.8rem;
+      padding: 2.2rem;
       box-shadow: var(--shadow-xs);
     }
 
     .surface-header {
       display: flex;
       justify-content: space-between;
-      align-items: baseline;
-      margin-bottom: 1.8rem;
+      align-items: flex-end;
+      margin-bottom: 2.2rem;
       padding-bottom: 1rem;
       border-bottom: 1px solid var(--color-border-subtle);
     }
@@ -337,48 +470,50 @@ import mascotImg from '../assets/craiyon.png';
       font-size: 1.25rem;
       font-weight: 800;
       color: var(--color-text-main);
+      letter-spacing: -0.02em;
     }
 
     .surface-caption {
-      font-size: 0.8rem;
+      font-size: 0.82rem;
       color: var(--color-text-muted);
       margin-top: 0.2rem;
     }
 
     .chart-badge {
+      font-family: var(--font-mono);
       font-size: 0.74rem;
       font-weight: 700;
       color: var(--color-text-muted);
-      background: var(--color-canvas);
+      background: var(--color-primary-light);
+      border: 1px solid var(--color-border-focus);
       padding: 0.25rem 0.65rem;
       border-radius: var(--radius-full);
     }
 
-    /* BARS CHART FLOW */
+    /* Weekly Velocity Chart */
     .bars-chart-flow {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-      height: 200px;
-      padding: 1rem 0.5rem 0.5rem;
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 1rem;
+      height: 220px;
+      align-items: end;
+      padding-bottom: 1.5rem;
       border-bottom: 1px solid var(--color-border-subtle);
-      margin-bottom: 2rem;
-      gap: 0.5rem;
     }
 
     .chart-column {
-      flex: 1;
       display: flex;
       flex-direction: column;
       align-items: center;
       height: 100%;
       justify-content: flex-end;
-      gap: 0.4rem;
+      gap: 0.45rem;
     }
 
     .bar-shell {
-      width: 28px;
-      height: 150px;
+      width: 100%;
+      max-width: 32px;
+      height: 160px;
       background: var(--color-canvas);
       border-radius: var(--radius-sm);
       display: flex;
@@ -388,40 +523,44 @@ import mascotImg from '../assets/craiyon.png';
 
     .bar-core {
       width: 100%;
-      background: var(--color-border-focus);
-      border-radius: var(--radius-sm);
+      background: var(--color-primary-light);
+      border-top: 2px solid var(--color-border-focus);
+      border-radius: var(--radius-sm) var(--radius-sm) 0 0;
     }
 
     .bar-core.active {
       background: var(--color-primary);
+      border-top-color: var(--color-primary-dark);
     }
 
     .bar-core.projected {
-      background: var(--color-border);
-      border-top: 2px dashed var(--color-text-muted);
+      background: var(--color-canvas);
+      border-top: 2px dashed var(--color-border);
     }
 
     .bar-day {
+      font-family: var(--font-mono);
       font-size: 0.76rem;
       font-weight: 700;
-      color: var(--color-text-body);
+      color: var(--color-text-muted);
     }
 
     .bar-val {
       font-family: var(--font-mono);
-      font-size: 0.7rem;
-      color: var(--color-text-muted);
+      font-size: 0.68rem;
+      color: var(--color-text-subtle);
     }
 
     /* Task Progress Stack */
     .task-progress-stack {
+      margin-top: 2rem;
       display: flex;
       flex-direction: column;
-      gap: 1.2rem;
+      gap: 1.1rem;
     }
 
     .inner-title {
-      font-size: 1rem;
+      font-size: 1.05rem;
       font-weight: 800;
       color: var(--color-text-main);
     }
@@ -436,28 +575,31 @@ import mascotImg from '../assets/craiyon.png';
       display: flex;
       justify-content: space-between;
       font-size: 0.82rem;
+    }
+
+    .row-name {
       font-weight: 700;
       color: var(--color-text-main);
     }
 
     .row-meta {
-      font-size: 0.74rem;
-      font-weight: 600;
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
       color: var(--color-text-muted);
     }
 
     .row-track {
       width: 100%;
       height: 8px;
-      background: var(--color-canvas);
       border-radius: var(--radius-full);
+      background: var(--color-canvas);
       overflow: hidden;
     }
 
     .row-fill {
       height: 100%;
-      background: var(--color-primary);
       border-radius: var(--radius-full);
+      background: var(--color-primary);
     }
 
     /* RIGHT COLUMN */
@@ -467,16 +609,24 @@ import mascotImg from '../assets/craiyon.png';
       gap: 1.8rem;
     }
 
+    .side-surface {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-xl);
+      padding: 1.8rem;
+      box-shadow: var(--shadow-xs);
+    }
+
     .advice-head {
       display: flex;
       align-items: center;
-      gap: 0.85rem;
+      gap: 0.9rem;
       margin-bottom: 0.8rem;
     }
 
     .advice-avatar-disc {
-      width: 44px;
-      height: 44px;
+      width: 42px;
+      height: 42px;
       border-radius: 50%;
       background: var(--color-primary-light);
       border: 1px solid var(--color-border-focus);
@@ -487,8 +637,8 @@ import mascotImg from '../assets/craiyon.png';
     }
 
     .advice-avatar-img {
-      width: 30px;
-      height: 30px;
+      width: 28px;
+      height: 28px;
       object-fit: contain;
     }
 
@@ -496,68 +646,277 @@ import mascotImg from '../assets/craiyon.png';
       font-size: 1.05rem;
       font-weight: 800;
       color: var(--color-text-main);
+      letter-spacing: -0.01em;
     }
 
     .advice-role {
-      font-size: 0.74rem;
+      font-size: 0.76rem;
       color: var(--color-text-muted);
-      margin-top: 0.1rem;
     }
 
     .side-desc {
-      font-size: 0.8rem;
-      color: var(--color-text-body);
+      font-size: 0.82rem;
+      color: var(--color-text-muted);
       line-height: 1.5;
-      margin-bottom: 1.2rem;
+      margin-bottom: 1.4rem;
     }
 
     .btn-reschedule-editorial {
       width: 100%;
-      padding: 0.8rem;
+      padding: 0.75rem;
       border-radius: var(--radius-full);
-      background: var(--color-primary);
-      color: var(--color-surface);
-      font-size: 0.88rem;
+      border: 1px solid var(--color-primary);
+      background: var(--color-surface);
+      color: var(--color-primary);
+      font-size: 0.84rem;
       font-weight: 700;
-      border: none;
       cursor: pointer;
-      box-shadow: var(--shadow-sm);
-      transition: background-color 0.15s ease, transform 0.15s ease;
+      transition: background-color 0.15s ease, color 0.15s ease;
     }
 
     .btn-reschedule-editorial:hover {
-      background: var(--color-primary-dark);
-      transform: translateY(-2px);
+      background: var(--color-primary);
+      color: var(--color-surface);
     }
 
-    /* Summary Meta Grid */
-    .summary-meta-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem;
-    }
-
-    .meta-box {
+    /* Summary Metrics */
+    .meta-data-list {
       display: flex;
       flex-direction: column;
-      gap: 0.25rem;
-      background: var(--color-surface-subtle);
-      border: 1px solid var(--color-border-subtle);
-      border-radius: var(--radius-md);
-      padding: 0.85rem 1rem;
+      gap: 0.9rem;
+      margin-top: 1.2rem;
+    }
+
+    .meta-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding-bottom: 0.6rem;
+      border-bottom: 1px solid var(--color-border-subtle);
     }
 
     .meta-label {
-      font-size: 0.72rem;
+      font-size: 0.78rem;
       font-weight: 600;
       color: var(--color-text-muted);
     }
 
     .meta-num {
       font-family: var(--font-mono);
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--color-text-main);
+    }
+
+    /* MODAL STYLES */
+    .modal-backdrop-overlay {
+      position: fixed;
+      inset: 0;
+      background: var(--overlay-scrim);
+      backdrop-filter: blur(8px);
+      z-index: 999;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+
+    .modal-backdrop-overlay.active {
+      display: flex !important;
+    }
+
+    .modal-container-card {
+      background: var(--color-surface);
+      border-radius: var(--radius-xl);
+      padding: 2.2rem;
+      max-width: 500px;
+      width: 100%;
+      box-shadow: var(--shadow-lg);
+      border: 1px solid var(--color-border);
+    }
+
+    .modal-head-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 0.5rem;
+    }
+
+    .modal-dialog-title {
       font-size: 1.25rem;
       font-weight: 800;
       color: var(--color-text-main);
+    }
+
+    .modal-subtitle-tag {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--color-primary-dark);
+      background: var(--color-primary-light);
+      padding: 0.15rem 0.5rem;
+      border-radius: var(--radius-sm);
+      display: inline-block;
+      margin-top: 0.35rem;
+    }
+
+    .btn-modal-dismiss {
+      background: none;
+      border: none;
+      color: var(--color-text-muted);
+      cursor: pointer;
+      padding: 0.35rem;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: color 0.15s ease;
+    }
+
+    .btn-modal-dismiss:hover {
+      color: var(--color-text-main);
+    }
+
+    .modal-context-desc {
+      font-size: 0.8rem;
+      color: var(--color-text-muted);
+      margin-bottom: 1.4rem;
+      line-height: 1.45;
+    }
+
+    .resched-comparison-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+      margin-bottom: 1.8rem;
+    }
+
+    .resched-item-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      padding: 1rem 1.1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+    }
+
+    .resched-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .resched-name {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--color-text-main);
+    }
+
+    .badge-shifted {
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: var(--color-primary-dark);
+      background: var(--color-primary-light);
+      padding: 0.15rem 0.5rem;
+      border-radius: var(--radius-sm);
+    }
+
+    .resched-shift-row {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.74rem;
+      font-family: var(--font-mono);
+    }
+
+    .time-before {
+      color: var(--color-text-muted);
+      text-decoration: line-through;
+    }
+
+    .shift-arrow {
+      color: var(--color-primary);
+      font-weight: 700;
+    }
+
+    .time-after {
+      color: var(--color-primary-dark);
+      font-weight: 700;
+    }
+
+    .modal-fields-group {
+      display: flex;
+      flex-direction: column;
+      gap: 1.1rem;
+      margin-bottom: 1.8rem;
+    }
+
+    .dialog-field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .dialog-label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--color-text-main);
+    }
+
+    .dialog-input {
+      width: 100%;
+      padding: 0.75rem 0.95rem;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      font-family: inherit;
+      font-size: 0.88rem;
+      color: var(--color-text-main);
+      background: var(--color-surface);
+    }
+
+    .dialog-input:focus {
+      outline: 2px solid var(--color-primary);
+      outline-offset: 1px;
+    }
+
+    .modal-footer-cluster {
+      display: flex;
+      gap: 0.85rem;
+    }
+
+    .btn-cancel-dialog {
+      flex: 1;
+      padding: 0.75rem;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--color-border);
+      background: var(--color-surface);
+      color: var(--color-text-muted);
+      font-weight: 700;
+      font-size: 0.88rem;
+      cursor: pointer;
+      transition: color 0.15s ease, border-color 0.15s ease;
+    }
+
+    .btn-cancel-dialog:hover {
+      border-color: var(--color-border-focus);
+      color: var(--color-text-main);
+    }
+
+    .btn-save-dialog {
+      flex: 1.5;
+      padding: 0.75rem;
+      border-radius: var(--radius-full);
+      border: none;
+      background: var(--color-primary);
+      color: var(--color-surface);
+      font-weight: 700;
+      font-size: 0.88rem;
+      cursor: pointer;
+      box-shadow: var(--shadow-sm);
+      transition: background-color 0.15s ease;
+    }
+
+    .btn-save-dialog:hover {
+      background: var(--color-primary-dark);
     }
 
     @media (max-width: 1040px) {
@@ -583,8 +942,44 @@ import mascotImg from '../assets/craiyon.png';
   </style>
 
   <script>
-    document.getElementById('btn-reschedule-now')?.addEventListener('click', () => {
-      (window as any).jadwalinToast('Jadwal Dioptimalkan', 'AI Beavy telah mengalokasikan 2 tugas ke hari Minggu pukul 14.00.', 'info');
+    declare global {
+      interface Window {
+        jadwalinToast?: (title: string, msg: string, type?: 'success' | 'info' | 'warning' | 'error') => void;
+      }
+    }
+
+    const openModal = (id: string) => document.getElementById(id)?.classList.add('active');
+    const closeModal = (id: string) => document.getElementById(id)?.classList.remove('active');
+
+    // 1. Reschedule Preview Modal
+    document.getElementById('btn-reschedule-now')?.addEventListener('click', () => openModal('reschedule-modal'));
+    document.getElementById('btn-close-resched-modal')?.addEventListener('click', () => closeModal('reschedule-modal'));
+    document.getElementById('btn-cancel-resched')?.addEventListener('click', () => closeModal('reschedule-modal'));
+
+    document.getElementById('btn-confirm-apply-resched')?.addEventListener('click', () => {
+      closeModal('reschedule-modal');
+      const efficiencyEl = document.getElementById('stat-efficiency');
+      if (efficiencyEl) efficiencyEl.textContent = '95%';
+      window.jadwalinToast?.('Penyesuaian Diterapkan', 'Dua sesi berhasil dialokasikan ke hari Minggu. Skor efisiensi naik ke 95%.', 'success');
+    });
+
+    // 2. Target Settings Modal
+    document.getElementById('btn-open-target')?.addEventListener('click', () => openModal('target-modal'));
+    document.getElementById('btn-close-target-modal')?.addEventListener('click', () => closeModal('target-modal'));
+    document.getElementById('btn-cancel-target')?.addEventListener('click', () => closeModal('target-modal'));
+
+    document.getElementById('form-study-target')?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const hours = (document.getElementById('target-hours') as HTMLSelectElement).value;
+      closeModal('target-modal');
+      window.jadwalinToast?.('Target Disimpan', `Target belajar pekanan Anda diatur ke ${hours} jam.`, 'success');
+    });
+
+    // Global ESC key
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('.modal-backdrop-overlay.active').forEach(m => m.classList.remove('active'));
+      }
     });
   </script>
 </DashboardLayout>
