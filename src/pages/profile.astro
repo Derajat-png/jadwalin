@@ -9,7 +9,7 @@ const recurringSchedules = [
     id: 1,
     time: "10.00",
     duration: "120 mnt",
-    title: "Fokus: Pemrograman Web & API",
+    title: "Fokus: Pemrograman Web dan API",
     days: "Senin, Rabu, Jumat",
     tag: "Akademik",
     active: true
@@ -27,7 +27,7 @@ const recurringSchedules = [
     id: 3,
     time: "19.00",
     duration: "30 mnt",
-    title: "Olahraga Kardio / Gym",
+    title: "Olahraga Kardio dan Kebugaran",
     days: "Jumat, Sabtu",
     tag: "Kesehatan",
     active: true
@@ -36,49 +36,71 @@ const recurringSchedules = [
     id: 4,
     time: "22.00",
     duration: "20 mnt",
-    title: "Baca Buku / Refleksi Harian",
+    title: "Membaca Buku dan Refleksi",
     days: "Setiap hari",
-    tag: "Self-Improvement",
+    tag: "Personal",
     active: false
   }
 ];
 ---
 
 <DashboardLayout title="Profil Pengguna" activeNav="profile">
-  <div class="profile-page-wrap">
-    <!-- Desktop 2-Column: User Info & Routine Schedules (Left) + Preferences & AI Tuning (Right) -->
-    <div class="profile-desktop-grid">
-      <!-- Left Column: User Card & Routine Schedule -->
-      <div class="profile-main-col">
-        <!-- User Profile Card (Figma Match) -->
-        <div class="user-card-panel">
-          <div class="uc-top">
-            <div class="uc-avatar-wrap">
-              <div class="uc-avatar-circle">D</div>
-              <button class="btn-edit-avatar" id="btn-edit-avatar" title="Ganti Foto Profil">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+  <div class="profile-page-layout">
+
+    <!-- Top Editorial Header -->
+    <header class="profile-header-row">
+      <div class="header-titles">
+        <h1 class="page-title">Profil Mahasiswa</h1>
+        <p class="page-subtitle">Kelola jadwal rutin terproteksi, preferensi asistensi Beavy, dan keamanan akun Anda.</p>
+      </div>
+
+      <div class="header-actions">
+        <button type="button" id="btn-add-routine" class="btn-primary-pill">
+          <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+          <span>Tambah Rutinitas</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- 2-Column Grid -->
+    <div class="profile-grid">
+      
+      <!-- Left Column: User Card & Routines -->
+      <section class="profile-main-col">
+        
+        <!-- User Identity Card -->
+        <div class="profile-surface user-card">
+          <div class="user-row-header">
+            <div class="avatar-wrap">
+              <div class="avatar-circle">D</div>
+              <button type="button" class="btn-avatar-edit" id="btn-edit-avatar" aria-label="Ganti foto profil">
+                <svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
                   <circle cx="12" cy="13" r="4"></circle>
                 </svg>
               </button>
             </div>
 
-            <div class="uc-details">
-              <div class="uc-title-badge-row">
-                <h1 class="uc-name">Daffa Ahmad Al Attas</h1>
-                <span class="verified-pill">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <div class="user-meta">
+              <div class="user-name-line">
+                <h2 class="user-full-name">Daffa Ahmad Al Attas</h2>
+                <span class="verified-tag">
+                  <svg aria-hidden="true" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
                     <polyline points="20 6 9 17 4 12"></polyline>
                   </svg>
                   Terverifikasi
                 </span>
               </div>
-              <p class="uc-email">daffaahmadalsch@student.ub.ac.id</p>
-              <div class="uc-roles">
-                <span class="role-chip">Mahasiswa</span>
-                <span class="role-chip">Semester 5</span>
-                <span class="level-chip">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+              <p class="user-email-text">daffaahmadalsch@student.ub.ac.id</p>
+              
+              <div class="user-badges-row">
+                <span class="meta-chip">Mahasiswa</span>
+                <span class="meta-chip">Semester 5</span>
+                <span class="focus-chip">
+                  <svg aria-hidden="true" width="11" height="11" viewBox="0 0 24 24" fill="currentColor">
                     <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
                   </svg>
                   Tingkat Fokus: Gold
@@ -87,144 +109,139 @@ const recurringSchedules = [
             </div>
           </div>
 
-          <!-- 3 Stats Counter from Figma Frame 156:138 -->
-          <div class="uc-stats-row">
-            <div class="uc-stat-box">
-              <span class="uc-stat-val">5</span>
-              <span class="uc-stat-lbl">Tugas Aktif</span>
+          <!-- Ambient Stats Row -->
+          <div class="ambient-stats-grid">
+            <div class="stat-unit">
+              <span class="stat-number">5</span>
+              <span class="stat-label">Tugas Aktif</span>
             </div>
-            <div class="uc-stat-box">
-              <span class="uc-stat-val stat-danger">2</span>
-              <span class="uc-stat-lbl">Mendekati Deadline</span>
+            <div class="stat-unit">
+              <span class="stat-number text-urgent">2</span>
+              <span class="stat-label">Mendekati Deadline</span>
             </div>
-            <div class="uc-stat-box">
-              <span class="uc-stat-val stat-warning">3</span>
-              <span class="uc-stat-lbl">Sesi Hari Ini</span>
+            <div class="stat-unit">
+              <span class="stat-number text-accent">3</span>
+              <span class="stat-label">Sesi Hari Ini</span>
             </div>
           </div>
         </div>
 
-        <!-- Jadwal Saya (Figma Frame 156:138) -->
-        <div class="routine-panel">
-          <div class="rp-header">
+        <!-- Protected Routine Schedule -->
+        <div class="profile-surface routine-section">
+          <div class="section-header-block">
             <div>
-              <h3 class="rp-title">Jadwal Rutin Terproteksi</h3>
-              <p class="rp-sub">Aktivitas mingguan yang otomatis dikunci Beavy agar tidak tumpang tindih</p>
+              <h2 class="section-heading">Jadwal Rutin Terproteksi</h2>
+              <p class="section-subheading">Aktivitas mingguan yang otomatis dikunci Beavy agar tidak tumpang tindih dengan tugas.</p>
             </div>
-            <button id="btn-add-routine" class="btn-add-routine">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="12" y1="5" x2="12" y2="19"></line>
-                <line x1="5" y1="12" x2="19" y2="12"></line>
-              </svg>
-              Tambah Rutinitas
-            </button>
           </div>
 
-          <div class="routine-list" id="routine-list">
+          <div class="routine-items-list" id="routine-list">
             {recurringSchedules.map((item) => (
-              <div class="routine-row-card" data-id={item.id}>
-                <div class="rc-time-col">
-                  <span class="rc-time">{item.time}</span>
-                  <span class="rc-dur">{item.duration}</span>
+              <article class="routine-item-row" data-id={item.id}>
+                <div class="routine-time-box">
+                  <span class="routine-time-clock">{item.time}</span>
+                  <span class="routine-time-span">{item.duration}</span>
                 </div>
 
-                <div class="rc-main-col">
-                  <div class="rc-title-row">
-                    <h4 class="rc-title">{item.title}</h4>
-                    <span class="rc-tag">{item.tag}</span>
+                <div class="routine-info-box">
+                  <div class="routine-headline">
+                    <h3 class="routine-task-title">{item.title}</h3>
+                    <span class="routine-category-badge">{item.tag}</span>
                   </div>
-                  <span class="rc-days">{item.days}</span>
+                  <span class="routine-recurrence">{item.days}</span>
                 </div>
 
-                <div class="rc-action-col">
-                  <button class="btn-routine-opt" title="Kelola Jadwal" data-title={item.title}>
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <div class="routine-actions-box">
+                  <button type="button" class="btn-routine-action" title="Kelola Jadwal" aria-label={`Opsi untuk ${item.title}`} data-title={item.title}>
+                    <svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                       <circle cx="12" cy="12" r="1"></circle>
                       <circle cx="19" cy="12" r="1"></circle>
                       <circle cx="5" cy="12" r="1"></circle>
                     </svg>
                   </button>
                 </div>
-              </div>
+              </article>
             ))}
           </div>
         </div>
-      </div>
 
-      <!-- Right Column: Preferences, Habit & AI Tuning -->
-      <div class="profile-side-col">
+      </section>
+
+      <!-- Right Column: Preferences & Security -->
+      <aside class="profile-side-col">
+        
         <!-- Beavy AI Habits & Settings -->
-        <div class="settings-card">
-          <div class="sc-header">
-            <div class="sc-avatar-wrap">
-              <Image src={mascotImg} alt="Beavy" class="sc-beavy-avatar" />
+        <div class="profile-surface settings-card">
+          <div class="settings-head-row">
+            <div class="settings-avatar-wrap">
+              <Image src={mascotImg} alt="Beavy" class="settings-avatar-img" />
             </div>
             <div>
-              <h4 class="sc-title">Preferensi Belajar Beavy</h4>
-              <p class="sc-desc">Sesuaikan cara AI menyusun jadwal harianmu</p>
+              <h2 class="settings-heading">Preferensi Belajar Beavy</h2>
+              <p class="settings-subheading">Sesuaikan cara AI menyusun jadwal harian Anda</p>
             </div>
           </div>
 
-          <div class="settings-form">
-            <div class="setting-item">
-              <div>
-                <strong>Jam Aktif Produktif</strong>
-                <p>Rentang waktu kamu bersedia belajar</p>
+          <div class="settings-stack">
+            <div class="pref-row">
+              <div class="pref-meta">
+                <strong class="pref-title">Jam Aktif Produktif</strong>
+                <span class="pref-desc">Rentang waktu Anda bersedia belajar</span>
               </div>
-              <span class="setting-badge">08.00 - 21.00</span>
+              <span class="pref-pill">08.00 - 21.00</span>
             </div>
 
-            <div class="setting-item">
-              <div>
-                <strong>Jeda Istirahat (Buffer)</strong>
-                <p>Waktu jeda otomatis antar sesi tugas</p>
+            <div class="pref-row">
+              <div class="pref-meta">
+                <strong class="pref-title">Jeda Istirahat (Buffer)</strong>
+                <span class="pref-desc">Waktu jeda otomatis antar sesi tugas</span>
               </div>
-              <span class="setting-badge">15 menit</span>
+              <span class="pref-pill">15 menit</span>
             </div>
 
-            <div class="setting-item">
-              <div>
-                <strong>Gaya Pengingat Beavy</strong>
-                <p>Nada komunikasi AI saat mengingatkan</p>
+            <div class="pref-row">
+              <div class="pref-meta">
+                <strong class="pref-title">Gaya Pengingat Beavy</strong>
+                <span class="pref-desc">Nada komunikasi asistensi</span>
               </div>
-              <span class="setting-badge">Tegas & Solutif</span>
+              <span class="pref-pill">Tegas dan Solutif</span>
             </div>
 
-            <div class="setting-item">
-              <div>
-                <strong>Notifikasi WhatsApp / Telegram</strong>
-                <p>Kirim ringkasan agenda tiap jam 07.30</p>
+            <div class="pref-row">
+              <div class="pref-meta">
+                <strong class="pref-title">Notifikasi Agenda Harian</strong>
+                <span class="pref-desc">Kirim ringkasan jam 07.30 pagi</span>
               </div>
-              <label class="switch-toggle">
+              <label class="switch-toggle" aria-label="Aktifkan notifikasi agenda harian">
                 <input type="checkbox" checked id="toggle-notif" />
                 <span class="toggle-slider"></span>
               </label>
             </div>
           </div>
 
-          <div class="settings-action">
-            <button class="btn-save-preferences" id="btn-save-prefs">
-              Simpan Perubahan
-            </button>
-          </div>
+          <button type="button" class="btn-save-prefs" id="btn-save-prefs">
+            Simpan Perubahan
+          </button>
         </div>
 
-        <!-- Account Security / Logout -->
-        <div class="account-card">
-          <h4 class="ac-title">Keamanan & Otentikasi</h4>
-          <div class="ac-links">
-            <button class="ac-btn" id="btn-change-pwd">
-              <span class="ac-btn-icon">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <!-- Security & Account -->
+        <div class="profile-surface security-card">
+          <h2 class="security-heading">Keamanan dan Otentikasi</h2>
+          
+          <div class="security-links-stack">
+            <button type="button" class="btn-sec-action" id="btn-change-pwd">
+              <span class="sec-icon">
+                <svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
                   <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
                 </svg>
               </span>
               <span>Ganti Kata Sandi</span>
             </button>
-            <button class="ac-btn" id="btn-face-id">
-              <span class="ac-btn-icon">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+
+            <button type="button" class="btn-sec-action" id="btn-face-id">
+              <span class="sec-icon">
+                <svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M7 3H5a2 2 0 0 0-2 2v2"></path>
                   <path d="M17 3h2a2 2 0 0 1 2 2v2"></path>
                   <path d="M21 17v2a2 2 0 0 1-2 2h-2"></path>
@@ -234,9 +251,10 @@ const recurringSchedules = [
               </span>
               <span>Atur Verifikasi Wajah (Face ID)</span>
             </button>
-            <a href="/login" class="ac-btn ac-danger">
-              <span class="ac-btn-icon">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+
+            <a href="/login" class="btn-sec-action btn-sec-danger">
+              <span class="sec-icon">
+                <svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
                   <polyline points="16 17 21 12 16 7"></polyline>
                   <line x1="21" y1="12" x2="9" y2="12"></line>
@@ -246,327 +264,386 @@ const recurringSchedules = [
             </a>
           </div>
         </div>
+
+      </aside>
+    </div>
+
+    <!-- Routine Modal -->
+    <div id="routine-modal" class="modal-backdrop-overlay" style="display: none;">
+      <div class="modal-container-card">
+        <div class="modal-head-line">
+          <h2 class="modal-dialog-title">Tambah Rutinitas Mingguan</h2>
+          <button type="button" class="btn-modal-dismiss" id="btn-close-routine-modal" aria-label="Tutup jendela">
+            <svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+        <p class="modal-context-desc">Rutinitas ini akan secara otomatis memblokir slot kalender Beavy agar tidak bentrok.</p>
+        
+        <div class="modal-fields-group">
+          <div class="dialog-field">
+            <label class="dialog-label" for="routine-input-title">Nama Rutinitas</label>
+            <input type="text" id="routine-input-title" class="dialog-input" placeholder="Contoh: Belajar Bahasa Asing atau Olahraga" />
+          </div>
+
+          <div class="dialog-row-2">
+            <div class="dialog-field">
+              <label class="dialog-label" for="routine-input-time">Jam Mulai</label>
+              <input type="text" id="routine-input-time" class="dialog-input" value="16.00" />
+            </div>
+            <div class="dialog-field">
+              <label class="dialog-label" for="routine-input-dur">Durasi</label>
+              <input type="text" id="routine-input-dur" class="dialog-input" value="60 mnt" />
+            </div>
+          </div>
+
+          <div class="dialog-field">
+            <label class="dialog-label" for="routine-input-days">Hari Pelaksanaan</label>
+            <input type="text" id="routine-input-days" class="dialog-input" value="Senin, Kamis" />
+          </div>
+        </div>
+
+        <div class="modal-footer-cluster">
+          <button type="button" class="btn-cancel-dialog" id="btn-cancel-routine">Batal</button>
+          <button type="button" class="btn-save-dialog" id="btn-submit-routine">Simpan Rutinitas</button>
+        </div>
       </div>
     </div>
-  </div>
 
-  <!-- Custom Quick Modal for Routine -->
-  <div id="routine-modal" class="custom-modal-overlay">
-    <div class="custom-modal-box">
-      <div class="modal-head">
-        <h3 class="modal-head-title">Tambah Rutinitas Mingguan</h3>
-        <button type="button" class="btn-close-modal" id="btn-close-routine-modal">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-        </button>
-      </div>
-      <p class="modal-subtext">Rutinitas ini akan secara otomatis memblokir kalender Beavy agar tidak bentrok.</p>
-      
-      <div class="modal-inputs-wrap">
-        <div class="form-field">
-          <label class="f-label" for="routine-input-title">Nama Rutinitas</label>
-          <input type="text" id="routine-input-title" class="f-input" placeholder="Contoh: Belajar Bahasa Inggris / Olahraga" />
-        </div>
-        <div class="form-row-2">
-          <div class="form-field">
-            <label class="f-label" for="routine-input-time">Jam Mulai</label>
-            <input type="text" id="routine-input-time" class="f-input" value="16.00" />
-          </div>
-          <div class="form-field">
-            <label class="f-label" for="routine-input-dur">Durasi</label>
-            <input type="text" id="routine-input-dur" class="f-input" value="60 mnt" />
-          </div>
-        </div>
-        <div class="form-field">
-          <label class="f-label" for="routine-input-days">Hari</label>
-          <input type="text" id="routine-input-days" class="f-input" value="Senin, Kamis" />
-        </div>
-      </div>
-
-      <div class="modal-actions-bar">
-        <button type="button" class="btn-cancel" id="btn-cancel-routine">Batal</button>
-        <button type="button" class="btn-confirm-primary" id="btn-submit-routine">Simpan Rutinitas</button>
-      </div>
-    </div>
   </div>
 
   <style>
-    .profile-page-wrap {
-      display: flex;
-      flex-direction: column;
-      gap: 1.8rem;
+    /* =========================================================
+       AWWWARDS EDITORIAL PROFILE: Minimalist, Flat, Tokenized
+       ========================================================= */
+
+    :root {
+      --overlay-scrim: rgba(18, 10, 30, 0.4);
     }
 
-    .profile-desktop-grid {
+    :focus-visible {
+      outline: 2px solid var(--color-primary);
+      outline-offset: 2px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, ::before, ::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+
+    .profile-page-layout {
+      max-width: 1180px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      padding-bottom: 3.5rem;
+    }
+
+    /* Header */
+    .profile-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 1.5rem;
+      padding: 1rem 0 0.5rem;
+      border-bottom: 1px solid var(--color-border-subtle);
+    }
+
+    .page-title {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: var(--color-text-main);
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+    }
+
+    .page-subtitle {
+      font-size: 0.92rem;
+      color: var(--color-text-muted);
+      margin-top: 0.4rem;
+      line-height: 1.5;
+    }
+
+    .btn-primary-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.65rem 1.25rem;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--color-border);
+      background: var(--color-surface);
+      color: var(--color-text-main);
+      font-size: 0.84rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: var(--shadow-xs);
+      transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+    }
+
+    .btn-primary-pill:hover {
+      background: var(--color-primary-light);
+      border-color: var(--color-border-focus);
+      color: var(--color-primary);
+    }
+
+    /* Grid */
+    .profile-grid {
       display: grid;
-      grid-template-columns: 1.2fr 0.8fr;
-      gap: 1.8rem;
+      grid-template-columns: 1.35fr 0.85fr;
+      gap: 2.2rem;
       align-items: start;
     }
 
     .profile-main-col, .profile-side-col {
       display: flex;
       flex-direction: column;
-      gap: 1.6rem;
+      gap: 1.8rem;
     }
 
-    /* Common Card Styling */
-    .user-card-panel, .routine-panel, .settings-card, .account-card {
-      background: rgba(255, 255, 255, 0.94);
-      backdrop-filter: blur(20px);
-      border: 1px solid rgba(226, 218, 238, 0.7);
-      border-radius: var(--radius-lg);
-      padding: 1.8rem;
-      box-shadow: 0 4px 20px rgba(110, 50, 180, 0.04);
+    /* Surfaces */
+    .profile-surface {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-xl);
+      padding: 2.2rem;
+      box-shadow: var(--shadow-xs);
     }
 
-    .uc-top {
+    /* User Row */
+    .user-row-header {
       display: flex;
       gap: 1.5rem;
       align-items: center;
-      padding-bottom: 1.6rem;
-      border-bottom: 1px solid #f0eaf7;
+      padding-bottom: 1.8rem;
+      border-bottom: 1px solid var(--color-border-subtle);
     }
 
-    .uc-avatar-wrap {
+    .avatar-wrap {
       position: relative;
       flex-shrink: 0;
     }
 
-    .uc-avatar-circle {
-      width: 76px;
-      height: 76px;
+    .avatar-circle {
+      width: 74px;
+      height: 74px;
       border-radius: 50%;
-      background: linear-gradient(135deg, #8b5cf6, #6366f1);
+      background: var(--color-primary);
+      color: var(--color-surface);
+      font-family: var(--font-mono);
+      font-size: 1.8rem;
+      font-weight: 800;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: white;
-      font-size: 1.8rem;
-      font-weight: 800;
-      box-shadow: 0 8px 24px rgba(139, 92, 246, 0.28);
+      box-shadow: var(--shadow-sm);
     }
 
-    .btn-edit-avatar {
+    .btn-avatar-edit {
       position: absolute;
       bottom: -2px;
       right: -2px;
       width: 28px;
       height: 28px;
       border-radius: 50%;
-      background: white;
-      border: 1.5px solid #ded5eb;
-      color: #63507d;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      color: var(--color-text-muted);
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-      transition: all 0.2s;
+      box-shadow: var(--shadow-xs);
+      transition: color 0.15s ease, border-color 0.15s ease;
     }
 
-    .btn-edit-avatar:hover {
-      background: #f5f0fb;
-      color: #7c3aed;
-      border-color: #8b5cf6;
+    .btn-avatar-edit:hover {
+      color: var(--color-primary);
+      border-color: var(--color-primary);
     }
 
-    .uc-title-badge-row {
+    .user-meta {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+
+    .user-name-line {
       display: flex;
       align-items: center;
-      gap: 0.75rem;
+      gap: 0.65rem;
       flex-wrap: wrap;
     }
 
-    .uc-name {
-      font-size: 1.45rem;
+    .user-full-name {
+      font-size: 1.35rem;
       font-weight: 800;
-      color: #1e1335;
-      letter-spacing: -0.3px;
+      color: var(--color-text-main);
+      letter-spacing: -0.02em;
     }
 
-    .verified-pill {
+    .verified-tag {
       display: inline-flex;
       align-items: center;
       gap: 0.3rem;
       font-size: 0.7rem;
       font-weight: 700;
-      color: #059669;
-      background: #d1fae5;
-      border: 1px solid #a7f3d0;
+      color: var(--color-primary-dark);
+      background: var(--color-primary-light);
+      border: 1px solid var(--color-border-focus);
       padding: 0.15rem 0.55rem;
       border-radius: var(--radius-full);
     }
 
-    .uc-email {
-      font-size: 0.85rem;
-      color: #796b91;
-      margin-top: 0.2rem;
-      margin-bottom: 0.7rem;
+    .user-email-text {
+      font-size: 0.84rem;
+      color: var(--color-text-muted);
+      margin-bottom: 0.5rem;
     }
 
-    .uc-roles {
+    .user-badges-row {
       display: flex;
-      gap: 0.5rem;
+      gap: 0.45rem;
       flex-wrap: wrap;
       align-items: center;
     }
 
-    .role-chip {
+    .meta-chip {
       font-size: 0.72rem;
       font-weight: 700;
-      color: #7c3aed;
-      background: #ede9fe;
+      color: var(--color-primary);
+      background: var(--color-primary-light);
       padding: 0.2rem 0.65rem;
       border-radius: var(--radius-full);
-      border: 1px solid #ddd6fe;
+      border: 1px solid var(--color-border-focus);
     }
 
-    .level-chip {
+    .focus-chip {
       display: inline-flex;
       align-items: center;
       gap: 0.35rem;
       font-size: 0.72rem;
       font-weight: 700;
-      color: #b45309;
-      background: #fef3c7;
-      border: 1px solid #fde68a;
+      color: var(--color-text-main);
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
       padding: 0.2rem 0.65rem;
       border-radius: var(--radius-full);
     }
 
-    /* 3 Stats Row */
-    .uc-stats-row {
+    /* Ambient Stats Grid */
+    .ambient-stats-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 1rem;
+      gap: 1.2rem;
       padding-top: 1.4rem;
     }
 
-    .uc-stat-box {
+    .stat-unit {
       text-align: center;
       padding: 0.85rem;
-      background: #faf8fd;
+      background: var(--color-surface);
       border-radius: var(--radius-md);
-      border: 1px solid #eee7f7;
-      transition: background 0.2s;
+      border: 1px solid var(--color-border-subtle);
     }
 
-    .uc-stat-box:hover {
-      background: #f5f0fc;
-    }
-
-    .uc-stat-val {
+    .stat-number {
+      font-family: var(--font-mono);
       font-size: 1.65rem;
       font-weight: 800;
-      color: #1e1335;
+      color: var(--color-text-main);
       display: block;
       line-height: 1.1;
     }
 
-    .uc-stat-val.stat-danger {
-      color: #dc2626;
+    .text-urgent {
+      color: var(--color-text-main);
     }
 
-    .uc-stat-val.stat-warning {
-      color: #d97706;
+    .text-accent {
+      color: var(--color-primary-dark);
     }
 
-    .uc-stat-lbl {
+    .stat-label {
       font-size: 0.74rem;
       font-weight: 600;
-      color: #7e6f96;
-      margin-top: 0.2rem;
+      color: var(--color-text-muted);
+      margin-top: 0.25rem;
+      display: block;
     }
 
-    /* Routine Schedules */
-    .rp-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+    /* Routine Section */
+    .section-header-block {
       margin-bottom: 1.4rem;
-      gap: 1rem;
     }
 
-    .rp-title {
-      font-size: 1.18rem;
+    .section-heading {
+      font-size: 1.15rem;
       font-weight: 800;
-      color: #1e1335;
-      letter-spacing: -0.2px;
+      color: var(--color-text-main);
+      letter-spacing: -0.01em;
     }
 
-    .rp-sub {
-      font-size: 0.78rem;
-      color: #7c6d94;
-      margin-top: 0.15rem;
+    .section-subheading {
+      font-size: 0.8rem;
+      color: var(--color-text-muted);
+      margin-top: 0.2rem;
+      line-height: 1.45;
     }
 
-    .btn-add-routine {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      background: #ede9fe;
-      color: #6d28d9;
-      border: 1px solid #ddd6fe;
-      font-size: 0.82rem;
-      font-weight: 700;
-      padding: 0.5rem 1rem;
-      border-radius: var(--radius-full);
-      cursor: pointer;
-      transition: all 0.2s;
-      white-space: nowrap;
-    }
-
-    .btn-add-routine:hover {
-      background: #ddd6fe;
-      color: #5b21b6;
-    }
-
-    .routine-list {
+    .routine-items-list {
       display: flex;
       flex-direction: column;
       gap: 0.75rem;
     }
 
-    .routine-row-card {
+    .routine-item-row {
       display: flex;
       align-items: center;
       gap: 1.2rem;
       padding: 0.95rem 1.1rem;
-      background: #fbf9fe;
-      border: 1px solid #ede5f8;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border-subtle);
       border-radius: var(--radius-md);
-      transition: all 0.2s;
+      transition: border-color 0.15s ease, background-color 0.15s ease;
     }
 
-    .routine-row-card:hover {
-      border-color: #d8b4fe;
-      background: #ffffff;
-      box-shadow: 0 4px 12px rgba(139, 92, 246, 0.06);
+    .routine-item-row:hover {
+      border-color: var(--color-border-focus);
+      background: var(--color-primary-light);
     }
 
-    .rc-time-col {
+    .routine-time-box {
       min-width: 65px;
       display: flex;
       flex-direction: column;
     }
 
-    .rc-time {
+    .routine-time-clock {
+      font-family: var(--font-mono);
       font-size: 1.05rem;
       font-weight: 800;
-      color: #21133c;
+      color: var(--color-text-main);
     }
 
-    .rc-dur {
+    .routine-time-span {
       font-size: 0.7rem;
       font-weight: 600;
-      color: #8c7d9f;
+      color: var(--color-text-muted);
     }
 
-    .rc-main-col {
+    .routine-info-box {
       flex: 1;
     }
 
-    .rc-title-row {
+    .routine-headline {
       display: flex;
       align-items: center;
       gap: 0.6rem;
@@ -574,135 +651,143 @@ const recurringSchedules = [
       flex-wrap: wrap;
     }
 
-    .rc-title {
-      font-size: 0.94rem;
+    .routine-task-title {
+      font-size: 0.92rem;
       font-weight: 800;
-      color: #20133a;
+      color: var(--color-text-main);
     }
 
-    .rc-tag {
+    .routine-category-badge {
       font-size: 0.68rem;
       font-weight: 700;
       padding: 0.15rem 0.5rem;
-      border-radius: 6px;
-      background: #ede9fe;
-      color: #7c3aed;
-      border: 1px solid #e0d5f8;
+      border-radius: var(--radius-sm);
+      background: var(--color-primary-light);
+      color: var(--color-primary-dark);
+      border: 1px solid var(--color-border-focus);
     }
 
-    .rc-days {
+    .routine-recurrence {
       font-size: 0.76rem;
-      color: #7c6d94;
+      color: var(--color-text-muted);
     }
 
-    .btn-routine-opt {
+    .btn-routine-action {
       background: none;
       border: 1px solid transparent;
-      color: #8c7e9f;
+      color: var(--color-text-muted);
       padding: 0.35rem;
-      border-radius: 6px;
+      border-radius: var(--radius-sm);
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: all 0.2s;
+      transition: color 0.15s ease, border-color 0.15s ease, background-color 0.15s ease;
     }
 
-    .btn-routine-opt:hover {
-      background: #f1e9fa;
-      color: #6d28d9;
-      border-color: #ded5eb;
+    .btn-routine-action:hover {
+      background: var(--color-primary-light);
+      color: var(--color-primary-dark);
+      border-color: var(--color-border-focus);
     }
 
-    /* Settings & Preferences */
-    .sc-header {
+    /* Right Column Preferences */
+    .settings-head-row {
       display: flex;
       align-items: center;
-      gap: 1rem;
+      gap: 0.9rem;
       padding-bottom: 1.2rem;
-      border-bottom: 1px solid #f0e8f8;
+      border-bottom: 1px solid var(--color-border-subtle);
       margin-bottom: 1.2rem;
     }
 
-    .sc-avatar-wrap {
+    .settings-avatar-wrap {
       width: 44px;
       height: 44px;
       border-radius: 50%;
-      background: #f3e8ff;
+      background: var(--color-primary-light);
+      border: 1px solid var(--color-border-focus);
       display: flex;
       align-items: center;
       justify-content: center;
-      border: 1px solid #e9d5ff;
     }
 
-    .sc-beavy-avatar {
-      width: 34px;
-      height: 34px;
+    .settings-avatar-img {
+      width: 32px;
+      height: 32px;
       object-fit: contain;
     }
 
-    .sc-title {
+    .settings-heading {
       font-size: 1.05rem;
       font-weight: 800;
-      color: #20133a;
+      color: var(--color-text-main);
+      letter-spacing: -0.01em;
     }
 
-    .sc-desc {
+    .settings-subheading {
       font-size: 0.76rem;
-      color: #7a6c92;
-    }
-
-    .settings-form {
-      display: flex;
-      flex-direction: column;
-      gap: 0.85rem;
-      margin-bottom: 1.4rem;
-    }
-
-    .setting-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0.8rem 1rem;
-      background: #fcfbfe;
-      border: 1px solid #ece4f5;
-      border-radius: 12px;
-      transition: border-color 0.2s;
-    }
-
-    .setting-item:hover {
-      border-color: #d8b4fe;
-    }
-
-    .setting-item strong {
-      font-size: 0.85rem;
-      color: #22143b;
-      display: block;
-    }
-
-    .setting-item p {
-      font-size: 0.72rem;
-      color: #837599;
+      color: var(--color-text-muted);
       margin-top: 0.1rem;
     }
 
-    .setting-badge {
-      font-size: 0.78rem;
+    .settings-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin-bottom: 1.4rem;
+    }
+
+    .pref-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.85rem 1rem;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-md);
+      transition: border-color 0.15s ease;
+    }
+
+    .pref-row:hover {
+      border-color: var(--color-border-focus);
+    }
+
+    .pref-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+    }
+
+    .pref-title {
+      font-size: 0.84rem;
+      color: var(--color-text-main);
+    }
+
+    .pref-desc {
+      font-size: 0.72rem;
+      color: var(--color-text-muted);
+    }
+
+    .pref-pill {
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
       font-weight: 700;
-      color: #7c3aed;
-      background: #ede9fe;
+      color: var(--color-primary-dark);
+      background: var(--color-primary-light);
       padding: 0.25rem 0.65rem;
       border-radius: var(--radius-full);
-      border: 1px solid #ddd6fe;
+      border: 1px solid var(--color-border-focus);
       white-space: nowrap;
     }
 
-    /* Modern Switch Toggle */
+    /* Switch */
     .switch-toggle {
       position: relative;
       display: inline-block;
-      width: 42px;
-      height: 24px;
+      width: 40px;
+      height: 22px;
+      flex-shrink: 0;
     }
 
     .switch-toggle input {
@@ -718,115 +803,114 @@ const recurringSchedules = [
       left: 0;
       right: 0;
       bottom: 0;
-      background-color: #e2d8ee;
-      transition: .3s;
-      border-radius: 24px;
+      background-color: var(--color-border);
+      border-radius: var(--radius-full);
+      transition: background-color 0.2s ease;
     }
 
     .toggle-slider:before {
       position: absolute;
       content: "";
-      height: 18px;
-      width: 18px;
+      height: 16px;
+      width: 16px;
       left: 3px;
       bottom: 3px;
-      background-color: white;
-      transition: .3s;
+      background-color: var(--color-surface);
       border-radius: 50%;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+      transition: transform 0.2s ease;
+      box-shadow: var(--shadow-xs);
     }
 
     input:checked + .toggle-slider {
-      background-color: #8b5cf6;
+      background-color: var(--color-primary);
     }
 
     input:checked + .toggle-slider:before {
       transform: translateX(18px);
     }
 
-    .btn-save-preferences {
+    .btn-save-prefs {
       width: 100%;
       padding: 0.85rem;
       border-radius: var(--radius-full);
       border: none;
-      background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
-      color: white;
+      background: var(--color-primary);
+      color: var(--color-surface);
       font-weight: 700;
       font-size: 0.88rem;
       cursor: pointer;
-      box-shadow: 0 4px 14px rgba(139, 92, 246, 0.25);
-      transition: all 0.2s;
+      box-shadow: var(--shadow-sm);
+      transition: background-color 0.15s ease, transform 0.15s ease;
     }
 
-    .btn-save-preferences:hover {
+    .btn-save-prefs:hover {
+      background: var(--color-primary-dark);
       transform: translateY(-1px);
-      box-shadow: 0 6px 18px rgba(139, 92, 246, 0.35);
     }
 
-    /* Account Links */
-    .ac-title {
-      font-size: 0.95rem;
+    /* Security */
+    .security-heading {
+      font-size: 1.05rem;
       font-weight: 800;
-      color: #20133a;
-      margin-bottom: 0.9rem;
+      color: var(--color-text-main);
+      margin-bottom: 1rem;
+      letter-spacing: -0.01em;
     }
 
-    .ac-links {
+    .security-links-stack {
       display: flex;
       flex-direction: column;
-      gap: 0.55rem;
+      gap: 0.6rem;
     }
 
-    .ac-btn {
+    .btn-sec-action {
       width: 100%;
       text-align: left;
-      padding: 0.75rem 1rem;
-      border-radius: 12px;
-      border: 1px solid #eee7f7;
-      background: #fdfcff;
-      font-size: 0.82rem;
+      padding: 0.8rem 1rem;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--color-border-subtle);
+      background: var(--color-surface);
+      font-size: 0.84rem;
       font-weight: 600;
-      color: #4b3d67;
+      color: var(--color-text-main);
       cursor: pointer;
-      transition: all 0.2s;
       display: flex;
       align-items: center;
       gap: 0.75rem;
       text-decoration: none;
+      transition: border-color 0.15s ease, background-color 0.15s ease;
     }
 
-    .ac-btn-icon {
-      color: #8b5cf6;
+    .sec-icon {
+      color: var(--color-primary);
       display: flex;
       align-items: center;
     }
 
-    .ac-btn:hover {
-      background: #f5f0fc;
-      border-color: #d8b4fe;
-      color: #6d28d9;
+    .btn-sec-action:hover {
+      background: var(--color-primary-light);
+      border-color: var(--color-border-focus);
     }
 
-    .ac-danger {
-      color: #dc2626 !important;
-      border-color: #fee2e2 !important;
-      background: #fffafa !important;
+    .btn-sec-danger {
+      color: var(--color-text-main);
+      border-color: var(--color-border);
     }
 
-    .ac-danger .ac-btn-icon {
-      color: #dc2626 !important;
+    .btn-sec-danger .sec-icon {
+      color: var(--color-text-muted);
     }
 
-    .ac-danger:hover {
-      background: #fee2e2 !important;
+    .btn-sec-danger:hover {
+      background: var(--color-primary-light);
+      border-color: var(--color-primary);
     }
 
-    /* Routine Modal */
-    .custom-modal-overlay {
-      display: none;
+    /* Modal */
+    .modal-backdrop-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(18, 10, 30, 0.55);
+      background: var(--overlay-scrim);
       backdrop-filter: blur(8px);
       z-index: 999;
       align-items: center;
@@ -834,136 +918,146 @@ const recurringSchedules = [
       padding: 1.5rem;
     }
 
-    .custom-modal-overlay.active {
-      display: flex;
+    .modal-backdrop-overlay.active {
+      display: flex !important;
     }
 
-    .custom-modal-box {
-      background: white;
-      border-radius: 20px;
-      padding: 2rem;
-      max-width: 460px;
+    .modal-container-card {
+      background: var(--color-surface);
+      border-radius: var(--radius-xl);
+      padding: 2.2rem;
+      max-width: 480px;
       width: 100%;
-      box-shadow: 0 20px 48px rgba(110, 50, 180, 0.18);
-      border: 1px solid #ebdff5;
-      animation: popIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: var(--shadow-lg);
+      border: 1px solid var(--color-border);
     }
 
-    @keyframes popIn {
-      from { transform: scale(0.95); opacity: 0; }
-      to { transform: scale(1); opacity: 1; }
-    }
-
-    .modal-head {
+    .modal-head-line {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 0.35rem;
     }
 
-    .modal-head-title {
+    .modal-dialog-title {
       font-size: 1.25rem;
       font-weight: 800;
-      color: #1e1335;
+      color: var(--color-text-main);
     }
 
-    .btn-close-modal {
+    .btn-modal-dismiss {
       background: none;
       border: none;
-      color: #8c7e9f;
+      color: var(--color-text-muted);
       cursor: pointer;
-      padding: 0.3rem;
-      border-radius: 6px;
+      padding: 0.35rem;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: color 0.15s ease;
     }
 
-    .btn-close-modal:hover {
-      background: #f0e8f8;
-      color: #20133a;
+    .btn-modal-dismiss:hover {
+      color: var(--color-text-main);
     }
 
-    .modal-subtext {
+    .modal-context-desc {
       font-size: 0.8rem;
-      color: #796b92;
+      color: var(--color-text-muted);
       margin-bottom: 1.4rem;
-      line-height: 1.4;
+      line-height: 1.45;
     }
 
-    .modal-inputs-wrap {
+    .modal-fields-group {
       display: flex;
       flex-direction: column;
-      gap: 1rem;
-      margin-bottom: 1.6rem;
+      gap: 1.1rem;
+      margin-bottom: 1.8rem;
     }
 
-    .form-field {
+    .dialog-field {
       display: flex;
       flex-direction: column;
-      gap: 0.35rem;
+      gap: 0.4rem;
     }
 
-    .form-row-2 {
+    .dialog-row-2 {
       display: grid;
       grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .dialog-label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--color-text-main);
+    }
+
+    .dialog-input {
+      width: 100%;
+      padding: 0.75rem 0.95rem;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      font-family: inherit;
+      font-size: 0.88rem;
+      color: var(--color-text-main);
+      background: var(--color-surface);
+    }
+
+    .dialog-input:focus {
+      outline: 2px solid var(--color-primary);
+      outline-offset: 1px;
+    }
+
+    .modal-footer-cluster {
+      display: flex;
       gap: 0.85rem;
     }
 
-    .f-label {
-      font-size: 0.8rem;
-      font-weight: 700;
-      color: #3b2c55;
-    }
-
-    .f-input {
-      width: 100%;
-      padding: 0.75rem 0.95rem;
-      border: 1.5px solid #ded5eb;
-      border-radius: 10px;
-      font-family: inherit;
-      font-size: 0.88rem;
-      color: #20133a;
-      background: #fcfbfe;
-      outline: none;
-      transition: border-color 0.2s;
-    }
-
-    .f-input:focus {
-      border-color: #8b5cf6;
-      box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.12);
-    }
-
-    .modal-actions-bar {
-      display: flex;
-      gap: 0.8rem;
-    }
-
-    .btn-cancel {
+    .btn-cancel-dialog {
       flex: 1;
       padding: 0.75rem;
       border-radius: var(--radius-full);
-      border: 1.5px solid #ded4eb;
-      background: white;
-      color: #5d4d7a;
+      border: 1px solid var(--color-border);
+      background: var(--color-surface);
+      color: var(--color-text-muted);
       font-weight: 700;
       font-size: 0.88rem;
       cursor: pointer;
+      transition: color 0.15s ease, border-color 0.15s ease;
     }
 
-    .btn-confirm-primary {
+    .btn-cancel-dialog:hover {
+      border-color: var(--color-border-focus);
+      color: var(--color-text-main);
+    }
+
+    .btn-save-dialog {
       flex: 1.5;
       padding: 0.75rem;
       border-radius: var(--radius-full);
       border: none;
-      background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
-      color: white;
+      background: var(--color-primary);
+      color: var(--color-surface);
       font-weight: 700;
       font-size: 0.88rem;
       cursor: pointer;
-      box-shadow: 0 4px 12px rgba(139, 92, 246, 0.25);
+      box-shadow: var(--shadow-sm);
+      transition: background-color 0.15s ease;
+    }
+
+    .btn-save-dialog:hover {
+      background: var(--color-primary-dark);
     }
 
     @media (max-width: 960px) {
-      .profile-desktop-grid {
+      .profile-grid {
         grid-template-columns: 1fr;
+      }
+      .profile-header-row {
+        flex-direction: column;
+        align-items: flex-start;
       }
     }
   </style>
@@ -971,7 +1065,7 @@ const recurringSchedules = [
   <script>
     declare global {
       interface Window {
-        jadwalinToast?: (msg: string, type?: 'success' | 'info' | 'warning' | 'error') => void;
+        jadwalinToast?: (title: string, msg: string, type?: 'success' | 'info' | 'warning' | 'error') => void;
       }
     }
 
@@ -1002,23 +1096,23 @@ const recurringSchedules = [
       const dur = durInput?.value.trim() || '60 mnt';
       const days = daysInput?.value.trim() || 'Setiap Minggu';
 
-      const newCard = document.createElement('div');
-      newCard.className = 'routine-row-card';
-      newCard.innerHTML = `
-        <div class="rc-time-col">
-          <span class="rc-time">${time}</span>
-          <span class="rc-dur">${dur}</span>
+      const newArticle = document.createElement('article');
+      newArticle.className = 'routine-item-row';
+      newArticle.innerHTML = `
+        <div class="routine-time-box">
+          <span class="routine-time-clock">${time}</span>
+          <span class="routine-time-span">${dur}</span>
         </div>
-        <div class="rc-main-col">
-          <div class="rc-title-row">
-            <h4 class="rc-title">${title}</h4>
-            <span class="rc-tag">Kustom</span>
+        <div class="routine-info-box">
+          <div class="routine-headline">
+            <h3 class="routine-task-title">${title}</h3>
+            <span class="routine-category-badge">Kustom</span>
           </div>
-          <span class="rc-days">${days}</span>
+          <span class="routine-recurrence">${days}</span>
         </div>
-        <div class="rc-action-col">
-          <button class="btn-routine-opt" title="Kelola Jadwal">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <div class="routine-actions-box">
+          <button type="button" class="btn-routine-action" title="Kelola Jadwal" aria-label="Opsi ${title}">
+            <svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <circle cx="12" cy="12" r="1"></circle>
               <circle cx="19" cy="12" r="1"></circle>
               <circle cx="5" cy="12" r="1"></circle>
@@ -1027,36 +1121,36 @@ const recurringSchedules = [
         </div>
       `;
 
-      routineList?.prepend(newCard);
+      routineList?.prepend(newArticle);
       closeModal();
-      window.jadwalinToast?.(`Rutinitas "${title}" berhasil ditambahkan dan dikunci!`, 'success');
+      window.jadwalinToast?.('Rutinitas Ditambahkan', `Rutinitas "${title}" berhasil dikunci di kalender.`, 'success');
       titleInput.value = '';
     });
 
     // Edit Avatar
     document.getElementById('btn-edit-avatar')?.addEventListener('click', () => {
-      window.jadwalinToast?.('Unggah avatar baru: Pilih file foto profil berformat PNG/JPG.', 'info');
+      window.jadwalinToast?.('Ganti Foto Profil', 'Pilih berkas gambar foto profil baru (PNG atau JPG).', 'info');
     });
 
     // Save Preferences
     document.getElementById('btn-save-prefs')?.addEventListener('click', () => {
-      window.jadwalinToast?.('Preferensi belajar & jam produktif Beavy berhasil disimpan!', 'success');
+      window.jadwalinToast?.('Preferensi Tersimpan', 'Preferensi belajar dan jam aktif Beavy berhasil diperbarui.', 'success');
     });
 
     // Password & Face ID
     document.getElementById('btn-change-pwd')?.addEventListener('click', () => {
-      window.jadwalinToast?.('Tautan ubah kata sandi terkirim ke email terdaftar.', 'info');
+      window.jadwalinToast?.('Kata Sandi', 'Tautan pembaruan kata sandi telah dikirim ke email.', 'info');
     });
 
     document.getElementById('btn-face-id')?.addEventListener('click', () => {
-      window.jadwalinToast?.('Verifikasi wajah (Face ID) aktif untuk login kilat.', 'success');
+      window.jadwalinToast?.('Face ID', 'Verifikasi wajah aktif untuk autentikasi kilat.', 'success');
     });
 
     // Routine Options Click
-    document.querySelectorAll('.btn-routine-opt').forEach((btn) => {
+    document.querySelectorAll('.btn-routine-action').forEach((btn) => {
       btn.addEventListener('click', (e) => {
         const title = (e.currentTarget as HTMLElement).getAttribute('data-title') || 'Rutinitas';
-        window.jadwalinToast?.(`Konfigurasi "${title}": Dilindungi oleh proteksi AI.`, 'info');
+        window.jadwalinToast?.('Jadwal Terproteksi', `Aktivitas "${title}" berada dalam perlindungan AI Beavy.`, 'info');
       });
     });
   </script>

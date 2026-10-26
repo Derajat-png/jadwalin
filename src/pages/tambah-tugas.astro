@@ -6,525 +6,593 @@ import mascotImg from '../assets/craiyon.png';
 ---
 
 <DashboardLayout title="Tambah Tugas Baru" activeNav="prioritas">
-  <div class="add-task-page-wrap">
-    <!-- Desktop 2-Column: Form (Left) + AI Real-Time Impact Assessment (Right) -->
-    <div class="add-task-grid">
-      <!-- Left Column: The Form from Figma Frame 109:272 -->
-      <div class="form-card-panel">
-        <div class="form-title-row">
-          <div>
-            <h1 class="page-title">Tambah Tugas Baru</h1>
-            <p class="form-subtitle">Tugas ini akan otomatis dikalkulasi ke dalam prioritas dan jadwal harianmu.</p>
-          </div>
-          <a href="/prioritas" class="btn-back-link">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="15 18 9 12 15 6"></polyline>
-            </svg>
-            Kembali
-          </a>
-        </div>
+  <div class="task-form-layout">
 
-        <form id="add-task-full-form">
-          <!-- 1. Nama Tugas -->
-          <div class="form-group">
-            <label class="form-label" for="task-name">Nama Tugas / Aktivitas</label>
+    <!-- Top Breadcrumb & Action Row -->
+    <header class="task-header-row">
+      <div class="header-titles">
+        <h1 class="page-title">Tambah Tugas Baru</h1>
+        <p class="page-subtitle">Tugas akan otomatis dikalkulasi dan dialokasikan ke dalam slot produktif oleh Beavy.</p>
+      </div>
+
+      <a href="/prioritas" class="btn-back-editorial">
+        <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+        <span>Kembali ke Prioritas</span>
+      </a>
+    </header>
+
+    <!-- 2-Column Grid: Form Left, AI Preview Right -->
+    <div class="task-grid-container">
+      
+      <!-- LEFT: Form Canvas -->
+      <section class="form-surface">
+        <form id="add-task-full-form" class="editorial-form">
+          
+          <!-- 1. Task Name -->
+          <div class="form-field">
+            <label class="field-label" for="task-name">Nama Tugas atau Aktivitas</label>
             <input 
               type="text" 
               id="task-name" 
-              class="form-input" 
+              class="field-input" 
               value="Laporan Praktikum Pemrograman" 
               placeholder="Contoh: Laporan Praktikum Basis Data" 
               required 
             />
           </div>
 
-          <!-- 2. Kategori Chips (Figma Match) -->
-          <div class="form-group">
-            <label class="form-label">Kategori</label>
-            <div class="category-chips-row">
-              <button type="button" class="cat-pill active" data-cat="Kuliah">Kuliah</button>
-              <button type="button" class="cat-pill" data-cat="Kerja">Kerja</button>
-              <button type="button" class="cat-pill" data-cat="Pribadi">Pribadi</button>
+          <!-- 2. Category Chips -->
+          <div class="form-field">
+            <span class="field-label" id="category-group-label">Kategori</span>
+            <div class="segmented-chips" role="radiogroup" aria-labelledby="category-group-label">
+              <button type="button" class="chip-item active" role="radio" aria-checked="true" data-cat="Kuliah">Kuliah</button>
+              <button type="button" class="chip-item" role="radio" aria-checked="false" data-cat="Kerja">Kerja</button>
+              <button type="button" class="chip-item" role="radio" aria-checked="false" data-cat="Pribadi">Pribadi</button>
             </div>
           </div>
 
-          <!-- 3. Deadline -->
-          <div class="form-group">
-            <label class="form-label" for="task-deadline">Tenggat Waktu (Deadline)</label>
-            <input 
-              type="datetime-local" 
-              id="task-deadline" 
-              class="form-input" 
-              value="2026-10-26T23:59" 
-              required 
-            />
-          </div>
+          <!-- 3. Two Column Row: Deadline + Duration -->
+          <div class="form-field-row">
+            <div class="form-field flex-1">
+              <label class="field-label" for="task-deadline">Tenggat Waktu</label>
+              <input 
+                type="datetime-local" 
+                id="task-deadline" 
+                class="field-input" 
+                value="2026-10-26T23:59" 
+                required 
+              />
+            </div>
 
-          <!-- 4. Estimasi Durasi dengan Counter +/- (Figma Match) -->
-          <div class="form-group">
-            <label class="form-label">Estimasi Durasi Pengerjaan</label>
-            <div class="duration-counter-wrap">
-              <button type="button" id="btn-dec-dur" class="btn-counter" aria-label="Kurangi durasi">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                  <line x1="5" y1="12" x2="19" y2="12"></line>
-                </svg>
-              </button>
-              <div class="duration-display">
-                <span id="dur-value" class="dur-num">2</span>
-                <span class="dur-unit">jam</span>
+            <div class="form-field">
+              <label class="field-label" for="dur-value">Estimasi Durasi</label>
+              <div class="duration-stepper" role="group" aria-label="Pengaturan durasi jam">
+                <button type="button" id="btn-dec-dur" class="btn-step" aria-label="Kurangi durasi">
+                  <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                  </svg>
+                </button>
+                <div class="stepper-value-wrap">
+                  <span id="dur-value" class="stepper-num">2</span>
+                  <span class="stepper-unit">jam</span>
+                </div>
+                <button type="button" id="btn-inc-dur" class="btn-step" aria-label="Tambah durasi">
+                  <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4">
+                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                  </svg>
+                </button>
               </div>
-              <button type="button" id="btn-inc-dur" class="btn-counter" aria-label="Tambah durasi">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                  <line x1="12" y1="5" x2="12" y2="19"></line>
-                  <line x1="5" y1="12" x2="19" y2="12"></line>
-                </svg>
-              </button>
-            </div>
-            <span class="helper-note">Durasi harus lebih dari 0 jam</span>
-          </div>
-
-          <!-- 5. Tingkat Kesulitan (Figma Match) -->
-          <div class="form-group">
-            <label class="form-label">Tingkat Kesulitan</label>
-            <div class="difficulty-chips-row">
-              <button type="button" class="diff-pill" data-diff="Mudah">Mudah</button>
-              <button type="button" class="diff-pill" data-diff="Sedang">Sedang</button>
-              <button type="button" class="diff-pill active" data-diff="Sulit">Sulit</button>
             </div>
           </div>
 
-          <!-- 6. Bergantung Pada (Prerequisite) -->
-          <div class="form-group">
-            <label class="form-label" for="task-dependency">Bergantung Pada Tugas Lain</label>
-            <div class="select-wrap">
-              <select id="task-dependency" class="form-input select-input">
-                <option value="">Pilih tugas prasyarat (opsional)</option>
-                <option value="1">Slide Presentasi Kelompok</option>
-                <option value="2">Riset Pasar & Referensi Teori</option>
-              </select>
+          <!-- 4. Difficulty Selector -->
+          <div class="form-field">
+            <span class="field-label" id="difficulty-group-label">Tingkat Kesulitan</span>
+            <div class="segmented-chips" role="radiogroup" aria-labelledby="difficulty-group-label">
+              <button type="button" class="chip-item" role="radio" aria-checked="false" data-diff="Mudah">Mudah</button>
+              <button type="button" class="chip-item" role="radio" aria-checked="false" data-diff="Sedang">Sedang</button>
+              <button type="button" class="chip-item active" role="radio" aria-checked="true" data-diff="Sulit">Sulit</button>
             </div>
           </div>
 
-          <!-- 7. Catatan -->
-          <div class="form-group">
-            <label class="form-label" for="task-notes">Catatan Tambahan</label>
+          <!-- 5. Dependency Select -->
+          <div class="form-field">
+            <label class="field-label" for="task-dependency">Prasyarat Tugas (Opsional)</label>
+            <select id="task-dependency" class="field-input field-select">
+              <option value="">Tidak ada ketergantungan</option>
+              <option value="1">Slide Presentasi Kelompok</option>
+              <option value="2">Riset Pasar dan Referensi Teori</option>
+            </select>
+          </div>
+
+          <!-- 6. Additional Notes -->
+          <div class="form-field">
+            <label class="field-label" for="task-notes">Catatan Tambahan</label>
             <textarea 
               id="task-notes" 
-              class="form-input textarea-input" 
+              class="field-input field-textarea" 
               rows="3" 
-              placeholder="Instruksi khusus, format file pengerjaan, atau tautan materi..."
+              placeholder="Instruksi khusus, format berkas, atau tautan materi kuliah..."
             ></textarea>
           </div>
 
-          <!-- Action Buttons (Figma Match) -->
-          <div class="form-actions-row">
-            <a href="/prioritas" class="btn-cancel-task">Batal</a>
-            <button type="submit" class="btn-save-task" id="btn-submit-task">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <!-- Form Actions -->
+          <div class="form-actions-cluster">
+            <a href="/prioritas" class="btn-cancel-secondary">Batal</a>
+            <button type="submit" class="btn-submit-primary" id="btn-submit-task">
+              <svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="20 6 9 17 4 12"></polyline>
               </svg>
-              Simpan Tugas
+              <span>Simpan Tugas</span>
             </button>
           </div>
         </form>
-      </div>
+      </section>
 
-      <!-- Right Column: AI Live Prediction & Impact Preview -->
-      <div class="ai-impact-col">
-        <div class="impact-panel">
-          <div class="impact-header">
-            <div class="impact-avatar-wrap">
-              <Image src={mascotImg} alt="Beavy" class="impact-beavy-avatar" />
-            </div>
-            <div>
-              <h3 class="impact-title">Prediksi Jadwal Beavy</h3>
-              <p class="impact-sub">Kalkulasi real-time dampak penambahan tugas</p>
-            </div>
+      <!-- RIGHT: AI Horizon Prediction -->
+      <aside class="impact-surface">
+        <div class="impact-inner-header">
+          <div class="impact-avatar-wrap">
+            <Image src={mascotImg} alt="Beavy" class="impact-avatar-img" />
           </div>
-
-          <div class="prediction-box">
-            <div class="pred-item">
-              <span class="pred-lbl">Peringkat Prioritas:</span>
-              <span class="pred-val rank-1">#1 (Kritis)</span>
-            </div>
-            <p class="pred-desc">
-              Karena tingkat kesulitan <strong>Sulit</strong> dan tenggat <strong>26 Okt</strong>, tugas ini akan ditempatkan di urutan teratas kalender.
-            </p>
-
-            <div class="pred-item" style="margin-top: 1.1rem;">
-              <span class="pred-lbl">Rekomendasi Waktu:</span>
-              <span class="pred-val val-time">Hari ini, 15.00 - 17.00</span>
-            </div>
-            <p class="pred-desc">
-              Slot terbaik setelah makan siang sebelum rapat koordinasi tim dimulai.
-            </p>
-          </div>
-
-          <div class="tips-card">
-            <div class="tips-head">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#b45309" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="10"></circle>
-                <line x1="12" y1="16" x2="12" y2="12"></line>
-                <line x1="12" y1="8" x2="12.01" y2="8"></line>
-              </svg>
-              <h4>Rekomendasi Eksekusi Beavy</h4>
-            </div>
-            <p>
-              Tugas pemrograman lebih efektif jika dibagi menjadi 2 sesi masing-masing 60 menit dengan jeda 10 menit untuk menjaga konsentrasi.
-            </p>
+          <div>
+            <h2 class="impact-heading">Prediksi Dampak Beavy</h2>
+            <p class="impact-subheading">Kalkulasi real-time penyesuaian kalender</p>
           </div>
         </div>
-      </div>
+
+        <div class="impact-metric-row">
+          <div class="impact-metric">
+            <span class="impact-lbl">Status Prioritas</span>
+            <span class="impact-val priority-urgent">Peringkat 1 (Kritis)</span>
+          </div>
+          <p class="impact-detail">
+            Karena tingkat kesulitan <strong>Sulit</strong> dan tenggat <strong>26 Oktober</strong>, tugas ini dialokasikan di urutan teratas jadwal.
+          </p>
+        </div>
+
+        <div class="impact-metric-row">
+          <div class="impact-metric">
+            <span class="impact-lbl">Rekomendasi Waktu</span>
+            <span class="impact-val time-slot">Hari ini, 15.00 - 17.00</span>
+          </div>
+          <p class="impact-detail">
+            Slot fokus terbaik sebelum rapat koordinasi tim sore hari.
+          </p>
+        </div>
+
+        <div class="recommendation-callout">
+          <div class="callout-header">
+            <svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="16" x2="12" y2="12"></line>
+              <line x1="12" y1="8" x2="12.01" y2="8"></line>
+            </svg>
+            <h3 class="callout-title">Strategi Pengerjaan</h3>
+          </div>
+          <p class="callout-text">
+            Tugas dengan beban kognitif tinggi lebih optimal jika dibagi menjadi 2 sesi pengerjaan masing-masing 60 menit dengan jeda istirahat 10 menit.
+          </p>
+        </div>
+      </aside>
+
     </div>
   </div>
 
   <style>
-    .add-task-page-wrap {
+    /* =========================================================
+       AWWWARDS EDITORIAL FORM: Minimalist, Airy, Crisp Tokens
+       ========================================================= */
+
+    :focus-visible {
+      outline: 2px solid var(--color-primary);
+      outline-offset: 2px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, ::before, ::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+
+    .task-form-layout {
+      max-width: 1140px;
+      margin: 0 auto;
       display: flex;
       flex-direction: column;
-      gap: 1.8rem;
-    }
-
-    .add-task-grid {
-      display: grid;
-      grid-template-columns: 1.25fr 0.75fr;
       gap: 2rem;
-      align-items: start;
+      padding-bottom: 3.5rem;
     }
 
-    .form-card-panel, .impact-panel {
-      background: rgba(255, 255, 255, 0.94);
-      backdrop-filter: blur(20px);
-      border: 1px solid rgba(226, 218, 238, 0.7);
-      border-radius: var(--radius-lg);
-      padding: 2.2rem;
-      box-shadow: 0 4px 20px rgba(110, 50, 180, 0.04);
-    }
-
-    .form-title-row {
+    /* Header */
+    .task-header-row {
       display: flex;
       justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 0.3rem;
-      gap: 1rem;
+      align-items: flex-end;
+      gap: 1.5rem;
+      padding: 1rem 0 0.5rem;
+      border-bottom: 1px solid var(--color-border-subtle);
     }
 
     .page-title {
-      font-size: 1.75rem;
+      font-size: 2.2rem;
       font-weight: 800;
-      color: #1e1335;
-      letter-spacing: -0.3px;
+      color: var(--color-text-main);
+      letter-spacing: -0.03em;
+      line-height: 1.15;
     }
 
-    .btn-back-link {
+    .page-subtitle {
+      font-size: 0.92rem;
+      color: var(--color-text-muted);
+      margin-top: 0.4rem;
+      line-height: 1.5;
+    }
+
+    .btn-back-editorial {
       display: inline-flex;
       align-items: center;
-      gap: 0.35rem;
-      font-size: 0.85rem;
+      gap: 0.45rem;
+      font-size: 0.84rem;
       font-weight: 700;
-      color: #7c3aed;
-      padding: 0.35rem 0.7rem;
-      border-radius: 8px;
-      transition: background 0.2s;
+      color: var(--color-text-muted);
+      padding: 0.5rem 0.9rem;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--color-border);
+      background: var(--color-surface);
+      transition: color 0.15s ease, border-color 0.15s ease, background-color 0.15s ease;
     }
 
-    .btn-back-link:hover {
-      background: #ede9fe;
+    .btn-back-editorial:hover {
+      color: var(--color-primary);
+      border-color: var(--color-border-focus);
+      background: var(--color-primary-light);
     }
 
-    .form-subtitle {
-      font-size: 0.88rem;
-      color: #71628a;
-      margin-top: 0.2rem;
-      margin-bottom: 2rem;
+    /* Grid */
+    .task-grid-container {
+      display: grid;
+      grid-template-columns: 1.35fr 0.85fr;
+      gap: 2.2rem;
+      align-items: start;
     }
 
-    .form-group {
+    /* Left Form Surface */
+    .form-surface {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-xl);
+      padding: 2.4rem;
+      box-shadow: var(--shadow-xs);
+    }
+
+    .editorial-form {
       display: flex;
       flex-direction: column;
-      gap: 0.45rem;
-      margin-bottom: 1.35rem;
+      gap: 1.5rem;
     }
 
-    .form-label {
-      font-size: 0.85rem;
-      font-weight: 700;
-      color: #352650;
-    }
-
-    .form-input {
-      width: 100%;
-      padding: 0.85rem 1.1rem;
-      border: 1.5px solid #ded5eb;
-      border-radius: 12px;
-      font-family: inherit;
-      font-size: 0.92rem;
-      color: #1e1335;
-      background: #fdfcff;
-      outline: none;
-      transition: border-color 0.2s, box-shadow 0.2s;
-    }
-
-    .form-input:focus {
-      border-color: #8b5cf6;
-      box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.12);
-    }
-
-    .select-input, .textarea-input {
-      background: white;
-    }
-
-    /* Category Chips */
-    .category-chips-row, .difficulty-chips-row {
+    .form-field {
       display: flex;
-      gap: 0.7rem;
+      flex-direction: column;
+      gap: 0.5rem;
     }
 
-    .cat-pill, .diff-pill {
+    .form-field-row {
+      display: flex;
+      gap: 1.4rem;
+      align-items: flex-start;
+    }
+
+    .flex-1 {
       flex: 1;
-      padding: 0.7rem;
-      border-radius: var(--radius-md);
-      border: 1.5px solid #ded4ec;
-      background: #fbf9fe;
-      color: #5d4d7a;
-      font-size: 0.86rem;
+    }
+
+    .field-label {
+      font-size: 0.82rem;
       font-weight: 700;
+      color: var(--color-text-main);
+      letter-spacing: -0.01em;
+    }
+
+    .field-input {
+      width: 100%;
+      padding: 0.8rem 1rem;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      font-family: inherit;
+      font-size: 0.9rem;
+      color: var(--color-text-main);
+      background: var(--color-surface);
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .field-input:focus {
+      outline: 2px solid var(--color-primary);
+      outline-offset: 1px;
+    }
+
+    .field-select {
       cursor: pointer;
-      transition: all 0.2s;
     }
 
-    .cat-pill:hover, .diff-pill:hover {
-      background: #f5f0fc;
-      border-color: #c4b5fd;
+    .field-textarea {
+      resize: vertical;
+      min-height: 85px;
+      line-height: 1.5;
     }
 
-    .cat-pill.active, .diff-pill.active {
-      border-color: #8b5cf6;
-      background: #8b5cf6;
-      color: white;
-      box-shadow: 0 4px 12px rgba(139, 92, 246, 0.25);
-    }
-
-    /* Duration Counter (From Figma Frame 109:272) */
-    .duration-counter-wrap {
+    /* Segmented Chips */
+    .segmented-chips {
       display: flex;
-      align-items: center;
-      gap: 0.8rem;
-      background: #fbf9fe;
-      border: 1.5px solid #ded4ec;
-      padding: 0.5rem 0.8rem;
-      border-radius: 14px;
-      width: fit-content;
+      gap: 0.6rem;
     }
 
-    .btn-counter {
-      width: 36px;
-      height: 36px;
-      border-radius: 10px;
-      border: 1px solid #d8cce8;
-      background: white;
-      color: #554472;
+    .chip-item {
+      flex: 1;
+      padding: 0.65rem 0.8rem;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--color-border);
+      background: var(--color-surface);
+      color: var(--color-text-body);
+      font-size: 0.84rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: center;
+      transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+    }
+
+    .chip-item:hover {
+      border-color: var(--color-border-focus);
+      background: var(--color-primary-light);
+    }
+
+    .chip-item.active {
+      border-color: var(--color-primary);
+      background: var(--color-primary);
+      color: var(--color-surface);
+      font-weight: 700;
+    }
+
+    /* Stepper */
+    .duration-stepper {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      padding: 0.35rem 0.6rem;
+      background: var(--color-surface);
+    }
+
+    .btn-step {
+      width: 32px;
+      height: 32px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--color-border-subtle);
+      background: var(--color-surface);
+      color: var(--color-text-body);
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      transition: all 0.2s;
+      transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
     }
 
-    .btn-counter:hover {
-      background: #8b5cf6;
-      color: white;
-      border-color: #8b5cf6;
+    .btn-step:hover {
+      background: var(--color-primary-light);
+      border-color: var(--color-primary);
+      color: var(--color-primary-dark);
     }
 
-    .duration-display {
+    .stepper-value-wrap {
       display: flex;
       align-items: baseline;
-      gap: 0.35rem;
-      padding: 0 0.8rem;
-      min-width: 70px;
+      gap: 0.3rem;
+      padding: 0 0.6rem;
+      min-width: 65px;
       justify-content: center;
     }
 
-    .dur-num {
-      font-size: 1.5rem;
+    .stepper-num {
+      font-family: var(--font-mono);
+      font-size: 1.35rem;
       font-weight: 800;
-      color: #1e1335;
+      color: var(--color-text-main);
     }
 
-    .dur-unit {
-      font-size: 0.85rem;
-      font-weight: 700;
-      color: #796a92;
+    .stepper-unit {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--color-text-muted);
     }
 
-    .helper-note {
-      font-size: 0.74rem;
-      color: #8c7e9e;
-      margin-top: 0.3rem;
-    }
-
-    /* Form Actions */
-    .form-actions-row {
+    /* Actions */
+    .form-actions-cluster {
       display: flex;
       gap: 1rem;
-      margin-top: 2rem;
+      margin-top: 1rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--color-border-subtle);
     }
 
-    .btn-cancel-task {
+    .btn-cancel-secondary {
       flex: 1;
-      padding: 0.85rem;
+      padding: 0.8rem 1.2rem;
       border-radius: var(--radius-full);
-      border: 1.5px solid #d4c8e6;
-      background: white;
-      color: #5b4a78;
-      font-size: 0.92rem;
+      border: 1px solid var(--color-border);
+      background: var(--color-surface);
+      color: var(--color-text-muted);
+      font-size: 0.88rem;
       font-weight: 700;
       text-align: center;
       cursor: pointer;
-      transition: all 0.2s;
+      transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
     }
 
-    .btn-cancel-task:hover {
-      background: #f9f6fc;
-      border-color: #baa7d6;
+    .btn-cancel-secondary:hover {
+      border-color: var(--color-border-focus);
+      color: var(--color-text-main);
     }
 
-    .btn-save-task {
-      flex: 1.5;
-      padding: 0.85rem;
-      border-radius: var(--radius-full);
-      border: none;
-      background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
-      color: white;
-      font-size: 0.94rem;
-      font-weight: 800;
-      cursor: pointer;
-      box-shadow: 0 6px 18px rgba(139, 92, 246, 0.28);
-      transition: all 0.2s;
+    .btn-submit-primary {
+      flex: 1.6;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 0.5rem;
+      padding: 0.8rem 1.6rem;
+      border-radius: var(--radius-full);
+      border: none;
+      background: var(--color-primary);
+      color: var(--color-surface);
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: var(--shadow-sm);
+      transition: background-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
     }
 
-    .btn-save-task:hover {
+    .btn-submit-primary:hover {
+      background: var(--color-primary-dark);
       transform: translateY(-1px);
-      box-shadow: 0 8px 22px rgba(139, 92, 246, 0.38);
+      box-shadow: var(--shadow-md);
     }
 
-    /* Right Column Impact */
-    .impact-header {
+    /* Right Impact Surface */
+    .impact-surface {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-xl);
+      padding: 2rem;
+      box-shadow: var(--shadow-xs);
+      display: flex;
+      flex-direction: column;
+      gap: 1.4rem;
+    }
+
+    .impact-inner-header {
       display: flex;
       align-items: center;
-      gap: 1rem;
+      gap: 0.9rem;
       padding-bottom: 1.2rem;
-      border-bottom: 1px solid #f0e8f8;
-      margin-bottom: 1.4rem;
+      border-bottom: 1px solid var(--color-border-subtle);
     }
 
     .impact-avatar-wrap {
-      width: 46px;
-      height: 46px;
+      width: 44px;
+      height: 44px;
       border-radius: 50%;
-      background: #f3e8ff;
+      background: var(--color-primary-light);
+      border: 1px solid var(--color-border-focus);
       display: flex;
       align-items: center;
       justify-content: center;
-      border: 1px solid #e9d5ff;
     }
 
-    .impact-beavy-avatar {
-      width: 36px;
-      height: 36px;
+    .impact-avatar-img {
+      width: 34px;
+      height: 34px;
       object-fit: contain;
     }
 
-    .impact-title {
-      font-size: 1.12rem;
+    .impact-heading {
+      font-size: 1.05rem;
       font-weight: 800;
-      color: #1e1335;
+      color: var(--color-text-main);
+      letter-spacing: -0.01em;
     }
 
-    .impact-sub {
+    .impact-subheading {
       font-size: 0.78rem;
-      color: #796b92;
+      color: var(--color-text-muted);
+      margin-top: 0.15rem;
     }
 
-    .prediction-box {
-      background: #faf8fd;
-      border: 1px solid #ede3f7;
-      border-radius: var(--radius-md);
-      padding: 1.4rem;
-      margin-bottom: 1.4rem;
+    .impact-metric-row {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--color-border-subtle);
     }
 
-    .pred-item {
+    .impact-metric {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 0.4rem;
     }
 
-    .pred-lbl {
-      font-size: 0.85rem;
+    .impact-lbl {
+      font-size: 0.82rem;
       font-weight: 700;
-      color: #52426d;
+      color: var(--color-text-muted);
     }
 
-    .pred-val {
-      font-size: 0.88rem;
+    .impact-val {
+      font-size: 0.84rem;
       font-weight: 800;
-      color: #1e1335;
     }
 
-    .pred-val.rank-1 {
-      color: #dc2626;
-      background: #fee2e2;
-      border: 1px solid #fecaca;
-      padding: 0.2rem 0.6rem;
-      border-radius: 6px;
+    .impact-val.priority-urgent {
+      color: var(--color-text-main);
+      background: var(--color-primary-light);
+      border: 1px solid var(--color-border-focus);
+      padding: 0.2rem 0.55rem;
+      border-radius: var(--radius-sm);
     }
 
-    .pred-val.val-time {
-      color: #7c3aed;
+    .impact-val.time-slot {
+      color: var(--color-primary-dark);
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
     }
 
-    .pred-desc {
-      font-size: 0.78rem;
-      color: #73648e;
+    .impact-detail {
+      font-size: 0.8rem;
+      color: var(--color-text-body);
       line-height: 1.45;
     }
 
-    .tips-card {
-      background: #fffbeb;
-      border: 1px solid #fef3c7;
-      border-radius: var(--radius-md);
-      padding: 1.2rem;
+    .recommendation-callout {
+      background: var(--color-primary-light);
+      border: 1px solid var(--color-border-focus);
+      border-radius: var(--radius-lg);
+      padding: 1.1rem;
     }
 
-    .tips-head {
+    .callout-header {
       display: flex;
       align-items: center;
       gap: 0.5rem;
-      margin-bottom: 0.4rem;
+      color: var(--color-primary-dark);
+      margin-bottom: 0.35rem;
     }
 
-    .tips-card h4 {
-      font-size: 0.86rem;
+    .callout-title {
+      font-size: 0.84rem;
       font-weight: 800;
-      color: #92400e;
     }
 
-    .tips-card p {
+    .callout-text {
       font-size: 0.8rem;
-      color: #78350f;
-      line-height: 1.45;
+      color: var(--color-text-body);
+      line-height: 1.5;
     }
 
     @media (max-width: 960px) {
-      .add-task-grid {
+      .task-grid-container {
         grid-template-columns: 1fr;
+      }
+      .task-header-row {
+        flex-direction: column;
+        align-items: flex-start;
       }
     }
   </style>
@@ -532,43 +600,51 @@ import mascotImg from '../assets/craiyon.png';
   <script>
     declare global {
       interface Window {
-        jadwalinToast?: (msg: string, type?: 'success' | 'info' | 'warning' | 'error') => void;
+        jadwalinToast?: (title: string, msg: string, type?: 'success' | 'info' | 'warning' | 'error') => void;
       }
     }
 
     // Category Selector
-    const catPills = document.querySelectorAll('.cat-pill');
+    const catPills = document.querySelectorAll('.segmented-chips[aria-labelledby="category-group-label"] .chip-item');
     catPills.forEach(p => {
       p.addEventListener('click', () => {
-        catPills.forEach(c => c.classList.remove('active'));
+        catPills.forEach(c => {
+          c.classList.remove('active');
+          c.setAttribute('aria-checked', 'false');
+        });
         p.classList.add('active');
+        p.setAttribute('aria-checked', 'true');
       });
     });
 
     // Difficulty Selector
-    const diffPills = document.querySelectorAll('.diff-pill');
+    const diffPills = document.querySelectorAll('.segmented-chips[aria-labelledby="difficulty-group-label"] .chip-item');
     diffPills.forEach(p => {
       p.addEventListener('click', () => {
-        diffPills.forEach(d => d.classList.remove('active'));
+        diffPills.forEach(d => {
+          d.classList.remove('active');
+          d.setAttribute('aria-checked', 'false');
+        });
         p.classList.add('active');
+        p.setAttribute('aria-checked', 'true');
       });
     });
 
-    // Duration Counter
-    let dur = 2;
+    // Duration Stepper
+    let currentDur = 2;
     const durVal = document.getElementById('dur-value');
     const btnInc = document.getElementById('btn-inc-dur');
     const btnDec = document.getElementById('btn-dec-dur');
 
     btnInc?.addEventListener('click', () => {
-      dur += 0.5;
-      if (durVal) durVal.textContent = String(dur);
+      currentDur += 0.5;
+      if (durVal) durVal.textContent = String(currentDur);
     });
 
     btnDec?.addEventListener('click', () => {
-      if (dur > 0.5) {
-        dur -= 0.5;
-        if (durVal) durVal.textContent = String(dur);
+      if (currentDur > 0.5) {
+        currentDur -= 0.5;
+        if (durVal) durVal.textContent = String(currentDur);
       }
     });
 
@@ -577,11 +653,11 @@ import mascotImg from '../assets/craiyon.png';
       e.preventDefault();
       const title = (document.getElementById('task-name') as HTMLInputElement)?.value || 'Tugas Baru';
       
-      window.jadwalinToast?.(`Tugas "${title}" berhasil disimpan dan dijadwalkan!`, 'success');
+      window.jadwalinToast?.('Tugas Ditambahkan', `Tugas "${title}" berhasil dialokasikan ke dalam jadwal.`, 'success');
       
       setTimeout(() => {
         window.location.href = '/prioritas';
-      }, 750);
+      }, 700);
     });
   </script>
 </DashboardLayout>

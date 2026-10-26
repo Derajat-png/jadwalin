@@ -19,7 +19,7 @@ const { title, activeNav = 'beranda' } = Astro.props;
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/png" href="/jadwal.in.png" />
-    <title>{title} — Jadwal.in</title>
+    <title>{title} : Jadwal.in</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="dns-prefetch" href="https://fonts.googleapis.com">
@@ -65,21 +65,50 @@ const { title, activeNav = 'beranda' } = Astro.props;
         --radius-lg: 18px;
         --radius-xl: 24px;
         --radius-full: 9999px;
+
+        --color-success-bg: #ecfdf5;
+        --color-success-text: #059669;
+        --color-warning-bg: #fffbeb;
+        --color-warning-text: #d97706;
+        --color-danger-bg: #fee2e2;
+        --color-danger-text: #dc2626;
+        --color-sidebar-bg: rgba(255, 255, 255, 0.82);
+        --color-sidebar-border: rgba(233, 228, 240, 0.85);
+        --color-nav-hover: rgba(124, 58, 237, 0.05);
+        --color-kbd-bg: rgba(255, 255, 255, 0.2);
+        --color-modal-scrim: rgba(15, 10, 25, 0.4);
+        --color-sidebar-user: rgba(255, 255, 255, 0.65);
+        --color-btn-upload: rgba(255, 255, 255, 0.7);
+        --color-mobile-bar: rgba(255, 255, 255, 0.95);
+        --color-tag-bg: #f4f0fa;
+        --color-avatar-end: #a855f7;
+      }
+
+      html, body {
+        overflow-x: clip;
       }
 
       body {
         font-family: var(--font-sans);
         background-color: var(--color-canvas);
-        background-image: 
-          radial-gradient(at 0% 0%, rgba(232, 217, 243, 0.35) 0px, transparent 50%),
-          radial-gradient(at 100% 0%, rgba(253, 244, 231, 0.45) 0px, transparent 50%),
-          radial-gradient(at 50% 100%, rgba(207, 196, 232, 0.25) 0px, transparent 60%);
-        background-attachment: fixed;
         color: var(--color-text-main);
         min-height: 100vh;
-        overflow-x: hidden;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
+      }
+
+      :focus-visible {
+        outline: 2px solid var(--color-primary);
+        outline-offset: 2px;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *, ::before, ::after {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+          scroll-behavior: auto !important;
+        }
       }
 
       a {
@@ -108,11 +137,11 @@ const { title, activeNav = 'beranda' } = Astro.props;
         pointer-events: auto;
         min-width: 300px;
         max-width: 420px;
-        background: #ffffff;
+        background: var(--color-surface);
         border: 1px solid var(--color-border);
         border-radius: var(--radius-md);
         padding: 14px 18px;
-        box-shadow: 0 12px 32px rgba(24, 18, 38, 0.12), 0 2px 6px rgba(24, 18, 38, 0.04);
+        box-shadow: var(--shadow-md);
         display: flex;
         align-items: center;
         gap: 12px;
@@ -135,9 +164,9 @@ const { title, activeNav = 'beranda' } = Astro.props;
         flex-shrink: 0;
       }
 
-      .toast-icon.success { background: #ecfdf5; color: #059669; }
-      .toast-icon.info { background: #f5f3ff; color: #7c3aed; }
-      .toast-icon.warning { background: #fffbeb; color: #d97706; }
+      .toast-icon.success { background: var(--color-success-bg); color: var(--color-success-text); }
+      .toast-icon.info { background: var(--color-primary-light); color: var(--color-primary); }
+      .toast-icon.warning { background: var(--color-warning-bg); color: var(--color-warning-text); }
 
       .toast-content {
         flex: 1;
@@ -160,14 +189,14 @@ const { title, activeNav = 'beranda' } = Astro.props;
         padding: 4px 10px;
         border-radius: var(--radius-sm);
         cursor: pointer;
-        transition: all 0.15s ease;
+        transition: background-color 0.15s ease, color 0.15s ease;
         white-space: nowrap;
         margin-left: auto;
       }
 
       .toast-action-btn:hover {
         background: var(--color-primary);
-        color: #ffffff;
+        color: var(--color-surface);
       }
 
       @keyframes toastIn {
@@ -186,9 +215,9 @@ const { title, activeNav = 'beranda' } = Astro.props;
          ==================================================== */
       .sidebar {
         width: 260px;
-        background: rgba(255, 255, 255, 0.82);
+        background: var(--color-sidebar-bg);
         backdrop-filter: blur(24px) saturate(160%);
-        border-right: 1px solid rgba(233, 228, 240, 0.85);
+        border-right: 1px solid var(--color-sidebar-border);
         display: flex;
         flex-direction: column;
         justify-content: space-between;
@@ -220,7 +249,7 @@ const { title, activeNav = 'beranda' } = Astro.props;
         font-size: 0.65rem;
         font-weight: 700;
         color: var(--color-text-muted);
-        background: #f4f0fa;
+        background: var(--color-tag-bg);
         padding: 0.2rem 0.5rem;
         border-radius: 6px;
       }
@@ -233,10 +262,8 @@ const { title, activeNav = 'beranda' } = Astro.props;
       }
 
       .nav-label {
-        font-size: 0.7rem;
+        font-size: 0.74rem;
         font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.06em;
         color: var(--color-text-muted);
         padding: 0.4rem 0.75rem 0.25rem;
       }
@@ -250,18 +277,18 @@ const { title, activeNav = 'beranda' } = Astro.props;
         font-size: 0.88rem;
         font-weight: 600;
         color: var(--color-text-body);
-        transition: all 0.15s ease;
+        transition: color 0.15s ease, background-color 0.15s ease;
         position: relative;
       }
 
       .nav-link:hover {
         color: var(--color-text-main);
-        background: rgba(124, 58, 237, 0.05);
+        background: var(--color-nav-hover);
       }
 
       .nav-link.active {
         color: var(--color-primary-dark);
-        background: #f5f0ff;
+        background: var(--color-primary-light);
         font-weight: 700;
       }
 
@@ -301,14 +328,14 @@ const { title, activeNav = 'beranda' } = Astro.props;
         align-items: center;
         justify-content: space-between;
         background: var(--color-primary);
-        color: #ffffff;
+        color: var(--color-surface);
         border: none;
         padding: 0.65rem 0.95rem;
         border-radius: var(--radius-md);
         font-size: 0.85rem;
         font-weight: 700;
         transition: background 0.15s ease, transform 0.1s ease;
-        box-shadow: 0 2px 6px rgba(124, 58, 237, 0.25);
+        box-shadow: var(--shadow-xs);
       }
 
       .btn-add-task:hover {
@@ -319,7 +346,7 @@ const { title, activeNav = 'beranda' } = Astro.props;
       .btn-add-task .kbd-hint {
         font-family: var(--font-mono);
         font-size: 0.65rem;
-        background: rgba(255, 255, 255, 0.2);
+        background: var(--color-kbd-bg);
         padding: 0.15rem 0.4rem;
         border-radius: 4px;
       }
@@ -329,18 +356,18 @@ const { title, activeNav = 'beranda' } = Astro.props;
         align-items: center;
         justify-content: center;
         gap: 0.5rem;
-        background: rgba(255, 255, 255, 0.7);
+        background: var(--color-btn-upload);
         border: 1px solid var(--color-border);
         color: var(--color-text-body);
         padding: 0.6rem 0.95rem;
         border-radius: var(--radius-md);
         font-size: 0.82rem;
         font-weight: 600;
-        transition: all 0.15s ease;
+        transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
       }
 
       .btn-upload-nav:hover {
-        background: #ffffff;
+        background: var(--color-surface);
         color: var(--color-primary-dark);
         border-color: var(--color-border-focus);
       }
@@ -351,7 +378,7 @@ const { title, activeNav = 'beranda' } = Astro.props;
         align-items: center;
         justify-content: space-between;
         padding: 0.65rem 0.75rem;
-        background: rgba(255, 255, 255, 0.65);
+        background: var(--color-sidebar-user);
         border: 1px solid var(--color-border-subtle);
         border-radius: var(--radius-md);
         margin-top: 0.4rem;
@@ -359,7 +386,7 @@ const { title, activeNav = 'beranda' } = Astro.props;
       }
 
       .sidebar-user:hover {
-        background: #ffffff;
+        background: var(--color-surface);
       }
 
       .user-info-wrap {
@@ -372,11 +399,11 @@ const { title, activeNav = 'beranda' } = Astro.props;
         width: 32px;
         height: 32px;
         border-radius: 8px;
-        background: linear-gradient(135deg, #7c3aed, #a855f7);
+        background: linear-gradient(135deg, var(--color-primary), var(--color-avatar-end));
         display: flex;
         align-items: center;
         justify-content: center;
-        color: white;
+        color: var(--color-surface);
         font-weight: 700;
         font-size: 0.82rem;
       }
@@ -409,8 +436,8 @@ const { title, activeNav = 'beranda' } = Astro.props;
       }
 
       .btn-logout:hover {
-        color: #dc2626;
-        background: #fee2e2;
+        color: var(--color-danger-text);
+        background: var(--color-danger-bg);
       }
 
       /* ====================================================
@@ -424,89 +451,7 @@ const { title, activeNav = 'beranda' } = Astro.props;
         width: calc(100% - 260px);
       }
 
-      /* Desktop Top Header Bar */
-      .top-navbar {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 0.65rem 1.2rem;
-        background: rgba(255, 255, 255, 0.75);
-        backdrop-filter: blur(20px);
-        border: 1px solid var(--color-border);
-        border-radius: var(--radius-lg);
-        box-shadow: var(--shadow-xs);
-        margin-bottom: 2rem;
-      }
-
-      .date-badge {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        font-size: 0.82rem;
-        font-weight: 600;
-        color: var(--color-text-body);
-      }
-
-      .date-badge svg {
-        color: var(--color-text-muted);
-      }
-
-      .beavy-tip-pill {
-        display: flex;
-        align-items: center;
-        gap: 0.6rem;
-        background: #fbf8f2;
-        border: 1px solid #faeccb;
-        padding: 0.35rem 0.85rem;
-        border-radius: var(--radius-full);
-        font-size: 0.78rem;
-        color: #78350f;
-        font-weight: 500;
-        white-space: nowrap;
-      }
-
-      .top-right-group {
-        display: flex;
-        align-items: center;
-        gap: 0.85rem;
-        margin-left: auto;
-      }
-
-      .beavy-tip-pill strong {
-        font-weight: 700;
-        color: #92400e;
-      }
-
-      .beavy-mini-avatar {
-        width: 20px;
-        height: 20px;
-        object-fit: contain;
-      }
-
-      .top-actions {
-        display: flex;
-        align-items: center;
-        gap: 0.6rem;
-      }
-
-      .icon-btn {
-        width: 36px;
-        height: 36px;
-        border-radius: var(--radius-md);
-        border: 1px solid var(--color-border);
-        background: #ffffff;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: var(--color-text-body);
-        transition: all 0.15s ease;
-      }
-
-      .icon-btn:hover {
-        background: var(--color-primary-light);
-        color: var(--color-primary-dark);
-        border-color: var(--color-border-focus);
-      }
+      /* Main Content Layout */
 
       /* ====================================================
          MOBILE NAVIGATION BAR (Bottom Bar)
@@ -518,7 +463,7 @@ const { title, activeNav = 'beranda' } = Astro.props;
         left: 0;
         right: 0;
         height: 60px;
-        background: rgba(255, 255, 255, 0.95);
+        background: var(--color-mobile-bar);
         backdrop-filter: blur(20px);
         border-top: 1px solid var(--color-border);
         z-index: 100;
@@ -562,7 +507,7 @@ const { title, activeNav = 'beranda' } = Astro.props;
         display: none;
         position: fixed;
         inset: 0;
-        background: rgba(15, 10, 25, 0.4);
+        background: var(--color-modal-scrim);
         backdrop-filter: blur(8px);
         z-index: 200;
         align-items: center;
@@ -575,7 +520,7 @@ const { title, activeNav = 'beranda' } = Astro.props;
       }
 
       .modal-box {
-        background: #ffffff;
+        background: var(--color-surface);
         border: 1px solid var(--color-border);
         border-radius: var(--radius-xl);
         width: 100%;
@@ -614,6 +559,112 @@ const { title, activeNav = 'beranda' } = Astro.props;
           display: flex;
         }
       }
+
+      .quick-modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+      }
+      .quick-modal-title {
+        font-size: 1.15rem;
+        font-weight: 800;
+        color: var(--color-text-main);
+      }
+      .quick-modal-desc {
+        font-size: 0.8rem;
+        color: var(--color-text-muted);
+        margin-top: 2px;
+      }
+      .quick-modal-close-btn {
+        background: none;
+        border: none;
+        color: var(--color-text-muted);
+        cursor: pointer;
+        padding: 6px;
+        border-radius: var(--radius-sm);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background-color 0.15s ease;
+      }
+      .quick-modal-close-btn:hover {
+        background: var(--color-primary-light);
+      }
+      .quick-modal-form {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+      .quick-form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.35rem;
+      }
+      .quick-form-grid-2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.9rem;
+      }
+      .quick-form-label {
+        font-size: 0.82rem;
+        font-weight: 700;
+        color: var(--color-text-body);
+      }
+      .quick-form-input {
+        width: 100%;
+        padding: 0.75rem 0.95rem;
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-md);
+        font-family: inherit;
+        font-size: 0.9rem;
+        background: var(--color-surface);
+        color: var(--color-text-main);
+      }
+      .quick-form-input:focus {
+        outline: 2px solid var(--color-primary);
+        outline-offset: 1px;
+      }
+      .quick-form-select {
+        cursor: pointer;
+      }
+      .quick-form-actions {
+        display: flex;
+        gap: 0.75rem;
+        margin-top: 0.6rem;
+      }
+      .btn-quick-cancel {
+        flex: 1;
+        padding: 0.75rem;
+        border-radius: var(--radius-md);
+        border: 1px solid var(--color-border);
+        background: var(--color-surface);
+        font-weight: 600;
+        font-size: 0.88rem;
+        color: var(--color-text-muted);
+        cursor: pointer;
+        transition: border-color 0.15s ease, color 0.15s ease;
+      }
+      .btn-quick-cancel:hover {
+        border-color: var(--color-border-focus);
+        color: var(--color-text-main);
+      }
+      .btn-quick-submit {
+        flex: 1.4;
+        padding: 0.75rem;
+        border-radius: var(--radius-md);
+        border: none;
+        background: var(--color-primary);
+        color: var(--color-surface);
+        font-weight: 700;
+        font-size: 0.88rem;
+        cursor: pointer;
+        box-shadow: var(--shadow-xs);
+        transition: background-color 0.15s ease;
+      }
+      .btn-quick-submit:hover {
+        background: var(--color-primary-dark);
+      }
     </style>
   </head>
   <body>
@@ -634,7 +685,7 @@ const { title, activeNav = 'beranda' } = Astro.props;
             <span class="nav-label">Workspace</span>
 
             <a href="/beranda" data-astro-prefetch="hover" class={`nav-link ${activeNav === 'beranda' ? 'active' : ''}`}>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <rect x="3" y="3" width="7" height="7" rx="1.5"></rect>
                 <rect x="14" y="3" width="7" height="7" rx="1.5"></rect>
                 <rect x="14" y="14" width="7" height="7" rx="1.5"></rect>
@@ -644,14 +695,14 @@ const { title, activeNav = 'beranda' } = Astro.props;
             </a>
 
             <a href="/prioritas" data-astro-prefetch="hover" class={`nav-link ${activeNav === 'prioritas' ? 'active' : ''}`}>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
               </svg>
               <span>Prioritas</span>
             </a>
 
             <a href="/jadwal" data-astro-prefetch="hover" class={`nav-link ${activeNav === 'jadwal' ? 'active' : ''}`}>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <rect x="3" y="4" width="18" height="18" rx="2"></rect>
                 <line x1="16" y1="2" x2="16" y2="6"></line>
                 <line x1="8" y1="2" x2="8" y2="6"></line>
@@ -661,14 +712,14 @@ const { title, activeNav = 'beranda' } = Astro.props;
             </a>
 
             <a href="/beavy-ai" data-astro-prefetch="hover" class={`nav-link ${activeNav === 'beavy-ai' ? 'active' : ''}`}>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
               </svg>
               <span>Beavy AI</span>
             </a>
 
             <a href="/progress" data-astro-prefetch="hover" class={`nav-link ${activeNav === 'progress' ? 'active' : ''}`}>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <line x1="18" y1="20" x2="18" y2="10"></line>
                 <line x1="12" y1="20" x2="12" y2="4"></line>
                 <line x1="6" y1="20" x2="6" y2="14"></line>
@@ -677,7 +728,7 @@ const { title, activeNav = 'beranda' } = Astro.props;
             </a>
 
             <a href="/profile" data-astro-prefetch="hover" class={`nav-link ${activeNav === 'profile' ? 'active' : ''}`}>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                 <circle cx="12" cy="7" r="4"></circle>
               </svg>
@@ -691,14 +742,14 @@ const { title, activeNav = 'beranda' } = Astro.props;
           <div class="sidebar-actions">
             <button id="open-quick-add" class="btn-add-task" type="button">
               <span style="display: flex; align-items: center; gap: 0.5rem;">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
                 <span>Tugas Baru</span>
               </span>
               <span class="kbd-hint">N</span>
             </button>
 
             <a href="/upload" class="btn-upload-nav">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+              <svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
               <span>Upload Dokumen</span>
             </a>
           </div>
@@ -713,7 +764,7 @@ const { title, activeNav = 'beranda' } = Astro.props;
               </div>
             </a>
             <a href="/login" class="btn-logout" title="Keluar">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+              <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
             </a>
           </div>
         </div>
@@ -726,40 +777,13 @@ const { title, activeNav = 'beranda' } = Astro.props;
           <Image src={logoImg} alt="Jadwal.in" class="mobile-logo" />
           <div style="display: flex; gap: 0.5rem; align-items: center;">
             <a href="/upload" class="icon-btn" title="Upload">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+              <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
             </a>
             <a href="/profile" class="user-avatar" style="width: 30px; height: 30px; font-size: 0.75rem;">D</a>
           </div>
         </header>
 
-        <!-- Desktop Top Header Bar -->
-        <header class="top-navbar">
-          <div class="date-badge">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <rect x="3" y="4" width="18" height="18" rx="2"></rect>
-              <line x1="16" y1="2" x2="16" y2="6"></line>
-              <line x1="8" y1="2" x2="8" y2="6"></line>
-              <line x1="3" y1="10" x2="21" y2="10"></line>
-            </svg>
-            <span id="live-date">Sabtu, 24 Oktober 2026</span>
-          </div>
-
-          <div class="top-right-group">
-            <div class="beavy-tip-pill">
-              <Image src={mascotImg} alt="Beavy" class="beavy-mini-avatar" />
-              <span><strong>Fokus Hari Ini:</strong> Slot terbaikmu jam 10.00 - 12.00 untuk Laporan Pemrograman.</span>
-            </div>
-
-            <div class="top-actions">
-              <a href="/beavy-ai" class="icon-btn" title="Tanya Beavy AI">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
-              </a>
-              <a href="/upload" class="icon-btn" title="Upload Silabus / Jadwal">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
-              </a>
-            </div>
-          </div>
-        </header>
+        <!-- Desktop Top Header Bar (Removed: clean editorial viewport directly into page content) -->
 
         <!-- Dynamic Content -->
         <slot />
@@ -768,23 +792,23 @@ const { title, activeNav = 'beranda' } = Astro.props;
       <!-- 3. MOBILE BOTTOM BAR -->
       <nav class="mobile-bottom-bar">
         <a href="/beranda" class={`mobile-nav-link ${activeNav === 'beranda' ? 'active' : ''}`}>
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1.5"></rect><rect x="14" y="3" width="7" height="7" rx="1.5"></rect><rect x="14" y="14" width="7" height="7" rx="1.5"></rect><rect x="3" y="14" width="7" height="7" rx="1.5"></rect></svg>
+          <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1.5"></rect><rect x="14" y="3" width="7" height="7" rx="1.5"></rect><rect x="14" y="14" width="7" height="7" rx="1.5"></rect><rect x="3" y="14" width="7" height="7" rx="1.5"></rect></svg>
           <span>Beranda</span>
         </a>
         <a href="/prioritas" class={`mobile-nav-link ${activeNav === 'prioritas' ? 'active' : ''}`}>
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg>
+          <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg>
           <span>Prioritas</span>
         </a>
         <a href="/jadwal" class={`mobile-nav-link ${activeNav === 'jadwal' ? 'active' : ''}`}>
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+          <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="3" y1="10" x2="21" y2="10"></line></svg>
           <span>Jadwal</span>
         </a>
         <a href="/beavy-ai" class={`mobile-nav-link ${activeNav === 'beavy-ai' ? 'active' : ''}`}>
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+          <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
           <span>Beavy AI</span>
         </a>
         <a href="/progress" class={`mobile-nav-link ${activeNav === 'progress' ? 'active' : ''}`}>
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+          <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
           <span>Progres</span>
         </a>
       </nav>
@@ -796,37 +820,37 @@ const { title, activeNav = 'beranda' } = Astro.props;
     <!-- Quick Add Task Modal -->
     <div id="quick-add-modal" class="modal-backdrop">
       <div class="modal-box">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+        <div class="quick-modal-header">
           <div>
-            <h3 style="font-size: 1.15rem; font-weight: 800; color: #181226;">Tambah Tugas Baru</h3>
-            <p style="font-size: 0.8rem; color: #6e6484; margin-top: 2px;">AI Beavy akan mengurutkan prioritasnya secara otomatis</p>
+            <h3 class="quick-modal-title">Tambah Tugas Baru</h3>
+            <p class="quick-modal-desc">AI Beavy akan mengurutkan prioritasnya secara otomatis</p>
           </div>
-          <button id="close-quick-add" type="button" aria-label="Tutup modal" style="background:none; border:none; color: var(--color-text-muted); cursor: pointer; padding: 6px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; transition: background 0.15s;">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <button id="close-quick-add" type="button" aria-label="Tutup modal" class="quick-modal-close-btn">
+            <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
               <line x1="18" y1="6" x2="6" y2="18"></line>
               <line x1="6" y1="6" x2="18" y2="18"></line>
             </svg>
           </button>
         </div>
 
-        <form id="form-quick-add" style="display: flex; flex-direction: column; gap: 1rem;">
-          <div>
-            <label style="font-size: 0.82rem; font-weight: 700; color: #423859; display: block; margin-bottom: 0.35rem;">Nama Tugas</label>
-            <input type="text" id="task-title" required placeholder="Contoh: Laporan Praktikum Pemrograman" style="width: 100%; padding: 0.75rem 0.95rem; border: 1.5px solid #ded5eb; border-radius: 10px; font-family: inherit; font-size: 0.9rem; outline: none;" />
+        <form id="form-quick-add" class="quick-modal-form">
+          <div class="quick-form-group">
+            <label class="quick-form-label" for="task-title">Nama Tugas</label>
+            <input type="text" id="task-title" required placeholder="Contoh: Laporan Praktikum Pemrograman" class="quick-form-input" />
           </div>
 
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem;">
-            <div>
-              <label style="font-size: 0.82rem; font-weight: 700; color: #423859; display: block; margin-bottom: 0.35rem;">Kategori</label>
-              <select id="task-category" style="width: 100%; padding: 0.75rem 0.95rem; border: 1.5px solid #ded5eb; border-radius: 10px; font-family: inherit; font-size: 0.9rem; outline: none; background: white;">
+          <div class="quick-form-grid-2">
+            <div class="quick-form-group">
+              <label class="quick-form-label" for="task-category">Kategori</label>
+              <select id="task-category" class="quick-form-input quick-form-select">
                 <option value="Kuliah">Kuliah</option>
                 <option value="Kerja">Kerja</option>
                 <option value="Pribadi">Pribadi</option>
               </select>
             </div>
-            <div>
-              <label style="font-size: 0.82rem; font-weight: 700; color: #423859; display: block; margin-bottom: 0.35rem;">Durasi</label>
-              <select id="task-duration" style="width: 100%; padding: 0.75rem 0.95rem; border: 1.5px solid #ded5eb; border-radius: 10px; font-family: inherit; font-size: 0.9rem; outline: none; background: white;">
+            <div class="quick-form-group">
+              <label class="quick-form-label" for="task-duration">Durasi</label>
+              <select id="task-duration" class="quick-form-input quick-form-select">
                 <option value="60">1 Jam (60 mnt)</option>
                 <option value="90">1.5 Jam (90 mnt)</option>
                 <option value="120" selected>2 Jam (120 mnt)</option>
@@ -835,14 +859,14 @@ const { title, activeNav = 'beranda' } = Astro.props;
             </div>
           </div>
 
-          <div>
-            <label style="font-size: 0.82rem; font-weight: 700; color: #423859; display: block; margin-bottom: 0.35rem;">Tenggat Waktu</label>
-            <input type="datetime-local" id="task-deadline" style="width: 100%; padding: 0.75rem 0.95rem; border: 1.5px solid #ded5eb; border-radius: 10px; font-family: inherit; font-size: 0.9rem; outline: none;" />
+          <div class="quick-form-group">
+            <label class="quick-form-label" for="task-deadline">Tenggat Waktu</label>
+            <input type="datetime-local" id="task-deadline" class="quick-form-input" />
           </div>
 
-          <div style="display: flex; gap: 0.75rem; margin-top: 0.6rem;">
-            <button type="button" id="cancel-quick-add" style="flex: 1; padding: 0.75rem; border-radius: var(--radius-md); border: 1px solid #dcd5ea; background: white; font-weight: 600; font-size: 0.88rem; color: #5a4b77; cursor: pointer;">Batal</button>
-            <button type="submit" style="flex: 1.4; padding: 0.75rem; border-radius: var(--radius-md); border: none; background: var(--color-primary); color: white; font-weight: 700; font-size: 0.88rem; cursor: pointer; box-shadow: 0 2px 8px rgba(124, 58, 237, 0.3);">Simpan Tugas</button>
+          <div class="quick-form-actions">
+            <button type="button" id="cancel-quick-add" class="btn-quick-cancel">Batal</button>
+            <button type="submit" class="btn-quick-submit">Simpan Tugas</button>
           </div>
         </form>
       </div>

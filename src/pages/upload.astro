@@ -6,288 +6,334 @@ import mascotImg from '../assets/craiyon.png';
 ---
 
 <DashboardLayout title="Upload Dokumen Jadwal" activeNav="jadwal">
-  <div class="upload-page-wrap">
-    <!-- Header with 3-Step Breadcrumb Progress (Figma Frame 117:755, High Polish) -->
-    <div class="upload-header-row">
-      <div>
-        <h1 class="page-title">Tambah Tugas & Jadwal</h1>
-        <p class="page-subtitle">Upload silabus, dokumen PDF, atau screenshot jadwal kuliah untuk diekstrak otomatis oleh AI.</p>
+  <div class="upload-page-layout">
+
+    <!-- Header & Step Indicator -->
+    <header class="upload-header-row">
+      <div class="header-titles">
+        <h1 class="page-title">Ekstraksi Dokumen</h1>
+        <p class="page-subtitle">Unggah silabus, dokumen PDF, atau screenshot jadwal kuliah untuk diekstrak otomatis oleh AI.</p>
       </div>
 
-      <!-- Step Indicator from Figma -->
-      <div class="step-indicator-bar">
-        <div class="step-item active" id="step-tab-1">
-          <span class="step-num">1</span>
-          <span class="step-lbl">Upload File</span>
+      <div class="step-progress-strip" role="navigation" aria-label="Tahapan Ekstraksi">
+        <div class="step-badge active" id="step-tab-1">
+          <span class="step-idx">1</span>
+          <span class="step-text">Unggah Berkas</span>
         </div>
-        <div class="step-line"></div>
-        <div class="step-item" id="step-tab-2">
-          <span class="step-num">2</span>
-          <span class="step-lbl">Ekstraksi AI</span>
+        <div class="step-divider" aria-hidden="true"></div>
+        <div class="step-badge" id="step-tab-2">
+          <span class="step-idx">2</span>
+          <span class="step-text">Ekstraksi AI</span>
         </div>
-        <div class="step-line"></div>
-        <div class="step-item" id="step-tab-3">
-          <span class="step-num">3</span>
-          <span class="step-lbl">Verifikasi</span>
+        <div class="step-divider" aria-hidden="true"></div>
+        <div class="step-badge" id="step-tab-3">
+          <span class="step-idx">3</span>
+          <span class="step-text">Verifikasi</span>
         </div>
       </div>
-    </div>
+    </header>
 
-    <!-- Desktop 2-Column: Upload Zone (Left) + File Queue & Scope Settings (Right) -->
-    <div class="upload-desktop-grid" id="upload-stage-1">
-      <!-- Left Column: Dropzone & 4 Upload Mode Buttons -->
-      <div class="dropzone-col">
-        <!-- Big Drag & Drop Area -->
-        <div class="big-dropzone" id="dropzone-area">
-          <div class="dropzone-icon">
-            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Main 2-Column Upload Workspace -->
+    <div class="upload-workspace-grid" id="upload-stage-1">
+      
+      <!-- Left: Dropzone & Upload Mode Selection -->
+      <section class="dropzone-surface">
+        <div class="dropzone-box" id="dropzone-area">
+          <div class="dropzone-icon-wrap">
+            <svg aria-hidden="true" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
               <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
               <polyline points="17 8 12 3 7 8"></polyline>
               <line x1="12" y1="3" x2="12" y2="15"></line>
             </svg>
           </div>
-          <h3 class="dropzone-title">Tarik & Lepas File ke Sini</h3>
-          <p class="dropzone-sub">Mendukung format PDF, PNG, JPG, atau WebP (hingga 25 MB)</p>
+          <h2 class="dropzone-heading">Tarik dan Lepas Berkas ke Sini</h2>
+          <p class="dropzone-hint">Mendukung format PDF, PNG, JPG, atau WebP hingga 25 MB</p>
           <input type="file" id="file-input" style="display: none;" multiple accept="image/*,.pdf" />
-          <button type="button" class="btn-browse-file" onclick="document.getElementById('file-input').click();">Pilih dari Komputer</button>
-        </div>
-
-        <!-- 4 Upload Modes (Clean Vector SVGs, No Emojis) -->
-        <div class="upload-modes-grid">
-          <button class="mode-card active" data-mode="foto">
-            <div class="mode-icon-box">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
-            </div>
-            <span class="mode-title">Foto / Gambar</span>
-            <span class="mode-sub">Screenshot portal akademik</span>
-          </button>
-
-          <button class="mode-card" data-mode="pdf">
-            <div class="mode-icon-box">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-            </div>
-            <span class="mode-title">Dokumen PDF</span>
-            <span class="mode-sub">Silabus & modul kuliah</span>
-          </button>
-
-          <button class="mode-card" data-mode="text">
-            <div class="mode-icon-box">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>
-            </div>
-            <span class="mode-title">Salin Teks</span>
-            <span class="mode-sub">Tempel pengumuman tugas</span>
-          </button>
-
-          <button class="mode-card" data-mode="voice">
-            <div class="mode-icon-box">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>
-            </div>
-            <span class="mode-title">Dikte Suara</span>
-            <span class="mode-sub">Bicara langsung ke Beavy</span>
+          <button type="button" class="btn-browse-action" onclick="document.getElementById('file-input')?.click();">
+            Pilih Berkas dari Komputer
           </button>
         </div>
-      </div>
 
-      <!-- Right Column: Selected Files & AI Scope (From Figma Frame 117:755) -->
-      <div class="settings-col">
-        <!-- Selected Files List -->
-        <div class="panel-box">
-          <h4 class="panel-box-title">File Terlampir (2)</h4>
-
-          <div class="selected-files-list">
-            <!-- File 1 from Figma -->
-            <div class="file-item">
-              <div class="file-icon-box">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
-              </div>
-              <div class="file-info">
-                <span class="file-name">jadwal-kuliah.jpg</span>
-                <span class="file-size">1.4 MB • Gambar Jadwal Semester 5</span>
-              </div>
-              <button class="btn-remove-file" title="Hapus" aria-label="Hapus berkas" onclick="this.closest('.file-item').remove(); (window).jadwalinToast('File Dihapus', 'jadwal-kuliah.jpg dihapus dari antrean.', 'info');">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-                  <line x1="18" y1="6" x2="6" y2="18"></line>
-                  <line x1="6" y1="6" x2="18" y2="18"></line>
-                </svg>
-              </button>
+        <!-- 4 Upload Method Tiles -->
+        <div class="upload-modes-strip">
+          <button type="button" class="mode-item active" data-mode="foto">
+            <div class="mode-icon">
+              <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
             </div>
-
-            <!-- File 2 from Figma -->
-            <div class="file-item">
-              <div class="file-icon-box">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
-              </div>
-              <div class="file-info">
-                <span class="file-name">daftar-tugas.pdf</span>
-                <span class="file-size">2.8 MB • Dokumen Silabus Pemrograman</span>
-              </div>
-              <button class="btn-remove-file" title="Hapus" aria-label="Hapus berkas" onclick="this.closest('.file-item').remove(); (window).jadwalinToast('File Dihapus', 'daftar-tugas.pdf dihapus.', 'info');">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-                  <line x1="18" y1="6" x2="6" y2="18"></line>
-                  <line x1="6" y1="6" x2="18" y2="18"></line>
-                </svg>
-              </button>
+            <div class="mode-info">
+              <span class="mode-name">Foto atau Gambar</span>
+              <span class="mode-sub">Screenshot portal akademik</span>
             </div>
+          </button>
+
+          <button type="button" class="mode-item" data-mode="pdf">
+            <div class="mode-icon">
+              <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+            </div>
+            <div class="mode-info">
+              <span class="mode-name">Dokumen PDF</span>
+              <span class="mode-sub">Silabus dan modul kuliah</span>
+            </div>
+          </button>
+
+          <button type="button" class="mode-item" data-mode="text">
+            <div class="mode-icon">
+              <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>
+            </div>
+            <div class="mode-info">
+              <span class="mode-name">Salin Teks</span>
+              <span class="mode-sub">Tempel pengumuman tugas</span>
+            </div>
+          </button>
+
+          <button type="button" class="mode-item" data-mode="voice">
+            <div class="mode-icon">
+              <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>
+            </div>
+            <div class="mode-info">
+              <span class="mode-name">Dikte Suara</span>
+              <span class="mode-sub">Bicara langsung ke Beavy</span>
+            </div>
+          </button>
+        </div>
+      </section>
+
+      <!-- Right: Queue & Scope Selection -->
+      <aside class="sidebar-surface">
+        
+        <!-- Attached Files -->
+        <div class="surface-card">
+          <div class="card-header-row">
+            <h2 class="card-title">Berkas Terlampir</h2>
+            <span class="card-counter">2 Berkas</span>
           </div>
+
+          <ul class="file-queue-list">
+            <li class="file-card-row">
+              <div class="file-badge-icon">
+                <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+              </div>
+              <div class="file-meta">
+                <span class="file-title">jadwal-kuliah.jpg</span>
+                <span class="file-detail">1.4 MB - Screenshot Portal</span>
+              </div>
+              <button type="button" class="btn-discard" aria-label="Hapus jadwal-kuliah.jpg" onclick="this.closest('.file-card-row')?.remove(); window.jadwalinToast?.('Berkas Dihapus', 'jadwal-kuliah.jpg dikeluarkan dari antrean.', 'info');">
+                <svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="18" y1="6" x2="6" y2="18"></line>
+                  <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+              </button>
+            </li>
+
+            <li class="file-card-row">
+              <div class="file-badge-icon">
+                <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+              </div>
+              <div class="file-meta">
+                <span class="file-title">silabus-pemrograman.pdf</span>
+                <span class="file-detail">2.8 MB - Dokumen Mata Kuliah</span>
+              </div>
+              <button type="button" class="btn-discard" aria-label="Hapus silabus-pemrograman.pdf" onclick="this.closest('.file-card-row')?.remove(); window.jadwalinToast?.('Berkas Dihapus', 'silabus-pemrograman.pdf dikeluarkan dari antrean.', 'info');">
+                <svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="18" y1="6" x2="6" y2="18"></line>
+                  <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+              </button>
+            </li>
+          </ul>
         </div>
 
-        <!-- AI Extraction Scope (From Figma Frame 117:755) -->
-        <div class="panel-box">
-          <h4 class="panel-box-title">Lingkup Ekstraksi AI</h4>
-          <p class="panel-box-sub">Tentukan target data yang ingin diolah:</p>
+        <!-- Scope Setting -->
+        <div class="surface-card">
+          <h2 class="card-title">Cakupan Ekstraksi AI</h2>
+          <p class="card-desc">Tentukan sasaran data yang ingin diekstrak:</p>
 
-          <div class="scope-options-list">
-            <label class="scope-option">
+          <div class="scope-options-group" role="radiogroup" aria-label="Cakupan ekstraksi data">
+            <label class="scope-choice">
               <input type="radio" name="scope" value="jadwal" />
-              <div>
-                <strong>Jadwal Kuliah / Rutin</strong>
-                <p>Jam pertemuan kelas mingguan dan lokasi ruang.</p>
+              <div class="choice-text">
+                <strong class="choice-name">Jadwal Kuliah Rutin</strong>
+                <span class="choice-sub">Jam pertemuan mingguan dan lokasi ruangan</span>
               </div>
             </label>
 
-            <label class="scope-option">
+            <label class="scope-choice">
               <input type="radio" name="scope" value="tugas" />
-              <div>
-                <strong>Daftar Tenggat Tugas</strong>
-                <p>Deadline tugas besar, praktikum, dan kuis.</p>
+              <div class="choice-text">
+                <strong class="choice-name">Daftar Tenggat Tugas</strong>
+                <span class="choice-sub">Tenggat tugas besar, praktikum, dan kuis</span>
               </div>
             </label>
 
-            <label class="scope-option selected">
+            <label class="scope-choice active">
               <input type="radio" name="scope" value="keduanya" checked />
-              <div>
-                <strong>Semua (Jadwal & Tugas)</strong>
-                <p>Ekstrak jadwal tetap sekaligus cocokkan slot pengerjaan tugas.</p>
+              <div class="choice-text">
+                <strong class="choice-name">Semua (Jadwal dan Tugas)</strong>
+                <span class="choice-sub">Ekstrak jadwal tetap dan cocokkan slot belajar tugas</span>
               </div>
             </label>
           </div>
 
-          <button id="btn-start-ai-analysis" class="btn-analyze-ai">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+          <button type="button" id="btn-start-ai-analysis" class="btn-primary-action">
+            <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
             <span>Mulai Analisis Dokumen</span>
           </button>
         </div>
-      </div>
+
+      </aside>
     </div>
 
-    <!-- AI Reading & Review State (From Figma Frame 57:2810 & 115:52) -->
-    <div class="ai-processing-state" id="ai-processing-view" style="display: none;">
-      <div class="ai-process-card">
-        <div class="beavy-scanning-halo">
-          <Image src={mascotImg} alt="Beavy AI" class="beavy-process-img" />
+    <!-- AI Processing State Surface -->
+    <div class="ai-processing-overlay" id="ai-processing-view" style="display: none;">
+      <div class="process-card">
+        <div class="process-avatar-wrap">
+          <Image src={mascotImg} alt="Beavy" class="process-avatar-img" />
         </div>
-        <h3 class="process-title" id="process-status-text">Beavy sedang membedah dokumenmu...</h3>
+        
+        <h2 class="process-title" id="process-status-text">Beavy sedang membedah dokumen Anda...</h2>
         <p class="process-desc">
-          Mengekstrak mata kuliah, jam pertemuan, tanggal tenggat, dan tingkat kesulitan secara otomatis.
+          Mengekstrak mata kuliah, jam pertemuan, tanggal tenggat, dan estimasi waktu belajar secara otomatis.
         </p>
 
-        <div class="process-progress-bar">
-          <div class="ppb-fill" id="ppb-fill-el"></div>
+        <div class="progress-track" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+          <div class="progress-bar-fill" id="ppb-fill-el"></div>
         </div>
 
-        <div class="extracted-preview-box" id="extracted-preview" style="display: none;">
-          <h4 class="ep-title">Ekstraksi AI Berhasil Ditemukan</h4>
-          <ul class="ep-list">
-            <li>
-              <span class="ep-check">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+        <div class="extracted-review-box" id="extracted-preview" style="display: none;">
+          <h3 class="review-title">Hasil Ekstraksi Ditemukan</h3>
+          
+          <ul class="review-list">
+            <li class="review-item">
+              <div class="review-check-badge">
+                <svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
                   <polyline points="20 6 9 17 4 12"></polyline>
                 </svg>
-              </span>
-              <div>
-                <strong>Laporan Praktikum Pemrograman</strong>
-                <p>Tenggat: Hari ini 17.00 • Estimasi: 2 jam fokus</p>
+              </div>
+              <div class="review-info">
+                <strong class="item-name">Laporan Praktikum Pemrograman</strong>
+                <span class="item-meta">Tenggat: Hari ini 17.00 - Estimasi: 2 jam</span>
               </div>
             </li>
-            <li>
-              <span class="ep-check">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+
+            <li class="review-item">
+              <div class="review-check-badge">
+                <svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
                   <polyline points="20 6 9 17 4 12"></polyline>
                 </svg>
-              </span>
-              <div>
-                <strong>Slide Presentasi Kelompok</strong>
-                <p>Tenggat: Besok 09.00 • Estimasi: 1.5 jam</p>
+              </div>
+              <div class="review-info">
+                <strong class="item-name">Slide Presentasi Kelompok</strong>
+                <span class="item-meta">Tenggat: Besok 09.00 - Estimasi: 1.5 jam</span>
               </div>
             </li>
-            <li>
-              <span class="ep-check">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+
+            <li class="review-item">
+              <div class="review-check-badge">
+                <svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
                   <polyline points="20 6 9 17 4 12"></polyline>
                 </svg>
-              </span>
-              <div>
-                <strong>Kuliah Basis Data</strong>
-                <p>Jadwal Tetap: Kamis 10.00 - 12.00 • Ruang Lab 3</p>
+              </div>
+              <div class="review-info">
+                <strong class="item-name">Kuliah Basis Data</strong>
+                <span class="item-meta">Jadwal Tetap: Kamis 10.00 - 12.00 di Lab 3</span>
               </div>
             </li>
           </ul>
 
-          <div style="display: flex; gap: 0.8rem; margin-top: 1.2rem;">
-            <a href="/beranda" class="btn-confirm-all">Terapkan ke Kalender & Kembali ke Beranda</a>
+          <div class="review-actions">
+            <a href="/beranda" class="btn-confirm-all">Terapkan ke Kalender dan Kembali</a>
           </div>
         </div>
+
       </div>
     </div>
+
   </div>
 
   <style>
-    .upload-page-wrap {
-      display: flex;
-      flex-direction: column;
-      gap: 1.6rem;
+    /* =========================================================
+       AWWWARDS UPLOAD & EXTRACTION CANVAS: Minimalist & Clean
+       ========================================================= */
+
+    :focus-visible {
+      outline: 2px solid var(--color-primary);
+      outline-offset: 2px;
     }
 
+    @media (prefers-reduced-motion: reduce) {
+      *, ::before, ::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+
+    .upload-page-layout {
+      max-width: 1180px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      padding-bottom: 3.5rem;
+    }
+
+    /* Header & Steps */
     .upload-header-row {
       display: flex;
       justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 1.2rem;
+      align-items: flex-end;
+      gap: 1.5rem;
+      padding: 1rem 0 0.5rem;
+      border-bottom: 1px solid var(--color-border-subtle);
     }
 
     .page-title {
-      font-size: 1.85rem;
+      font-size: 2.2rem;
       font-weight: 800;
       color: var(--color-text-main);
-      letter-spacing: -0.02em;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
     }
 
     .page-subtitle {
-      font-size: 0.88rem;
+      font-size: 0.92rem;
       color: var(--color-text-muted);
-      margin-top: 0.25rem;
+      margin-top: 0.4rem;
+      line-height: 1.5;
     }
 
-    /* Step Indicator Bar */
-    .step-indicator-bar {
+    .step-progress-strip {
       display: flex;
       align-items: center;
       gap: 0.75rem;
-      background: #ffffff;
-      padding: 0.45rem 1rem;
-      border-radius: var(--radius-md);
+      background: var(--color-surface);
       border: 1px solid var(--color-border);
+      border-radius: var(--radius-full);
+      padding: 0.35rem 0.9rem;
       box-shadow: var(--shadow-xs);
     }
 
-    .step-item {
+    .step-badge {
       display: flex;
       align-items: center;
-      gap: 0.45rem;
+      gap: 0.4rem;
       opacity: 0.45;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--color-text-main);
     }
 
-    .step-item.active {
+    .step-badge.active {
       opacity: 1;
     }
 
-    .step-num {
+    .step-idx {
       width: 20px;
       height: 20px;
       border-radius: 50%;
       background: var(--color-primary);
-      color: white;
+      color: var(--color-surface);
       font-family: var(--font-mono);
       font-size: 0.7rem;
       font-weight: 700;
@@ -296,303 +342,349 @@ import mascotImg from '../assets/craiyon.png';
       justify-content: center;
     }
 
-    .step-lbl {
-      font-size: 0.78rem;
-      font-weight: 700;
-      color: var(--color-text-main);
-    }
-
-    .step-line {
-      width: 18px;
-      height: 1.5px;
+    .step-divider {
+      width: 14px;
+      height: 1px;
       background: var(--color-border);
     }
 
-    /* Desktop 2-Column */
-    .upload-desktop-grid {
+    /* Workspace Grid */
+    .upload-workspace-grid {
       display: grid;
-      grid-template-columns: 1.25fr 0.85fr;
-      gap: 1.8rem;
+      grid-template-columns: 1.35fr 0.85fr;
+      gap: 2.2rem;
       align-items: start;
     }
 
-    .dropzone-col, .settings-col {
+    /* Left Surface */
+    .dropzone-surface {
       display: flex;
       flex-direction: column;
       gap: 1.4rem;
     }
 
-    /* Big Dropzone */
-    .big-dropzone {
-      background: #ffffff;
-      border: 1.5px dashed #c4b5fd;
+    .dropzone-box {
+      background: var(--color-surface);
+      border: 1.5px dashed var(--color-border-focus);
       border-radius: var(--radius-xl);
-      padding: 3rem 2rem;
+      padding: 3.5rem 2rem;
       text-align: center;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      cursor: pointer;
-      transition: all 0.2s;
       box-shadow: var(--shadow-xs);
+      transition: border-color 0.15s ease, background-color 0.15s ease;
     }
 
-    .big-dropzone:hover {
+    .dropzone-box:hover {
       border-color: var(--color-primary);
-      background: #fbf9fe;
-      transform: translateY(-1px);
+      background: var(--color-primary-light);
     }
 
-    .dropzone-icon {
-      width: 60px;
-      height: 60px;
+    .dropzone-icon-wrap {
+      width: 56px;
+      height: 56px;
       border-radius: var(--radius-lg);
       background: var(--color-primary-light);
-      color: var(--color-primary);
+      border: 1px solid var(--color-border-focus);
+      color: var(--color-primary-dark);
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-bottom: 1rem;
-    }
-
-    .dropzone-title {
-      font-size: 1.15rem;
-      font-weight: 800;
-      color: var(--color-text-main);
-      margin-bottom: 0.25rem;
-    }
-
-    .dropzone-sub {
-      font-size: 0.82rem;
-      color: var(--color-text-muted);
       margin-bottom: 1.2rem;
     }
 
-    .btn-browse-file {
-      padding: 0.65rem 1.3rem;
-      border-radius: var(--radius-md);
+    .dropzone-heading {
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: var(--color-text-main);
+      margin-bottom: 0.35rem;
+      letter-spacing: -0.01em;
+    }
+
+    .dropzone-hint {
+      font-size: 0.82rem;
+      color: var(--color-text-muted);
+      margin-bottom: 1.4rem;
+    }
+
+    .btn-browse-action {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.75rem 1.4rem;
+      border-radius: var(--radius-full);
       border: none;
       background: var(--color-primary);
-      color: white;
+      color: var(--color-surface);
+      font-size: 0.86rem;
       font-weight: 700;
-      font-size: 0.84rem;
       cursor: pointer;
-      transition: background 0.15s;
+      box-shadow: var(--shadow-xs);
+      transition: background-color 0.15s ease, transform 0.15s ease;
     }
 
-    .btn-browse-file:hover {
+    .btn-browse-action:hover {
       background: var(--color-primary-dark);
-    }
-
-    /* 4 Upload Modes */
-    .upload-modes-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 0.75rem;
-    }
-
-    .mode-card {
-      background: #ffffff;
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius-md);
-      padding: 0.9rem 0.5rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.15s;
-    }
-
-    .mode-card:hover {
-      border-color: var(--color-border-focus);
       transform: translateY(-1px);
     }
 
-    .mode-card.active {
-      border-color: var(--color-primary);
-      background: #fbf9fe;
+    /* 4 Modes */
+    .upload-modes-strip {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.9rem;
     }
 
-    .mode-icon-box {
-      width: 34px;
-      height: 34px;
-      border-radius: 8px;
-      background: #f4f0fa;
-      color: var(--color-primary);
+    .mode-item {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: 1rem 1.1rem;
+      text-align: left;
+      cursor: pointer;
+      transition: border-color 0.15s ease, background-color 0.15s ease;
+    }
+
+    .mode-item:hover {
+      border-color: var(--color-border-focus);
+      background: var(--color-primary-light);
+    }
+
+    .mode-item.active {
+      border-color: var(--color-primary);
+      background: var(--color-primary-light);
+    }
+
+    .mode-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: var(--radius-md);
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      color: var(--color-primary-dark);
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-bottom: 0.4rem;
+      flex-shrink: 0;
     }
 
-    .mode-title {
-      font-size: 0.8rem;
+    .mode-info {
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+    }
+
+    .mode-name {
+      font-size: 0.84rem;
       font-weight: 700;
       color: var(--color-text-main);
     }
 
     .mode-sub {
-      font-size: 0.68rem;
+      font-size: 0.72rem;
       color: var(--color-text-muted);
-      margin-top: 0.1rem;
     }
 
-    /* Settings Panel */
-    .panel-box {
-      background: #ffffff;
+    /* Right Sidebar */
+    .sidebar-surface {
+      display: flex;
+      flex-direction: column;
+      gap: 1.4rem;
+    }
+
+    .surface-card {
+      background: var(--color-surface);
       border: 1px solid var(--color-border);
       border-radius: var(--radius-xl);
-      padding: 1.4rem;
+      padding: 1.8rem;
       box-shadow: var(--shadow-xs);
     }
 
-    .panel-box-title {
-      font-size: 1rem;
+    .card-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .card-title {
+      font-size: 1.05rem;
       font-weight: 800;
       color: var(--color-text-main);
-      margin-bottom: 0.2rem;
+      letter-spacing: -0.01em;
     }
 
-    .panel-box-sub {
-      font-size: 0.78rem;
+    .card-counter {
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      font-weight: 700;
       color: var(--color-text-muted);
-      margin-bottom: 0.9rem;
+      background: var(--color-primary-light);
+      border: 1px solid var(--color-border-focus);
+      padding: 0.2rem 0.55rem;
+      border-radius: var(--radius-full);
     }
 
-    /* File List */
-    .selected-files-list {
+    .card-desc {
+      font-size: 0.8rem;
+      color: var(--color-text-muted);
+      margin-top: 0.2rem;
+      margin-bottom: 1rem;
+    }
+
+    /* File Queue */
+    .file-queue-list {
+      list-style: none;
       display: flex;
       flex-direction: column;
-      gap: 0.6rem;
+      gap: 0.7rem;
     }
 
-    .file-item {
+    .file-card-row {
       display: flex;
       align-items: center;
       gap: 0.75rem;
-      background: #fbf9fe;
+      background: var(--color-surface);
       border: 1px solid var(--color-border-subtle);
-      padding: 0.7rem 0.85rem;
+      padding: 0.75rem 0.9rem;
       border-radius: var(--radius-md);
     }
 
-    .file-icon-box {
+    .file-badge-icon {
       width: 32px;
       height: 32px;
-      border-radius: 6px;
-      background: #ffffff;
-      border: 1px solid var(--color-border);
+      border-radius: var(--radius-sm);
+      background: var(--color-primary-light);
+      border: 1px solid var(--color-border-focus);
       color: var(--color-primary);
       display: flex;
       align-items: center;
       justify-content: center;
+      flex-shrink: 0;
     }
 
-    .file-info {
+    .file-meta {
       flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
     }
 
-    .file-name {
-      font-size: 0.85rem;
+    .file-title {
+      font-size: 0.84rem;
       font-weight: 700;
       color: var(--color-text-main);
-      display: block;
+      word-break: break-all;
     }
 
-    .file-size {
-      font-size: 0.7rem;
+    .file-detail {
+      font-size: 0.72rem;
       color: var(--color-text-muted);
     }
 
-    .btn-remove-file {
+    .btn-discard {
       background: none;
       border: none;
-      color: var(--color-text-subtle);
-      font-size: 0.85rem;
-      padding: 0.25rem;
+      color: var(--color-text-muted);
+      padding: 0.35rem;
+      border-radius: var(--radius-sm);
       cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: color 0.15s ease, background-color 0.15s ease;
     }
 
-    .btn-remove-file:hover {
-      color: #dc2626;
+    .btn-discard:hover {
+      color: var(--color-text-main);
+      background: var(--color-primary-light);
     }
 
-    /* Scope Options */
-    .scope-options-list {
+    /* Scope */
+    .scope-options-group {
       display: flex;
       flex-direction: column;
-      gap: 0.55rem;
+      gap: 0.6rem;
       margin-bottom: 1.4rem;
     }
 
-    .scope-option {
+    .scope-choice {
       display: flex;
       align-items: flex-start;
       gap: 0.75rem;
-      padding: 0.75rem 0.85rem;
+      padding: 0.8rem 0.95rem;
       border-radius: var(--radius-md);
-      background: #fbf9fe;
-      border: 1px solid var(--color-border-subtle);
+      border: 1px solid var(--color-border);
+      background: var(--color-surface);
       cursor: pointer;
-      transition: all 0.15s;
+      transition: border-color 0.15s ease, background-color 0.15s ease;
     }
 
-    .scope-option.selected {
+    .scope-choice.active {
       border-color: var(--color-primary);
-      background: #fcfaff;
+      background: var(--color-primary-light);
     }
 
-    .scope-option input {
-      accent-color: var(--color-primary);
+    .scope-choice input {
       margin-top: 0.2rem;
+      accent-color: var(--color-primary);
     }
 
-    .scope-option strong {
+    .choice-text {
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+    }
+
+    .choice-name {
       font-size: 0.84rem;
+      font-weight: 700;
       color: var(--color-text-main);
-      display: block;
     }
 
-    .scope-option p {
+    .choice-sub {
       font-size: 0.74rem;
       color: var(--color-text-muted);
-      margin-top: 0.1rem;
-      line-height: 1.35;
+      line-height: 1.4;
     }
 
-    .btn-analyze-ai {
+    .btn-primary-action {
       width: 100%;
       padding: 0.85rem;
-      border-radius: var(--radius-md);
+      border-radius: var(--radius-full);
       border: none;
       background: var(--color-primary);
-      color: white;
+      color: var(--color-surface);
       font-size: 0.9rem;
       font-weight: 700;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 0.55rem;
-      box-shadow: 0 2px 8px rgba(124, 58, 237, 0.25);
+      gap: 0.5rem;
       cursor: pointer;
-      transition: background 0.15s;
+      box-shadow: var(--shadow-sm);
+      transition: background-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
     }
 
-    .btn-analyze-ai:hover {
+    .btn-primary-action:hover {
       background: var(--color-primary-dark);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-md);
     }
 
     /* AI Processing View */
-    .ai-processing-state {
-      padding: 2.5rem 1.5rem;
+    .ai-processing-overlay {
       display: flex;
       justify-content: center;
+      padding: 2.5rem 1rem;
     }
 
-    .ai-process-card {
-      background: white;
+    .process-card {
+      background: var(--color-surface);
       border-radius: var(--radius-xl);
       border: 1px solid var(--color-border);
       padding: 2.5rem 2rem;
@@ -602,90 +694,90 @@ import mascotImg from '../assets/craiyon.png';
       box-shadow: var(--shadow-sm);
     }
 
-    .beavy-scanning-halo {
-      width: 90px;
-      height: 90px;
+    .process-avatar-wrap {
+      width: 80px;
+      height: 80px;
       border-radius: 50%;
-      background: #faf6fe;
-      border: 1px solid #ebdff5;
+      background: var(--color-primary-light);
+      border: 1px solid var(--color-border-focus);
       display: flex;
       align-items: center;
       justify-content: center;
       margin: 0 auto 1.4rem;
     }
 
-    .beavy-process-img {
-      width: 65px;
-      height: 65px;
+    .process-avatar-img {
+      width: 58px;
+      height: 58px;
       object-fit: contain;
     }
 
     .process-title {
-      font-size: 1.3rem;
+      font-size: 1.25rem;
       font-weight: 800;
       color: var(--color-text-main);
       margin-bottom: 0.4rem;
+      letter-spacing: -0.01em;
     }
 
     .process-desc {
       font-size: 0.85rem;
       color: var(--color-text-muted);
-      line-height: 1.45;
-      margin-bottom: 1.6rem;
+      line-height: 1.5;
+      margin-bottom: 1.8rem;
     }
 
-    .process-progress-bar {
+    .progress-track {
       width: 100%;
       height: 6px;
-      background: #f0ecf6;
+      background: var(--color-border-subtle);
       border-radius: var(--radius-full);
       overflow: hidden;
-      margin-bottom: 1.6rem;
+      margin-bottom: 1.8rem;
     }
 
-    .ppb-fill {
+    .progress-bar-fill {
       width: 0%;
       height: 100%;
       background: var(--color-primary);
-      transition: width 0.3s ease;
+      transition: transform 0.3s ease;
+      transform-origin: left;
     }
 
-    .extracted-preview-box {
+    .extracted-review-box {
       text-align: left;
-      background: #f8f6fc;
-      border-radius: var(--radius-md);
-      padding: 1.2rem;
-      border: 1px solid var(--color-border);
+      background: var(--color-primary-light);
+      border-radius: var(--radius-lg);
+      padding: 1.4rem;
+      border: 1px solid var(--color-border-focus);
     }
 
-    .ep-title {
+    .review-title {
       font-size: 0.95rem;
       font-weight: 800;
-      color: #047857;
-      margin-bottom: 0.8rem;
+      color: var(--color-text-main);
+      margin-bottom: 1rem;
     }
 
-    .ep-list {
+    .review-list {
       list-style: none;
       display: flex;
       flex-direction: column;
-      gap: 0.65rem;
+      gap: 0.8rem;
     }
 
-    .ep-list li {
+    .review-item {
       display: flex;
       align-items: flex-start;
-      gap: 0.65rem;
+      gap: 0.75rem;
     }
 
-    .ep-check {
-      width: 18px;
-      height: 18px;
+    .review-check-badge {
+      width: 20px;
+      height: 20px;
       border-radius: 50%;
-      background: #dcfce7;
-      color: #15803d;
-      font-size: 0.68rem;
-      font-weight: 700;
+      background: var(--color-primary);
+      color: var(--color-surface);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -693,42 +785,67 @@ import mascotImg from '../assets/craiyon.png';
       margin-top: 0.1rem;
     }
 
-    .ep-list strong {
-      font-size: 0.85rem;
-      color: var(--color-text-main);
-      display: block;
+    .review-info {
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
     }
 
-    .ep-list p {
+    .item-name {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--color-text-main);
+    }
+
+    .item-meta {
       font-size: 0.75rem;
       color: var(--color-text-muted);
     }
 
+    .review-actions {
+      margin-top: 1.4rem;
+    }
+
     .btn-confirm-all {
       width: 100%;
-      padding: 0.8rem;
-      border-radius: var(--radius-md);
+      padding: 0.85rem;
+      border-radius: var(--radius-full);
       border: none;
       background: var(--color-primary);
-      color: white;
+      color: var(--color-surface);
       font-weight: 700;
       font-size: 0.88rem;
       text-align: center;
       cursor: pointer;
       display: block;
+      transition: background-color 0.15s ease;
+    }
+
+    .btn-confirm-all:hover {
+      background: var(--color-primary-dark);
     }
 
     @media (max-width: 960px) {
-      .upload-desktop-grid {
+      .upload-workspace-grid {
         grid-template-columns: 1fr;
       }
-      .upload-modes-grid {
-        grid-template-columns: repeat(2, 1fr);
+      .upload-modes-strip {
+        grid-template-columns: 1fr;
+      }
+      .upload-header-row {
+        flex-direction: column;
+        align-items: flex-start;
       }
     }
   </style>
 
   <script>
+    declare global {
+      interface Window {
+        jadwalinToast?: (title: string, msg: string, type?: 'success' | 'info' | 'warning' | 'error') => void;
+      }
+    }
+
     const btnAnalyze = document.getElementById('btn-start-ai-analysis');
     const stage1 = document.getElementById('upload-stage-1');
     const processView = document.getElementById('ai-processing-view');
@@ -739,6 +856,24 @@ import mascotImg from '../assets/craiyon.png';
     const step1 = document.getElementById('step-tab-1');
     const step2 = document.getElementById('step-tab-2');
     const step3 = document.getElementById('step-tab-3');
+
+    // Mode Selector
+    const modeBtns = document.querySelectorAll('.mode-item');
+    modeBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        modeBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+      });
+    });
+
+    // Scope Selector
+    const scopeLabels = document.querySelectorAll('.scope-choice');
+    scopeLabels.forEach(lbl => {
+      lbl.addEventListener('click', () => {
+        scopeLabels.forEach(l => l.classList.remove('active'));
+        lbl.classList.add('active');
+      });
+    });
 
     btnAnalyze?.addEventListener('click', () => {
       if (stage1 && processView) {
@@ -764,9 +899,9 @@ import mascotImg from '../assets/craiyon.png';
             if (previewBox) previewBox.style.display = 'block';
             step2?.classList.remove('active');
             step3?.classList.add('active');
-            (window as any).jadwalinToast('Analisis Dokumen Berhasil', '3 tugas dan 1 jadwal rutin siap diverifikasi.', 'success');
+            window.jadwalinToast?.('Analisis Dokumen Berhasil', '3 tugas dan 1 jadwal rutin siap diverifikasi.', 'success');
           }
-        }, 300);
+        }, 280);
       }
     });
   </script>

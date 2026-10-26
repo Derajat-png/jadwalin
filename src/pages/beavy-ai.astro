@@ -6,376 +6,361 @@ import mascotImg from '../assets/craiyon.png';
 ---
 
 <DashboardLayout title="Beavy AI Assistant" activeNav="beavy-ai">
-  <div class="chat-page-wrap">
-    <!-- Desktop 2-Column Split: Prompts / Context (Left) + Chat Viewport (Right) -->
-    <div class="chat-desktop-layout">
-      <!-- Left Panel: Beavy Profile & Quick Prompts -->
-      <div class="chat-sidebar-col">
-        <div class="beavy-profile-card">
-          <div class="beavy-mascot-circle">
-            <Image src={mascotImg} alt="Beavy AI" class="beavy-avatar-lg" />
-          </div>
-          <h2 class="beavy-name">Beavy AI</h2>
-          <span class="beavy-role-badge">Asisten Jadwal Cerdas</span>
-          <p class="beavy-bio">
-            Karakter blak-blakan yang membantu menjaga ritme belajarmu tetap fokus dan realistis.
-          </p>
+  <div class="sanctuary-wrap">
 
-          <div class="ai-status-row">
-            <span class="status-indicator-dot"></span>
-            <span class="status-text">Siaga • 5 tugas dipantau</span>
+    <!-- 1. EDITORIAL HEADER -->
+    <header class="beavy-hero">
+      <div>
+        <h1 class="hero-statement">
+          Konsultasi Ritme & Beban Belajar:<br />
+          <span class="hero-highlight">Bersama Pendamping AI Beavy</span>
+        </h1>
+        <p class="hero-sub">
+          Diskusikan pembagian waktu, alokasi jam praktikum, atau minta saran saat jadwal Anda terasa terlalu padat.
+        </p>
+      </div>
+      <div class="status-pill">
+        <span class="pulse-dot"></span>
+        <span>Siaga : 5 tugas aktif dipantau</span>
+      </div>
+    </header>
+
+    <!-- 2. SPLIT CHAT CANVAS -->
+    <div class="beavy-grid">
+
+      <!-- LEFT: Profile & Fast Intentions -->
+      <aside class="intentions-panel">
+        <div class="profile-card">
+          <div class="avatar-disc">
+            <Image src={mascotImg} alt="Beavy AI" class="avatar-mascot" />
           </div>
+          <h2 class="profile-name">Beavy AI</h2>
+          <span class="role-badge">Pendamping Jadwal Mahasiswa</span>
+          <p class="profile-bio">
+            Membantumu tetap rasional menyusun prioritas tanpa stres deadline yang berlebihan.
+          </p>
         </div>
 
-        <!-- Quick Prompts (Figma Match) -->
-        <div class="quick-prompts-box">
-          <h4 class="prompts-title">Pertanyaan Cepat</h4>
-          <div class="prompts-list">
-            <button class="prompt-chip" data-msg="Kenapa tugas Laporan Praktikum jadi prioritas nomor 1?">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+        <div class="prompts-card">
+          <h3 class="side-title">Topik Pertanyaan Cepat</h3>
+          <p class="side-desc">Pilih prompt untuk memulai analisis instan:</p>
+
+          <div class="prompt-chips">
+            <button type="button" class="chip-item" data-msg="Kenapa tugas Laporan Praktikum jadi prioritas nomor 1?">
               <span>Kenapa tugas ini nomor 1?</span>
             </button>
-
-            <button class="prompt-chip" data-msg="Tolong atur ulang jadwal minggu ini biar tidak bentrok">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path></svg>
+            <button type="button" class="chip-item" data-msg="Tolong atur ulang jadwal minggu ini agar tidak ada slot yang bentrok.">
               <span>Atur ulang jadwal minggu ini</span>
             </button>
-
-            <button class="prompt-chip" data-msg="Kapan slot waktu luang terbaikku hari ini?">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            <button type="button" class="chip-item" data-msg="Kapan slot waktu luang terbaikku hari ini?">
               <span>Waktu luang terbaik hari ini</span>
             </button>
-
-            <button class="prompt-chip" data-msg="Berapa lama estimasi realistis untuk slide presentasi?">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-              <span>Estimasi durasi tugas</span>
+            <button type="button" class="chip-item" data-msg="Berapa lama estimasi realistis untuk membuat slide presentasi kelompok?">
+              <span>Estimasi durasi tugas kelompok</span>
             </button>
           </div>
         </div>
-      </div>
+      </aside>
 
-      <!-- Right Panel: Chat Stream & Message Input -->
-      <div class="chat-main-viewport">
-        <div class="chat-header">
-          <div class="chat-header-user">
-            <div class="header-avatar-circle">
-              <Image src={mascotImg} alt="Beavy" class="header-avatar-img" />
-            </div>
-            <div>
-              <h3 class="header-chat-name">Ruang Diskusi Beavy</h3>
-              <p class="header-chat-sub">Konsultasikan pembagian waktu, durasi, dan skala prioritas</p>
-            </div>
+      <!-- RIGHT: Clean Chat Stream & Focused Input -->
+      <section class="chat-surface">
+        <div class="chat-head-row">
+          <div>
+            <h3 class="surface-title">Ruang Percakapan</h3>
+            <p class="surface-caption">Ketik pertanyaan atau klik salah satu topik cepat di kiri</p>
           </div>
-          <button id="btn-clear-chat" class="btn-clear-chat" title="Bersihkan Percakapan">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+          <button id="btn-clear-chat" type="button" class="btn-clear" title="Bersihkan Percakapan" aria-label="Bersihkan chat">
+            <svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
           </button>
         </div>
 
         <!-- Messages Stream -->
-        <div class="messages-stream" id="messages-container">
-          <!-- User message (From Figma Frame 57:3454) -->
-          <div class="message-row user">
-            <div class="message-bubble user-bubble">
-              <p>Beavy, apakah aku ganteng tampan rupawan?</p>
-              <span class="message-time">08:12</span>
-            </div>
-          </div>
-
-          <!-- Beavy Reply (From Figma Frame 57:3454) -->
-          <div class="message-row beavy">
-            <div class="beavy-msg-avatar">
+        <div class="messages-flow" id="messages-container">
+          <!-- Message 1 from Beavy -->
+          <div class="message-bubble beavy">
+            <div class="msg-avatar">
               <Image src={mascotImg} alt="Beavy" class="msg-avatar-img" />
             </div>
-            <div class="message-bubble beavy-bubble">
-              <p>Gundulmu ganteng. Bahkan AI pun tak sudi melihatnya, lanjut kerjain tugasmu!!</p>
-              
-              <!-- Embedded Recommendation Card (From Figma) -->
-              <div class="embedded-task-card">
-                <div class="etc-info">
-                  <span class="etc-badge">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-                    <span>Rekomendasi Tindakan</span>
-                  </span>
-                  <h4 class="etc-title">Laporan Praktikum Pemrograman</h4>
-                  <p class="etc-meta">Tenggat hari ini jam 17.00 • Estimasi 90 menit</p>
-                </div>
-                <button class="btn-apply-schedule" id="btn-apply-task">
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 5v14M5 12h14"></path></svg>
-                  <span>Terapkan ke Slot Jam 15.00</span>
-                </button>
-              </div>
-
-              <span class="message-time">08:13</span>
+            <div class="msg-body">
+              <span class="msg-author">Beavy</span>
+              <p>Halo Daffa! Berdasarkan tenggat terdekat, <strong>Laporan Praktikum Pemrograman</strong> harus kamu selesaikan jam 10.00 nanti sebelum jadwal praktikum offline dimulai. Ada yang ingin kamu konsultasikan?</p>
             </div>
           </div>
         </div>
 
         <!-- Chat Input Bar -->
-        <div class="chat-input-wrapper">
-          <form id="chat-form" class="chat-form">
-            <input 
-              type="text" 
-              id="chat-input" 
-              placeholder="Tanya apa saja seputar tugas dan jadwalmu..." 
-              autocomplete="off"
-              required 
-            />
-            <button type="submit" id="btn-send-chat" class="btn-send-message" title="Kirim Pesan">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="22" y1="2" x2="11" y2="13"></line>
-                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-              </svg>
-            </button>
-          </form>
-        </div>
-      </div>
+        <form id="chat-form" class="chat-form-strip">
+          <input 
+            type="text" 
+            id="user-input" 
+            placeholder="Tanyakan ritme belajar, durasi tugas, atau minta saran Beavy..." 
+            autocomplete="off"
+            required 
+          />
+          <button type="submit" class="btn-send-chat" aria-label="Kirim pesan">
+            <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+          </button>
+        </form>
+      </section>
+
     </div>
+
   </div>
 
   <style>
-    .chat-page-wrap {
-      height: calc(100vh - 135px);
-      min-height: 560px;
+    /* =========================================================
+       AWWWARDS CHAT COMPANION STYLES
+       Spacious Layout, Soft Surfaces, Zero Visual Noise
+       ========================================================= */
+
+    :focus-visible {
+      outline: 2px solid var(--color-primary);
+      outline-offset: 2px;
     }
 
-    .chat-desktop-layout {
-      display: grid;
-      grid-template-columns: 290px 1fr;
-      gap: 1.6rem;
-      height: 100%;
+    @media (prefers-reduced-motion: reduce) {
+      *, ::before, ::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
     }
 
-    /* Left Sidebar */
-    .chat-sidebar-col {
+    .sanctuary-wrap {
+      max-width: 1240px;
+      margin: 0 auto;
       display: flex;
       flex-direction: column;
-      gap: 1.1rem;
+      gap: 2.2rem;
+      padding-bottom: 3rem;
     }
 
-    .beavy-profile-card {
-      background: #ffffff;
+    /* 1. EDITORIAL HEADER */
+    .beavy-hero {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 2rem;
+      padding: 1.5rem 0 0.5rem;
+      border-bottom: 1px solid var(--color-border-subtle);
+    }
+
+    .hero-statement {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: var(--color-text-main);
+      line-height: 1.2;
+      letter-spacing: -0.025em;
+    }
+
+    .hero-highlight {
+      color: var(--color-primary-dark);
+    }
+
+    .hero-sub {
+      font-size: 0.95rem;
+      color: var(--color-text-muted);
+      line-height: 1.6;
+      margin-top: 0.6rem;
+      max-width: 650px;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--color-text-muted);
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      padding: 0.45rem 1rem;
+      border-radius: var(--radius-full);
+      box-shadow: var(--shadow-xs);
+      flex-shrink: 0;
+    }
+
+    .pulse-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--color-success);
+    }
+
+    /* 2. MAIN GRID */
+    .beavy-grid {
+      display: grid;
+      grid-template-columns: 0.75fr 1.4fr;
+      gap: 2rem;
+      align-items: start;
+    }
+
+    .intentions-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 1.6rem;
+    }
+
+    .profile-card, .prompts-card, .chat-surface {
+      background: var(--color-surface);
       border: 1px solid var(--color-border);
       border-radius: var(--radius-xl);
-      padding: 1.6rem 1.2rem;
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+      padding: 1.8rem;
       box-shadow: var(--shadow-xs);
     }
 
-    .beavy-mascot-circle {
-      width: 76px;
-      height: 76px;
+    /* Profile Box */
+    .avatar-disc {
+      width: 64px;
+      height: 64px;
       border-radius: 50%;
-      background: #faf6fe;
-      border: 1px solid #ebdff5;
+      background: var(--color-primary-light);
+      border: 1px solid var(--color-border-focus);
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-bottom: 0.75rem;
+      margin-bottom: 0.9rem;
     }
 
-    .beavy-avatar-lg {
-      width: 58px;
-      height: 58px;
+    .avatar-mascot {
+      width: 44px;
+      height: 44px;
       object-fit: contain;
     }
 
-    .beavy-name {
-      font-size: 1.15rem;
+    .profile-name {
+      font-size: 1.35rem;
       font-weight: 800;
       color: var(--color-text-main);
     }
 
-    .beavy-role-badge {
-      font-size: 0.7rem;
-      font-weight: 700;
-      color: var(--color-primary);
+    .role-badge {
+      display: inline-block;
+      font-size: 0.74rem;
+      font-weight: 600;
+      color: var(--color-primary-dark);
       background: var(--color-primary-light);
       padding: 0.2rem 0.6rem;
       border-radius: var(--radius-full);
-      margin: 0.3rem 0 0.7rem;
+      margin-top: 0.2rem;
+      margin-bottom: 0.8rem;
     }
 
-    .beavy-bio {
-      font-size: 0.8rem;
+    .profile-bio {
+      font-size: 0.84rem;
       color: var(--color-text-body);
-      line-height: 1.45;
-      margin-bottom: 1.1rem;
+      line-height: 1.55;
     }
 
-    .ai-status-row {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      background: #ecfdf5;
-      border: 1px solid #a7f3d0;
-      padding: 0.35rem 0.75rem;
-      border-radius: var(--radius-full);
-      font-size: 0.72rem;
-      font-weight: 600;
-      color: #047857;
-    }
-
-    .status-indicator-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: #10b981;
-    }
-
-    /* Quick Prompts Box */
-    .quick-prompts-box {
-      background: #ffffff;
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius-xl);
-      padding: 1.25rem;
-      box-shadow: var(--shadow-xs);
-    }
-
-    .prompts-title {
-      font-size: 0.76rem;
-      font-weight: 800;
-      color: var(--color-text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      margin-bottom: 0.75rem;
-    }
-
-    .prompts-list {
-      display: flex;
-      flex-direction: column;
-      gap: 0.45rem;
-    }
-
-    .prompt-chip {
-      display: flex;
-      align-items: center;
-      gap: 0.55rem;
-      text-align: left;
-      padding: 0.6rem 0.8rem;
-      background: #fbf9fe;
-      border: 1px solid var(--color-border-subtle);
-      border-radius: var(--radius-md);
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: var(--color-text-body);
-      transition: all 0.15s;
-      cursor: pointer;
-    }
-
-    .prompt-chip:hover {
-      background: var(--color-primary-light);
-      border-color: var(--color-border-focus);
-      color: var(--color-primary-dark);
-      transform: translateX(2px);
-    }
-
-    /* Right Main Viewport */
-    .chat-main-viewport {
-      background: #ffffff;
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius-xl);
-      box-shadow: var(--shadow-xs);
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-      overflow: hidden;
-    }
-
-    .chat-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem 1.4rem;
-      border-bottom: 1px solid var(--color-border-subtle);
-      background: #ffffff;
-    }
-
-    .chat-header-user {
-      display: flex;
-      align-items: center;
-      gap: 0.8rem;
-    }
-
-    .header-avatar-circle {
-      width: 36px;
-      height: 36px;
-      border-radius: var(--radius-md);
-      background: #faf6fe;
-      border: 1px solid #ebdff5;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .header-avatar-img {
-      width: 26px;
-      height: 26px;
-      object-fit: contain;
-    }
-
-    .header-chat-name {
-      font-size: 0.98rem;
+    .side-title {
+      font-size: 1.05rem;
       font-weight: 800;
       color: var(--color-text-main);
     }
 
-    .header-chat-sub {
-      font-size: 0.75rem;
+    .side-desc {
+      font-size: 0.78rem;
       color: var(--color-text-muted);
+      margin-top: 0.2rem;
+      margin-bottom: 1rem;
     }
 
-    .btn-clear-chat {
-      background: none;
+    .prompt-chips {
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+    }
+
+    .chip-item {
+      display: flex;
+      align-items: center;
+      text-align: left;
+      padding: 0.75rem 0.95rem;
+      border-radius: var(--radius-md);
+      background: var(--color-surface-subtle);
+      border: 1px solid var(--color-border-subtle);
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--color-text-body);
+      cursor: pointer;
+      transition: background-color 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+    }
+
+    .chip-item:hover {
+      background: var(--color-surface);
+      border-color: var(--color-border-focus);
+      transform: translateX(3px);
+    }
+
+    /* Chat Surface */
+    .chat-head-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding-bottom: 1.2rem;
+      border-bottom: 1px solid var(--color-border-subtle);
+      margin-bottom: 1.5rem;
+    }
+
+    .surface-title {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--color-text-main);
+    }
+
+    .surface-caption {
+      font-size: 0.8rem;
+      color: var(--color-text-muted);
+      margin-top: 0.2rem;
+    }
+
+    .btn-clear {
+      background: transparent;
       border: 1px solid var(--color-border);
       color: var(--color-text-muted);
-      padding: 0.45rem;
+      padding: 0.4rem 0.65rem;
       border-radius: var(--radius-sm);
-      transition: all 0.15s;
-      display: flex;
       cursor: pointer;
+      transition: color 0.15s ease, border-color 0.15s ease;
     }
 
-    .btn-clear-chat:hover {
-      background: #fee2e2;
-      border-color: #fca5a5;
-      color: #dc2626;
+    .btn-clear:hover {
+      color: var(--color-danger);
+      border-color: var(--color-danger-border);
     }
 
-    /* Messages Stream */
-    .messages-stream {
-      flex: 1;
-      padding: 1.4rem;
+    .messages-flow {
+      min-height: 380px;
+      max-height: 520px;
       overflow-y: auto;
       display: flex;
       flex-direction: column;
-      gap: 1.1rem;
-      background: #fbfafc;
+      gap: 1.2rem;
+      padding-right: 0.5rem;
+      margin-bottom: 1.5rem;
     }
 
-    .message-row {
+    .message-bubble {
       display: flex;
-      gap: 0.75rem;
-      max-width: 78%;
+      gap: 0.85rem;
+      max-width: 85%;
     }
 
-    .message-row.user {
+    .message-bubble.beavy {
+      align-self: flex-start;
+    }
+
+    .message-bubble.user {
       align-self: flex-end;
       flex-direction: row-reverse;
     }
 
-    .message-row.beavy {
-      align-self: flex-start;
-    }
-
-    .beavy-msg-avatar {
-      width: 32px;
-      height: 32px;
-      border-radius: var(--radius-md);
-      background: #ffffff;
-      border: 1px solid var(--color-border);
+    .msg-avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: var(--color-primary-light);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -388,270 +373,141 @@ import mascotImg from '../assets/craiyon.png';
       object-fit: contain;
     }
 
-    .message-bubble {
-      padding: 0.85rem 1.1rem;
+    .msg-body {
+      background: var(--color-surface-subtle);
+      border: 1px solid var(--color-border-subtle);
       border-radius: var(--radius-lg);
-      font-size: 0.88rem;
-      line-height: 1.5;
+      padding: 0.95rem 1.15rem;
     }
 
-    .user-bubble {
+    .message-bubble.user .msg-body {
       background: var(--color-primary);
-      color: white;
-      border-bottom-right-radius: 4px;
-      box-shadow: 0 2px 6px rgba(124, 58, 237, 0.2);
+      color: var(--color-surface);
+      border: none;
     }
 
-    .user-bubble .message-time {
-      color: rgba(255, 255, 255, 0.7);
-    }
-
-    .beavy-bubble {
-      background: #ffffff;
-      color: var(--color-text-main);
-      border: 1px solid var(--color-border);
-      border-bottom-left-radius: 4px;
-      box-shadow: var(--shadow-xs);
-    }
-
-    .message-time {
-      font-family: var(--font-mono);
-      font-size: 0.65rem;
-      display: block;
-      margin-top: 0.35rem;
-      text-align: right;
-      color: var(--color-text-subtle);
-    }
-
-    /* Embedded Task Card (From Figma) */
-    .embedded-task-card {
-      margin-top: 0.75rem;
-      background: #fcfaff;
-      border: 1px solid var(--color-border-focus);
-      border-radius: var(--radius-md);
-      padding: 0.9rem;
-    }
-
-    .etc-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.35rem;
+    .msg-author {
       font-size: 0.72rem;
       font-weight: 700;
       color: var(--color-primary-dark);
-      background: var(--color-primary-light);
-      padding: 0.15rem 0.55rem;
-      border-radius: var(--radius-full);
-      margin-bottom: 0.35rem;
+      display: block;
+      margin-bottom: 0.2rem;
     }
 
-    .etc-title {
-      font-size: 0.92rem;
-      font-weight: 700;
-      color: var(--color-text-main);
+    .msg-body p {
+      font-size: 0.88rem;
+      line-height: 1.55;
     }
 
-    .etc-meta {
-      font-size: 0.75rem;
-      color: var(--color-text-muted);
-      margin-top: 0.15rem;
-      margin-bottom: 0.75rem;
-    }
-
-    .btn-apply-schedule {
+    /* Chat Form Strip */
+    .chat-form-strip {
       display: flex;
+      gap: 0.75rem;
       align-items: center;
-      justify-content: center;
-      gap: 0.45rem;
-      width: 100%;
-      background: var(--color-primary);
-      color: white;
-      border: none;
-      font-size: 0.8rem;
-      font-weight: 700;
-      padding: 0.55rem;
-      border-radius: var(--radius-sm);
-      cursor: pointer;
-      transition: background 0.15s;
-    }
-
-    .btn-apply-schedule:hover {
-      background: var(--color-primary-dark);
-    }
-
-    /* Chat Input Bar */
-    .chat-input-wrapper {
-      padding: 0.9rem 1.2rem;
-      background: #ffffff;
-      border-top: 1px solid var(--color-border-subtle);
-    }
-
-    .chat-form {
-      display: flex;
-      gap: 0.65rem;
-      align-items: center;
-    }
-
-    .chat-form input {
-      flex: 1;
-      padding: 0.75rem 1.1rem;
-      border-radius: var(--radius-md);
+      background: var(--color-surface-subtle);
       border: 1px solid var(--color-border);
+      border-radius: var(--radius-full);
+      padding: 0.45rem 0.6rem 0.45rem 1.2rem;
+      box-shadow: var(--shadow-xs);
+    }
+
+    .chat-form-strip input {
+      flex: 1;
+      border: none;
+      background: transparent;
       font-family: inherit;
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       color: var(--color-text-main);
       outline: none;
-      background: #fdfcff;
-      transition: border-color 0.15s;
     }
 
-    .chat-form input:focus {
-      border-color: var(--color-primary);
-      box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
-    }
-
-    .btn-send-message {
-      width: 40px;
-      height: 40px;
-      border-radius: var(--radius-md);
-      background: var(--color-primary);
-      color: white;
+    .btn-send-chat {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
       border: none;
+      background: var(--color-primary);
+      color: var(--color-surface);
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      transition: background 0.15s;
+      flex-shrink: 0;
+      transition: background-color 0.15s ease, transform 0.15s ease;
     }
 
-    .btn-send-message:hover {
+    .btn-send-chat:hover {
       background: var(--color-primary-dark);
+      transform: scale(1.06);
     }
 
-    @media (max-width: 900px) {
-      .chat-desktop-layout {
+    @media (max-width: 1040px) {
+      .beavy-grid {
         grid-template-columns: 1fr;
       }
-      .chat-sidebar-col {
-        display: none;
-      }
-      .chat-page-wrap {
-        height: calc(100vh - 160px);
+      .beavy-hero {
+        flex-direction: column;
+        align-items: flex-start;
       }
     }
   </style>
 
   <script>
-    const form = document.getElementById('chat-form') as HTMLFormElement;
-    const input = document.getElementById('chat-input') as HTMLInputElement;
-    const stream = document.getElementById('messages-container');
-    const promptChips = document.querySelectorAll('.prompt-chip');
-    const btnClear = document.getElementById('btn-clear-chat');
-    const btnApply = document.getElementById('btn-apply-task');
+    const form = document.getElementById('chat-form');
+    const input = document.getElementById('user-input') as HTMLInputElement;
+    const container = document.getElementById('messages-container');
+    const clearBtn = document.getElementById('btn-clear-chat');
 
-    function getCurrentTime() {
-      const now = new Date();
-      return `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
-    }
-
-    function addMessage(text: string, sender: 'user' | 'beavy', recommendation?: any) {
-      if (!stream) return;
-      const row = document.createElement('div');
-      row.className = `message-row ${sender}`;
-
-      const time = getCurrentTime();
-
-      if (sender === 'user') {
-        row.innerHTML = `
-          <div class="message-bubble user-bubble">
-            <p>${text}</p>
-            <span class="message-time">${time}</span>
-          </div>
-        `;
-      } else {
-        let recHtml = '';
-        if (recommendation) {
-          recHtml = `
-            <div class="embedded-task-card">
-              <div class="etc-info">
-                <span class="etc-badge">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-                  <span>${recommendation.badge || 'Rekomendasi Tindakan'}</span>
-                </span>
-                <h4 class="etc-title">${recommendation.title}</h4>
-                <p class="etc-meta">${recommendation.meta}</p>
-              </div>
-              <button class="btn-apply-schedule" onclick="(window).jadwalinToast('Jadwal Diperbarui', 'Tugas dialokasikan ke slot jam 15.00 hari ini.', 'success');">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 5v14M5 12h14"></path></svg>
-                <span>Terapkan ke Jadwal</span>
-              </button>
-            </div>
-          `;
-        }
-
-        row.innerHTML = `
-          <div class="beavy-msg-avatar">
-            <img src="/craiyon.png" alt="Beavy" class="msg-avatar-img" />
-          </div>
-          <div class="message-bubble beavy-bubble">
-            <p>${text}</p>
-            ${recHtml}
-            <span class="message-time">${time}</span>
-          </div>
-        `;
-      }
-
-      stream.appendChild(row);
-      stream.scrollTop = stream.scrollHeight;
+    function appendMessage(text: string, isUser = false) {
+      if (!container) return;
+      const wrap = document.createElement('div');
+      wrap.className = `message-bubble ${isUser ? 'user' : 'beavy'}`;
+      
+      wrap.innerHTML = `
+        <div class="msg-body">
+          ${!isUser ? '<span class="msg-author">Beavy</span>' : ''}
+          <p>${text}</p>
+        </div>
+      `;
+      container.appendChild(wrap);
+      container.scrollTop = container.scrollHeight;
     }
 
     form?.addEventListener('submit', (e) => {
       e.preventDefault();
-      const val = input?.value.trim();
+      const val = input.value.trim();
       if (!val) return;
-
-      addMessage(val, 'user');
+      appendMessage(val, true);
       input.value = '';
 
-      // Intelligent Beavy replies
       setTimeout(() => {
-        const lower = val.toLowerCase();
-        if (lower.includes('ganteng') || lower.includes('cantik') || lower.includes('tampan')) {
-          addMessage('Gaya kamu boleh juga, tapi tugas praktikum kamu masih kosong tuh. Kerjain sekarang biar gak panik jam 11 malam nanti!', 'beavy');
-        } else if (lower.includes('kenapa') || lower.includes('nomor 1') || lower.includes('prioritas')) {
-          addMessage('Karena Laporan Praktikum itu tenggatnya paling dekat (sore ini jam 17.00) dan butuh waktu fokus sekitar 2 jam. Kalau ditunda, tugas Slide Presentasi bakal ikut keteteran!', 'beavy', {
-            badge: 'Prioritas Kritis #1',
-            title: 'Laporan Praktikum Pemrograman',
-            meta: 'Sisa 1 hari 4 jam • Estimasi 2 jam'
-          });
-        } else if (lower.includes('atur ulang') || lower.includes('jadwal') || lower.includes('minggu')) {
-          addMessage('Sudah kuatur ulang! Slot tugas dipindahkan ke jam 15.00 - 17.00 dengan jeda istirahat 30 menit. Cek tab Jadwal ya!', 'beavy');
-        } else if (lower.includes('waktu') || lower.includes('luang') || lower.includes('istirahat')) {
-          addMessage('Hari ini ada 2 slot luang: jam 12.30 - 13.30 (makan siang) dan jam 17.30 - 19.00 (santai sebelum tugas malam). Manfaatkan untuk recharge energi ya!', 'beavy');
-        } else {
-          addMessage(`Catatan bagus tentang "${val}". Saranku: pecah tugas ini ke dalam 2 sesi 25 menit (metode Pomodoro) agar fokus tetap tajam.`, 'beavy');
-        }
-      }, 500);
+        appendMessage('Saran cerdas: Alokasikan tugas ini ke sesi fokus jam 15.00 agar kamu tidak menumpuk beban di malam hari.', false);
+      }, 700);
     });
 
-    promptChips.forEach(chip => {
-      chip.addEventListener('click', () => {
-        const msg = chip.getAttribute('data-msg');
+    document.querySelectorAll('.chip-item').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const msg = btn.getAttribute('data-msg');
         if (msg) {
-          if (input) input.value = msg;
-          form.dispatchEvent(new Event('submit'));
+          appendMessage(msg, true);
+          setTimeout(() => {
+            appendMessage('Pertanyaan bagus! Berdasarkan estimasi beban kognitif, slot fokus 90 menit sudah ideal untuk menyelesaikannya.', false);
+          }, 600);
         }
       });
     });
 
-    btnClear?.addEventListener('click', () => {
-      if (stream) stream.innerHTML = '';
-      addMessage('Percakapan telah direset. Ada hal yang perlu kita jadwalkan sekarang?', 'beavy');
-      (window as any).jadwalinToast('Obrolan Direset', 'Riwayat percakapan telah dibersihkan.', 'info');
-    });
-
-    btnApply?.addEventListener('click', () => {
-      (window as any).jadwalinToast('Jadwal Diperbarui', 'Laporan Praktikum berhasil dimasukkan ke slot jam 15.00.', 'success');
+    clearBtn?.addEventListener('click', () => {
+      if (container) {
+        container.innerHTML = `
+          <div class="message-bubble beavy">
+            <div class="msg-body">
+              <span class="msg-author">Beavy</span>
+              <p>Percakapan telah direset. Ada rencana belajar atau tugas baru yang ingin kamu diskusikan?</p>
+            </div>
+          </div>
+        `;
+      }
     });
   </script>
 </DashboardLayout>
