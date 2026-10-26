@@ -104,7 +104,12 @@ import mascotImg from '../assets/craiyon.png';
                 <span class="file-name">jadwal-kuliah.jpg</span>
                 <span class="file-size">1.4 MB • Gambar Jadwal Semester 5</span>
               </div>
-              <button class="btn-remove-file" title="Hapus" onclick="this.closest('.file-item').remove(); (window).jadwalinToast('File Dihapus', 'jadwal-kuliah.jpg dihapus dari antrean.', 'info');">✕</button>
+              <button class="btn-remove-file" title="Hapus" aria-label="Hapus berkas" onclick="this.closest('.file-item').remove(); (window).jadwalinToast('File Dihapus', 'jadwal-kuliah.jpg dihapus dari antrean.', 'info');">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="18" y1="6" x2="6" y2="18"></line>
+                  <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+              </button>
             </div>
 
             <!-- File 2 from Figma -->
@@ -116,7 +121,12 @@ import mascotImg from '../assets/craiyon.png';
                 <span class="file-name">daftar-tugas.pdf</span>
                 <span class="file-size">2.8 MB • Dokumen Silabus Pemrograman</span>
               </div>
-              <button class="btn-remove-file" title="Hapus" onclick="this.closest('.file-item').remove(); (window).jadwalinToast('File Dihapus', 'daftar-tugas.pdf dihapus.', 'info');">✕</button>
+              <button class="btn-remove-file" title="Hapus" aria-label="Hapus berkas" onclick="this.closest('.file-item').remove(); (window).jadwalinToast('File Dihapus', 'daftar-tugas.pdf dihapus.', 'info');">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="18" y1="6" x2="6" y2="18"></line>
+                  <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+              </button>
             </div>
           </div>
         </div>
@@ -179,21 +189,33 @@ import mascotImg from '../assets/craiyon.png';
           <h4 class="ep-title">Ekstraksi AI Berhasil Ditemukan</h4>
           <ul class="ep-list">
             <li>
-              <span class="ep-check">✓</span>
+              <span class="ep-check">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+              </span>
               <div>
                 <strong>Laporan Praktikum Pemrograman</strong>
                 <p>Tenggat: Hari ini 17.00 • Estimasi: 2 jam fokus</p>
               </div>
             </li>
             <li>
-              <span class="ep-check">✓</span>
+              <span class="ep-check">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+              </span>
               <div>
                 <strong>Slide Presentasi Kelompok</strong>
                 <p>Tenggat: Besok 09.00 • Estimasi: 1.5 jam</p>
               </div>
             </li>
             <li>
-              <span class="ep-check">✓</span>
+              <span class="ep-check">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+              </span>
               <div>
                 <strong>Kuliah Basis Data</strong>
                 <p>Jadwal Tetap: Kamis 10.00 - 12.00 • Ruang Lab 3</p>

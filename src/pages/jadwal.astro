@@ -86,7 +86,11 @@ const days = [
                 <p class="block-notes">Implementasi endpoint auth dan validasi schema database.</p>
               </div>
               <div class="block-actions">
-                <button class="btn-slot-done" title="Tandai Selesai" onclick="markSlotDone(this, 'Fokus: Pemrograman Web & API')">✓</button>
+                <button class="btn-slot-done" title="Tandai Selesai" aria-label="Tandai selesai" onclick="markSlotDone(this, 'Fokus: Pemrograman Web & API')">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                </button>
               </div>
             </div>
 
@@ -104,7 +108,11 @@ const days = [
                 <p class="block-notes">Tenggat hari ini jam 17.00. Analisis hasil pengujian algoritma.</p>
               </div>
               <div class="block-actions">
-                <button class="btn-slot-done" onclick="markSlotDone(this, 'Laporan Praktikum')">✓</button>
+                <button class="btn-slot-done" title="Tandai Selesai" aria-label="Tandai selesai" onclick="markSlotDone(this, 'Laporan Praktikum')">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                </button>
               </div>
             </div>
 
@@ -122,7 +130,11 @@ const days = [
                 <p class="block-notes">Review deck presentasi dan sinkronisasi pembagian bab pembicara.</p>
               </div>
               <div class="block-actions">
-                <button class="btn-slot-done" onclick="markSlotDone(this, 'Slide Presentasi Kelompok')">✓</button>
+                <button class="btn-slot-done" title="Tandai Selesai" aria-label="Tandai selesai" onclick="markSlotDone(this, 'Slide Presentasi Kelompok')">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                </button>
               </div>
             </div>
 
@@ -140,7 +152,12 @@ const days = [
                 <p class="block-notes">Benchmarking alur onboarding kompetitor selesai dirangkum.</p>
               </div>
               <div class="block-actions">
-                <span class="badge-checked">✓ Selesai</span>
+                <span class="badge-checked">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                  <span>Selesai</span>
+                </span>
               </div>
             </div>
           </div>
@@ -165,7 +182,12 @@ const days = [
                 <span class="slot-chip-time">08.00 - 10.00</span>
                 <span class="slot-chip-tag">Pagi • 2 jam fokus</span>
               </div>
-              <button class="btn-remove-slot" title="Hapus Slot" onclick="this.closest('.slot-chip').remove(); (window).jadwalinToast('Slot Dihapus', 'Slot waktu pagi dihapus.', 'info');">✕</button>
+              <button class="btn-remove-slot" title="Hapus Slot" aria-label="Hapus slot waktu" onclick="this.closest('.slot-chip').remove(); (window).jadwalinToast('Slot Dihapus', 'Slot waktu pagi dihapus.', 'info');">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="18" y1="6" x2="6" y2="18"></line>
+                  <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+              </button>
             </div>
 
             <div class="slot-chip">
@@ -173,7 +195,12 @@ const days = [
                 <span class="slot-chip-time">15.00 - 17.30</span>
                 <span class="slot-chip-tag">Sore • 2.5 jam fokus</span>
               </div>
-              <button class="btn-remove-slot" onclick="this.closest('.slot-chip').remove(); (window).jadwalinToast('Slot Dihapus', 'Slot sore dihapus.', 'info');">✕</button>
+              <button class="btn-remove-slot" title="Hapus Slot" aria-label="Hapus slot waktu" onclick="this.closest('.slot-chip').remove(); (window).jadwalinToast('Slot Dihapus', 'Slot sore dihapus.', 'info');">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="18" y1="6" x2="6" y2="18"></line>
+                  <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+              </button>
             </div>
 
             <div class="slot-chip">
@@ -181,7 +208,12 @@ const days = [
                 <span class="slot-chip-time">19.00 - 21.00</span>
                 <span class="slot-chip-tag">Malam • 2 jam santai</span>
               </div>
-              <button class="btn-remove-slot" onclick="this.closest('.slot-chip').remove(); (window).jadwalinToast('Slot Dihapus', 'Slot malam dihapus.', 'info');">✕</button>
+              <button class="btn-remove-slot" title="Hapus Slot" aria-label="Hapus slot waktu" onclick="this.closest('.slot-chip').remove(); (window).jadwalinToast('Slot Dihapus', 'Slot malam dihapus.', 'info');">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="18" y1="6" x2="6" y2="18"></line>
+                  <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+              </button>
             </div>
           </div>
 
@@ -762,7 +794,12 @@ const days = [
             <span class="slot-chip-time">21.00 - 22.00</span>
             <span class="slot-chip-tag">Malam • 1 jam evaluasi</span>
           </div>
-          <button class="btn-remove-slot" title="Hapus" onclick="this.closest('.slot-chip').remove(); (window).jadwalinToast('Slot Dihapus', 'Slot dihapus.', 'info');">✕</button>
+          <button class="btn-remove-slot" title="Hapus" aria-label="Hapus slot" onclick="this.closest('.slot-chip').remove(); (window).jadwalinToast('Slot Dihapus', 'Slot dihapus.', 'info');">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
         `;
         container.appendChild(newSlot);
         (window as any).jadwalinToast('Slot Ditambahkan', 'Slot 21.00 - 22.00 ditambahkan ke ketersediaanmu.', 'success');

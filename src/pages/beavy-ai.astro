@@ -92,7 +92,10 @@ import mascotImg from '../assets/craiyon.png';
               <!-- Embedded Recommendation Card (From Figma) -->
               <div class="embedded-task-card">
                 <div class="etc-info">
-                  <span class="etc-kicker">REKOMENDASI EKSEKUSI SEGERA</span>
+                  <span class="etc-badge">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                    <span>Rekomendasi Tindakan</span>
+                  </span>
                   <h4 class="etc-title">Laporan Praktikum Pemrograman</h4>
                   <p class="etc-meta">Tenggat hari ini jam 17.00 • Estimasi 90 menit</p>
                 </div>
@@ -429,13 +432,17 @@ import mascotImg from '../assets/craiyon.png';
       padding: 0.9rem;
     }
 
-    .etc-kicker {
-      font-size: 0.65rem;
-      font-weight: 800;
-      color: var(--color-primary);
-      letter-spacing: 0.05em;
-      display: block;
-      margin-bottom: 0.2rem;
+    .etc-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--color-primary-dark);
+      background: var(--color-primary-light);
+      padding: 0.15rem 0.55rem;
+      border-radius: var(--radius-full);
+      margin-bottom: 0.35rem;
     }
 
     .etc-title {
@@ -567,7 +574,10 @@ import mascotImg from '../assets/craiyon.png';
           recHtml = `
             <div class="embedded-task-card">
               <div class="etc-info">
-                <span class="etc-kicker">${recommendation.kicker || 'REKOMENDASI AI'}</span>
+                <span class="etc-badge">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                  <span>${recommendation.badge || 'Rekomendasi Tindakan'}</span>
+                </span>
                 <h4 class="etc-title">${recommendation.title}</h4>
                 <p class="etc-meta">${recommendation.meta}</p>
               </div>
@@ -610,7 +620,7 @@ import mascotImg from '../assets/craiyon.png';
           addMessage('Gaya kamu boleh juga, tapi tugas praktikum kamu masih kosong tuh. Kerjain sekarang biar gak panik jam 11 malam nanti!', 'beavy');
         } else if (lower.includes('kenapa') || lower.includes('nomor 1') || lower.includes('prioritas')) {
           addMessage('Karena Laporan Praktikum itu tenggatnya paling dekat (sore ini jam 17.00) dan butuh waktu fokus sekitar 2 jam. Kalau ditunda, tugas Slide Presentasi bakal ikut keteteran!', 'beavy', {
-            kicker: 'PRIORITAS KRITIS #1',
+            badge: 'Prioritas Kritis #1',
             title: 'Laporan Praktikum Pemrograman',
             meta: 'Sisa 1 hari 4 jam • Estimasi 2 jam'
           });

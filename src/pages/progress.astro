@@ -220,7 +220,12 @@ import mascotImg from '../assets/craiyon.png';
   <!-- Face Scan Verification Modal (From Figma Frame 165:425 & 227:796, Refined Biometric Style) -->
   <div id="facescan-modal" class="modal-backdrop">
     <div class="facescan-box">
-      <button id="close-facescan" class="btn-close-modal">✕</button>
+      <button id="close-facescan" class="btn-close-modal" aria-label="Tutup modal">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
 
       <div class="facescan-header">
         <h3 class="fs-title">Verifikasi Sesi Fokus</h3>
@@ -241,15 +246,27 @@ import mascotImg from '../assets/craiyon.png';
       <!-- 3 Criteria Checkpoints from Figma -->
       <div class="fs-criteria-list">
         <div class="fs-crit-item">
-          <span class="fs-crit-icon">✓</span>
+          <span class="fs-crit-icon">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </span>
           <span>Pencahayaan Baik</span>
         </div>
         <div class="fs-crit-item">
-          <span class="fs-crit-icon">✓</span>
+          <span class="fs-crit-icon">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </span>
           <span>Fokus Terbuka</span>
         </div>
         <div class="fs-crit-item">
-          <span class="fs-crit-icon">✓</span>
+          <span class="fs-crit-icon">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </span>
           <span>Siap Belajar</span>
         </div>
       </div>

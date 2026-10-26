@@ -57,7 +57,7 @@ import mascotImg from '../assets/craiyon.png';
           <div class="card-top-row">
             <div style="display: flex; align-items: center; gap: 0.5rem;">
               <span class="pulse-indicator"></span>
-              <span class="kicker-tag">PRIORITAS UTAMA HARI INI</span>
+              <span class="status-live-label">Prioritas Hari Ini</span>
             </div>
             <span class="badge-critical">Kritis • #1</span>
           </div>
@@ -122,7 +122,11 @@ import mascotImg from '../assets/craiyon.png';
               <span class="session-status start-soon">Mulai dalam 32 menit</span>
             </div>
             <div class="session-action">
-              <button class="btn-check-session" title="Selesaikan Sesi" onclick="(window).jadwalinToast('Sesi Selesai', 'Sesi pemrograman telah direkam ke log harian.', 'success'); this.closest('.session-item').style.opacity = '0.5';">✓</button>
+              <button class="btn-check-session" title="Selesaikan Sesi" aria-label="Selesaikan sesi" onclick="(window).jadwalinToast('Sesi Selesai', 'Sesi pemrograman telah direkam ke log harian.', 'success'); this.closest('.session-item').style.opacity = '0.5';">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+              </button>
             </div>
           </div>
 
@@ -136,7 +140,11 @@ import mascotImg from '../assets/craiyon.png';
               <span class="session-status upcoming">Siang nanti</span>
             </div>
             <div class="session-action">
-              <button class="btn-check-session" onclick="(window).jadwalinToast('Sesi Selesai', 'Sesi laporan selesai.', 'success'); this.closest('.session-item').style.opacity = '0.5';">✓</button>
+              <button class="btn-check-session" title="Selesaikan Sesi" aria-label="Selesaikan sesi" onclick="(window).jadwalinToast('Sesi Selesai', 'Sesi laporan selesai.', 'success'); this.closest('.session-item').style.opacity = '0.5';">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+              </button>
             </div>
           </div>
 
@@ -150,7 +158,11 @@ import mascotImg from '../assets/craiyon.png';
               <span class="session-status upcoming">Malam ini</span>
             </div>
             <div class="session-action">
-              <button class="btn-check-session" onclick="(window).jadwalinToast('Sesi Selesai', 'Sesi presentasi selesai.', 'success'); this.closest('.session-item').style.opacity = '0.5';">✓</button>
+              <button class="btn-check-session" title="Selesaikan Sesi" aria-label="Selesaikan sesi" onclick="(window).jadwalinToast('Sesi Selesai', 'Sesi presentasi selesai.', 'success'); this.closest('.session-item').style.opacity = '0.5';">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+              </button>
             </div>
           </div>
         </div>
@@ -405,11 +417,11 @@ import mascotImg from '../assets/craiyon.png';
       margin-bottom: 0.6rem;
     }
 
-    .kicker-tag {
-      font-size: 0.72rem;
-      font-weight: 800;
-      color: #b91c1c;
-      letter-spacing: 0.05em;
+    .status-live-label {
+      font-size: 0.76rem;
+      font-weight: 700;
+      color: var(--color-danger);
+      letter-spacing: -0.01em;
     }
 
     .badge-critical {
