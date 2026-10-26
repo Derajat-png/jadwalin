@@ -150,11 +150,24 @@ const { title, activeNav = 'beranda' } = Astro.props;
         line-height: 1.25;
       }
 
-      .toast-message {
+      .toast-action-btn {
+        background: transparent;
+        border: 1px solid var(--color-primary-dark);
+        color: var(--color-primary-dark);
+        font-family: inherit;
         font-size: 0.78rem;
-        color: var(--color-text-muted);
-        margin-top: 2px;
-        line-height: 1.35;
+        font-weight: 700;
+        padding: 4px 10px;
+        border-radius: var(--radius-sm);
+        cursor: pointer;
+        transition: all 0.15s ease;
+        white-space: nowrap;
+        margin-left: auto;
+      }
+
+      .toast-action-btn:hover {
+        background: var(--color-primary);
+        color: #ffffff;
       }
 
       @keyframes toastIn {
@@ -205,8 +218,8 @@ const { title, activeNav = 'beranda' } = Astro.props;
       .version-tag {
         font-family: var(--font-mono);
         font-size: 0.65rem;
-        font-weight: 600;
-        color: var(--color-text-subtle);
+        font-weight: 700;
+        color: var(--color-text-muted);
         background: #f4f0fa;
         padding: 0.2rem 0.5rem;
         border-radius: 6px;
@@ -224,7 +237,7 @@ const { title, activeNav = 'beranda' } = Astro.props;
         font-weight: 700;
         text-transform: uppercase;
         letter-spacing: 0.06em;
-        color: var(--color-text-subtle);
+        color: var(--color-text-muted);
         padding: 0.4rem 0.75rem 0.25rem;
       }
 
@@ -836,8 +849,13 @@ const { title, activeNav = 'beranda' } = Astro.props;
     </div>
 
     <script>
-      // Global Toast Dispatcher
-      (window as any).jadwalinToast = (title: string, message: string, type: 'success' | 'info' | 'warning' = 'success') => {
+      // Global Toast Dispatcher with Optional Action (Undo Support)
+      (window as any).jadwalinToast = (
+        title: string, 
+        message: string, 
+        type: 'success' | 'info' | 'warning' = 'success',
+        action?: { label: string; onClick: () => void }
+      ) => {
         const root = document.getElementById('toast-root');
         if (!root) return;
 
@@ -858,12 +876,28 @@ const { title, activeNav = 'beranda' } = Astro.props;
           </div>
         `;
 
+        let isDismissed = false;
+        if (action) {
+          const actionBtn = document.createElement('button');
+          actionBtn.className = 'toast-action-btn';
+          actionBtn.textContent = action.label;
+          actionBtn.onclick = () => {
+            isDismissed = true;
+            action.onClick();
+            toast.classList.add('out');
+            setTimeout(() => toast.remove(), 250);
+          };
+          toast.appendChild(actionBtn);
+        }
+
         root.appendChild(toast);
 
         setTimeout(() => {
-          toast.classList.add('out');
-          setTimeout(() => toast.remove(), 250);
-        }, 3200);
+          if (!isDismissed && toast.parentElement) {
+            toast.classList.add('out');
+            setTimeout(() => toast.remove(), 250);
+          }
+        }, 4200);
       };
 
       const modal = document.getElementById('quick-add-modal');
@@ -876,6 +910,7 @@ const { title, activeNav = 'beranda' } = Astro.props;
         modal?.classList.add('active');
         (document.getElementById('task-title') as HTMLInputElement)?.focus();
       }
+      (window as any).openQuickAddModal = openModal;
       function closeModal() {
         modal?.classList.remove('active');
       }

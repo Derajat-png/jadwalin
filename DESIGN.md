@@ -54,6 +54,12 @@ typography:
     fontWeight: 700
     lineHeight: 1.25
     letterSpacing: "0.04em"
+  mono:
+    fontFamily: "JetBrains Mono, monospace"
+    fontSize: "0.82rem"
+    fontWeight: 600
+    lineHeight: 1.4
+    letterSpacing: "-0.01em"
 rounded:
   sm: "8px"
   md: "12px"

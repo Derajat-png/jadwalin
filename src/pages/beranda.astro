@@ -122,7 +122,18 @@ import mascotImg from '../assets/craiyon.png';
               <span class="session-status start-soon">Mulai dalam 32 menit</span>
             </div>
             <div class="session-action">
-              <button class="btn-check-session" title="Selesaikan Sesi" aria-label="Selesaikan sesi" onclick="(window).jadwalinToast('Sesi Selesai', 'Sesi pemrograman telah direkam ke log harian.', 'success'); this.closest('.session-item').style.opacity = '0.5';">
+              <button class="btn-check-session" title="Selesaikan Sesi" aria-label="Selesaikan sesi" onclick="
+                const item = this.closest('.session-item');
+                item.style.opacity = '0.45';
+                item.style.filter = 'grayscale(60%)';
+                (window).jadwalinToast('Sesi Ditandai Selesai', 'Sesi pemrograman telah dipindahkan ke riwayat.', 'success', {
+                  label: 'Urungkan',
+                  onClick: () => {
+                    item.style.opacity = '1';
+                    item.style.filter = 'none';
+                  }
+                });
+              ">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
                   <polyline points="20 6 9 17 4 12"></polyline>
                 </svg>
@@ -140,7 +151,18 @@ import mascotImg from '../assets/craiyon.png';
               <span class="session-status upcoming">Siang nanti</span>
             </div>
             <div class="session-action">
-              <button class="btn-check-session" title="Selesaikan Sesi" aria-label="Selesaikan sesi" onclick="(window).jadwalinToast('Sesi Selesai', 'Sesi laporan selesai.', 'success'); this.closest('.session-item').style.opacity = '0.5';">
+              <button class="btn-check-session" title="Selesaikan Sesi" aria-label="Selesaikan sesi" onclick="
+                const item = this.closest('.session-item');
+                item.style.opacity = '0.45';
+                item.style.filter = 'grayscale(60%)';
+                (window).jadwalinToast('Sesi Ditandai Selesai', 'Sesi laporan selesai.', 'success', {
+                  label: 'Urungkan',
+                  onClick: () => {
+                    item.style.opacity = '1';
+                    item.style.filter = 'none';
+                  }
+                });
+              ">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
                   <polyline points="20 6 9 17 4 12"></polyline>
                 </svg>
@@ -158,7 +180,18 @@ import mascotImg from '../assets/craiyon.png';
               <span class="session-status upcoming">Malam ini</span>
             </div>
             <div class="session-action">
-              <button class="btn-check-session" title="Selesaikan Sesi" aria-label="Selesaikan sesi" onclick="(window).jadwalinToast('Sesi Selesai', 'Sesi presentasi selesai.', 'success'); this.closest('.session-item').style.opacity = '0.5';">
+              <button class="btn-check-session" title="Selesaikan Sesi" aria-label="Selesaikan sesi" onclick="
+                const item = this.closest('.session-item');
+                item.style.opacity = '0.45';
+                item.style.filter = 'grayscale(60%)';
+                (window).jadwalinToast('Sesi Ditandai Selesai', 'Sesi presentasi selesai.', 'success', {
+                  label: 'Urungkan',
+                  onClick: () => {
+                    item.style.opacity = '1';
+                    item.style.filter = 'none';
+                  }
+                });
+              ">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
                   <polyline points="20 6 9 17 4 12"></polyline>
                 </svg>
@@ -175,13 +208,13 @@ import mascotImg from '../assets/craiyon.png';
           <h3 class="section-title" style="margin-bottom: 1rem;">Aksi Cepat</h3>
           
           <div class="quick-actions-grid">
-            <a href="/tambah-tugas" class="quick-action-btn action-add">
+            <button type="button" class="quick-action-btn action-add" onclick="(window).openQuickAddModal ? (window).openQuickAddModal() : window.location.href='/tambah-tugas';">
               <div class="qa-icon-wrap">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
               </div>
               <span class="qa-title">Tambah Tugas</span>
-              <span class="qa-desc">Input manual terstruktur</span>
-            </a>
+              <span class="qa-desc">Input modal cepat [N]</span>
+            </button>
 
             <a href="/upload" class="quick-action-btn action-upload">
               <div class="qa-icon-wrap">
@@ -374,7 +407,7 @@ import mascotImg from '../assets/craiyon.png';
       gap: 1.5rem;
     }
 
-    /* Priority Highlight Card */
+    /* Priority Highlight Card (Focus Sanctuary style, no harsh left-edge slop) */
     .priority-highlight-card {
       background: #ffffff;
       border: 1px solid var(--color-border);
@@ -385,29 +418,12 @@ import mascotImg from '../assets/craiyon.png';
       overflow: hidden;
     }
 
-    .priority-highlight-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 4px;
-      height: 100%;
-      background: #ef4444;
-    }
-
     .pulse-indicator {
       width: 8px;
       height: 8px;
       border-radius: 50%;
-      background: #ef4444;
+      background: var(--color-accent);
       display: inline-block;
-      animation: pulseDot 1.5s infinite;
-    }
-
-    @keyframes pulseDot {
-      0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
-      70% { box-shadow: 0 0 0 6px rgba(239, 68, 68, 0); }
-      100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
     }
 
     .card-top-row {
@@ -418,19 +434,20 @@ import mascotImg from '../assets/craiyon.png';
     }
 
     .status-live-label {
-      font-size: 0.76rem;
+      font-size: 0.78rem;
       font-weight: 700;
-      color: var(--color-danger);
+      color: var(--color-text-body);
       letter-spacing: -0.01em;
     }
 
     .badge-critical {
-      background: #fee2e2;
-      color: #b91c1c;
+      background: var(--color-warning-bg);
+      color: var(--color-warning);
+      border: 1px solid rgba(217, 119, 6, 0.2);
       font-size: 0.72rem;
       font-weight: 700;
       padding: 0.2rem 0.6rem;
-      border-radius: 6px;
+      border-radius: var(--radius-sm);
     }
 
     .task-highlight-title {
@@ -614,8 +631,8 @@ import mascotImg from '../assets/craiyon.png';
     }
 
     .session-duration {
-      font-size: 0.68rem;
-      color: var(--color-text-subtle);
+      font-size: 0.72rem;
+      color: var(--color-text-muted);
       font-weight: 600;
     }
 
