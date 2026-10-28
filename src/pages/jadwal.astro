@@ -68,6 +68,27 @@ const days = [
           <span class="count-tag" id="active-slots-count">4 Blok Terjadwal</span>
         </div>
 
+        <!-- EMPTY SCHEDULE VIEW (Tampil saat akun baru belum punya jadwal) -->
+        <div id="empty-schedule-view" class="sanctuary-empty-state" style="display: none;">
+          <div class="empty-mascot-wrap">
+            <Image src={mascotImg} alt="Beavy Asisten AI" class="empty-mascot-img" />
+          </div>
+          <h3 class="empty-title">Belum Ada Sesi Terjadwal</h3>
+          <p class="empty-subtitle">
+            Kalender harianmu masih bersih. Tambahkan sesi belajar atau aktivitas baru untuk memulai pengaturan jadwal cerdas.
+          </p>
+          <div class="empty-btn-group">
+            <button type="button" class="btn-empty-primary" onclick="document.getElementById('add-slot-modal')?.classList.add('active');">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+              <span>+ Tambah Sesi Sekarang</span>
+            </button>
+            <a href="/upload" class="btn-empty-secondary">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+              <span>Upload Jadwal Kuliah</span>
+            </a>
+          </div>
+        </div>
+
         <div class="blocks-sequence" id="blocks-container">
           <!-- Block 1 -->
           <article class="block-row active-block" data-title="Fokus: Pemrograman Web dan API" data-time="10.00 - 12.00" data-dur="120 mnt" data-cat="Akademik" data-notes="Implementasi endpoint auth JWT dan validasi schema database PostgreSQL." data-loc="Lab Komputer 3 (Tatap Muka)">
@@ -1130,6 +1151,115 @@ const days = [
         padding-bottom: 0.5rem;
       }
     }
+
+    /* Sanctuary Empty State (Jadwal) */
+    .sanctuary-empty-state {
+      background: linear-gradient(180deg, #ffffff 0%, #faf8fd 100%);
+      border: 1.5px dashed rgba(139, 92, 246, 0.28);
+      border-radius: var(--radius-lg);
+      padding: 3.5rem 2rem 2.5rem;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 20px rgba(24, 18, 38, 0.03);
+      margin-bottom: 1.5rem;
+    }
+
+    .empty-mascot-wrap {
+      width: 104px;
+      height: 104px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #f5edfd 0%, #ecdcf9 100%);
+      border: 1.5px solid rgba(139, 92, 246, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.4rem;
+      box-shadow: 0 10px 28px rgba(124, 58, 237, 0.14);
+      animation: floatMascot 4s ease-in-out infinite;
+    }
+
+    @keyframes floatMascot {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+
+    .empty-mascot-img {
+      width: 76px;
+      height: 76px;
+      object-fit: contain;
+    }
+
+    .empty-title {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--color-text-main);
+      letter-spacing: -0.02em;
+      margin-bottom: 0.6rem;
+    }
+
+    .empty-subtitle {
+      font-size: 0.94rem;
+      color: var(--color-text-body);
+      max-width: 480px;
+      line-height: 1.6;
+      margin-bottom: 1.8rem;
+    }
+
+    .empty-btn-group {
+      display: flex;
+      gap: 0.85rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .btn-empty-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+      color: #ffffff;
+      padding: 0.85rem 1.65rem;
+      border-radius: var(--radius-full);
+      font-family: inherit;
+      font-weight: 700;
+      font-size: 0.92rem;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 6px 18px rgba(124, 58, 237, 0.28);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .btn-empty-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px rgba(124, 58, 237, 0.38);
+    }
+
+    .btn-empty-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      background: #ffffff;
+      color: var(--color-text-main);
+      padding: 0.85rem 1.65rem;
+      border-radius: var(--radius-full);
+      font-family: inherit;
+      font-weight: 600;
+      font-size: 0.92rem;
+      border: 1px solid var(--color-border);
+      text-decoration: none;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(24, 18, 38, 0.04);
+      transition: all 0.2s ease;
+    }
+
+    .btn-empty-secondary:hover {
+      background: #faf8fd;
+      border-color: var(--color-primary);
+      transform: translateY(-1px);
+    }
   </style>
 
   <script>
@@ -1306,5 +1436,57 @@ const days = [
         document.querySelectorAll('.modal-backdrop-overlay.active').forEach(m => m.classList.remove('active'));
       }
     });
+
+    // Sinkronisasi Sesi Jadwal Berdasarkan Pengguna Aktif
+    import { getCurrentUser, getUserData } from '../utils/db';
+
+    function syncScheduleData() {
+      const user = getCurrentUser();
+      if (!user || !user.email) return;
+
+      const isDemo = user.email.trim().toLowerCase() === 'daffaahmadalsch@student.ub.ac.id';
+      const data = getUserData(user.email);
+      const emptyScheduleView = document.getElementById('empty-schedule-view');
+      const blocksContainer = document.getElementById('blocks-container');
+      const countTag = document.getElementById('active-slots-count');
+      const heroSub = document.querySelector('.hero-sub');
+
+      // Jika akun baru dan belum memiliki jadwal
+      if (!isDemo && data.schedules.length === 0) {
+        if (countTag) countTag.textContent = '0 Blok Terjadwal';
+        if (heroSub) {
+          heroSub.innerHTML = 'Total <strong>0 menit</strong> sesi fokus aktif. Jadwal masih kosong karena akun baru terdaftar. Buat sesi pertama Anda.';
+        }
+        if (emptyScheduleView) emptyScheduleView.style.display = 'flex';
+        if (blocksContainer) blocksContainer.style.display = 'none';
+      } else {
+        if (emptyScheduleView) emptyScheduleView.style.display = 'none';
+        if (blocksContainer) blocksContainer.style.display = 'flex';
+
+        if (!isDemo && data.schedules.length > 0) {
+          if (countTag) countTag.textContent = `${data.schedules.length} Blok Terjadwal`;
+          if (blocksContainer) {
+            blocksContainer.innerHTML = data.schedules.map(s => `
+              <article class="block-row" data-title="${s.title}">
+                <div class="block-time-col">
+                  <time class="time-range">${s.time}</time>
+                  <span class="time-badge">${s.duration}</span>
+                </div>
+                <div class="block-card">
+                  <div class="block-head">
+                    <span class="category-chip academic">${s.tag || 'Sesi'}</span>
+                  </div>
+                  <h3 class="block-name">${s.title}</h3>
+                  <p class="block-notes">${s.desc}</p>
+                </div>
+              </article>
+            `).join('');
+          }
+        }
+      }
+    }
+
+    syncScheduleData();
+    window.addEventListener('jadwalin-data-updated', syncScheduleData);
   </script>
 </DashboardLayout>

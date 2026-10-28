@@ -69,7 +69,32 @@ import mascotImg from '../assets/craiyon.png';
           <a href="/jadwal" class="link-editorial">Buka Kalender</a>
         </div>
 
-        <ol class="itinerary-timeline">
+        <!-- EMPTY STATE CONTAINER (Tampil jika akun baru / belum ada jadwal) -->
+        <div id="empty-state-view" class="sanctuary-empty-state" style="display: none;">
+          <div class="empty-mascot-wrap">
+            <Image src={mascotImg} alt="Beavy Asisten AI" class="empty-mascot-img" />
+          </div>
+          <h3 class="empty-title">Alur Fokusmu Masih Bersih</h3>
+          <p class="empty-subtitle">
+            Selamat datang di Jadwal.in! Kamu belum memiliki jadwal atau tugas hari ini. Tambahkan tugas baru atau unggah silabus agar Beavy bisa menyusun ritme belajarmu.
+          </p>
+          <div class="empty-btn-group">
+            <button type="button" class="btn-empty-primary" onclick="(window).openQuickAddModal ? (window).openQuickAddModal() : window.location.href='/tambah-tugas';">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+              <span>+ Tambah Tugas Baru</span>
+            </button>
+            <a href="/upload" class="btn-empty-secondary">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+              <span>Upload Jadwal / Silabus</span>
+            </a>
+          </div>
+          <div class="empty-tip-pill">
+            <span class="tip-badge">Tips Cepat</span>
+            <span>Tekan tombol <strong>N</strong> di keyboard untuk menambah tugas kilat</span>
+          </div>
+        </div>
+
+        <ol class="itinerary-timeline" id="itinerary-timeline-list">
           <!-- Item 1: Done -->
           <li class="timeline-entry done">
             <div class="entry-time-col">
@@ -259,7 +284,19 @@ import mascotImg from '../assets/craiyon.png';
             <span class="horizon-badge">3 Hari ke Depan</span>
           </div>
 
-          <ul class="horizon-list">
+          <!-- EMPTY RADAR CONTAINER (Tampil jika akun baru / belum ada deadline) -->
+          <div id="empty-horizon-view" class="empty-radar-card" style="display: none;">
+            <div class="empty-radar-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 6 12 12 16 14"></polyline>
+              </svg>
+            </div>
+            <h4 class="empty-radar-heading">Bebas Tenggat Waktu</h4>
+            <p class="empty-radar-text">Belum ada tugas atau deadline dalam radar 3 hari ke depan.</p>
+          </div>
+
+          <ul class="horizon-list" id="horizon-task-list">
             <li class="horizon-item clickable-horizon" data-task="Laporan Praktikum Modul 4" data-course="Praktikum Pemrograman" data-time="Besok, 17.00">
               <div class="horizon-bullet danger"></div>
               <div class="horizon-info">
@@ -917,5 +954,292 @@ import mascotImg from '../assets/craiyon.png';
         padding-top: 0.8rem;
       }
     }
+
+    /* Sanctuary Empty State (Untuk Akun Baru / Jadwal Kosong) */
+    .sanctuary-empty-state {
+      background: linear-gradient(180deg, #ffffff 0%, #faf8fd 100%);
+      border: 1.5px dashed rgba(139, 92, 246, 0.28);
+      border-radius: var(--radius-lg);
+      padding: 3.5rem 2rem 2.5rem;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 20px rgba(24, 18, 38, 0.03);
+      transition: all 0.2s ease;
+      margin-top: 0.5rem;
+    }
+
+    .empty-mascot-wrap {
+      width: 104px;
+      height: 104px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #f5edfd 0%, #ecdcf9 100%);
+      border: 1.5px solid rgba(139, 92, 246, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.4rem;
+      box-shadow: 0 10px 28px rgba(124, 58, 237, 0.14);
+      animation: floatMascot 4s ease-in-out infinite;
+    }
+
+    @keyframes floatMascot {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+
+    .empty-mascot-img {
+      width: 76px;
+      height: 76px;
+      object-fit: contain;
+    }
+
+    .empty-title {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--color-text-main);
+      letter-spacing: -0.02em;
+      margin-bottom: 0.6rem;
+    }
+
+    .empty-subtitle {
+      font-size: 0.94rem;
+      color: var(--color-text-body);
+      max-width: 480px;
+      line-height: 1.6;
+      margin-bottom: 1.8rem;
+    }
+
+    .empty-btn-group {
+      display: flex;
+      gap: 0.85rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 1.6rem;
+    }
+
+    .btn-empty-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+      color: #ffffff;
+      padding: 0.85rem 1.65rem;
+      border-radius: var(--radius-full);
+      font-family: inherit;
+      font-weight: 700;
+      font-size: 0.92rem;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 6px 18px rgba(124, 58, 237, 0.28);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .btn-empty-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px rgba(124, 58, 237, 0.38);
+    }
+
+    .btn-empty-primary:active {
+      transform: translateY(0);
+    }
+
+    .btn-empty-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      background: #ffffff;
+      color: var(--color-text-main);
+      padding: 0.85rem 1.65rem;
+      border-radius: var(--radius-full);
+      font-family: inherit;
+      font-weight: 600;
+      font-size: 0.92rem;
+      border: 1px solid var(--color-border);
+      text-decoration: none;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(24, 18, 38, 0.04);
+      transition: all 0.2s ease;
+    }
+
+    .btn-empty-secondary:hover {
+      background: #faf8fd;
+      border-color: var(--color-primary);
+      transform: translateY(-1px);
+    }
+
+    .empty-tip-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      background: rgba(124, 58, 237, 0.06);
+      padding: 0.45rem 1rem;
+      border-radius: var(--radius-full);
+      font-size: 0.78rem;
+      color: var(--color-text-muted);
+    }
+
+    .tip-badge {
+      background: var(--color-primary);
+      color: #ffffff;
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 0.15rem 0.5rem;
+      border-radius: 999px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    /* Radar Empty State */
+    .empty-radar-card {
+      padding: 2.2rem 1.2rem;
+      text-align: center;
+      background: var(--color-surface-subtle);
+      border-radius: var(--radius-md);
+      border: 1px dashed var(--color-border);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+    }
+
+    .empty-radar-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: #ecfdf5;
+      color: #059669;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 0.2rem;
+    }
+
+    .empty-radar-heading {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--color-text-main);
+    }
+
+    .empty-radar-text {
+      font-size: 0.82rem;
+      color: var(--color-text-muted);
+      max-width: 260px;
+      line-height: 1.45;
+    }
   </style>
+
+  <script>
+    import { getCurrentUser, getUserData } from '../utils/db';
+
+    function syncSanctuaryData() {
+      const user = getCurrentUser();
+      if (!user || !user.email) return;
+
+      const data = getUserData(user.email);
+      const isDemo = user.email.trim().toLowerCase() === 'daffaahmadalsch@student.ub.ac.id';
+
+      const statNumbers = document.querySelectorAll('.ambient-stat .stat-number');
+      const hintDesc = document.querySelector('.hint-desc');
+      const heroTaskName = document.querySelector('.hero-task-name');
+      const heroContext = document.querySelector('.hero-context');
+      const emptyStateView = document.getElementById('empty-state-view');
+      const timelineOl = document.getElementById('itinerary-timeline-list');
+      const emptyHorizonView = document.getElementById('empty-horizon-view');
+      const horizonList = document.getElementById('horizon-task-list');
+
+      // JIKA PENGGUNA BARU DAN DATA JADWAL MASIH KOSONG:
+      if (!isDemo && data.schedules.length === 0 && data.tasks.length === 0) {
+        // 1. Tampilkan Empty State, sembunyikan list mock
+        if (emptyStateView) emptyStateView.style.display = 'flex';
+        if (timelineOl) timelineOl.style.display = 'none';
+        if (emptyHorizonView) emptyHorizonView.style.display = 'flex';
+        if (horizonList) horizonList.style.display = 'none';
+
+        // 2. Nolkan indikator ambient
+        if (statNumbers.length >= 3) {
+          statNumbers[0].textContent = '0';
+          statNumbers[1].textContent = '0';
+          statNumbers[2].textContent = '0';
+        }
+        if (hintDesc) {
+          hintDesc.textContent = 'Beavy AI siap menyusun alur fokus saat agenda pertamamu ditambahkan.';
+        }
+
+        // 3. Perbarui Hero Section
+        if (heroTaskName) {
+          heroTaskName.textContent = 'Belum Ada Agenda Hari Ini';
+        }
+        if (heroContext) {
+          heroContext.innerHTML = 'Selamat datang, <strong>' + (user.name || 'Sahabat Beavy') + '</strong>! Akun Anda baru terdaftar. Jadwal dan tugas masih bersih. Mulai atur harimu dengan menambahkan tugas baru di bawah.';
+        }
+      } else {
+        // PENGGUNA YANG MEMILIKI DATA ATAU DEMO USER:
+        if (emptyStateView) emptyStateView.style.display = 'none';
+        if (timelineOl) timelineOl.style.display = 'block';
+        if (emptyHorizonView) emptyHorizonView.style.display = 'none';
+        if (horizonList) horizonList.style.display = 'flex';
+
+        if (!isDemo) {
+          // Akun baru yang sudah menambahkan tugas sendiri
+          if (statNumbers.length >= 3) {
+            statNumbers[0].textContent = String(data.tasks.length);
+            statNumbers[1].textContent = String(data.tasks.filter(t => t.urgent).length);
+            statNumbers[2].textContent = String(data.schedules.length);
+          }
+
+          if (heroTaskName && data.tasks[0]) {
+            heroTaskName.textContent = data.tasks[0].title;
+          }
+
+          if (timelineOl && data.schedules.length > 0) {
+            timelineOl.innerHTML = data.schedules.map((s, idx) => `
+              <li class="timeline-entry ${s.status || 'upcoming'}">
+                <div class="entry-time-col">
+                  <time class="time-clock">${s.time}</time>
+                  <span class="time-span">${s.duration}</span>
+                </div>
+                <div class="entry-marker">
+                  <div class="marker-circle ${idx === 0 ? 'pulse' : ''}"></div>
+                  <div class="marker-stem"></div>
+                </div>
+                <div class="entry-card">
+                  <div class="entry-header-row">
+                    <div>
+                      ${idx === 0 ? '<span class="entry-kicker">Fokus Terjadwal</span>' : ''}
+                      <h3 class="entry-title">${s.title}</h3>
+                    </div>
+                    <span class="status-badge-soft">${s.tag || 'Tugas'}</span>
+                  </div>
+                  <p class="entry-desc">${s.desc}</p>
+                </div>
+              </li>
+            `).join('');
+          }
+
+          if (horizonList && data.tasks.length > 0) {
+            horizonList.innerHTML = data.tasks.map(t => `
+              <li class="horizon-item">
+                <div class="horizon-bullet ${t.urgent ? 'danger' : 'neutral'}"></div>
+                <div class="horizon-info">
+                  <span class="horizon-course">${t.category || 'Umum'}</span>
+                  <h4 class="horizon-task">${t.title}</h4>
+                </div>
+                <time class="horizon-time">${t.deadline || 'Hari ini'}</time>
+              </li>
+            `).join('');
+          }
+        }
+      }
+    }
+
+    // Jalankan sinkronisasi saat halaman dimuat
+    syncSanctuaryData();
+
+    // Dengarkan pembaruan data jika tugas baru ditambahkan
+    window.addEventListener('jadwalin-data-updated', syncSanctuaryData);
+  </script>
 </DashboardLayout>

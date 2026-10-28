@@ -37,7 +37,6 @@ import mascotImg from '../assets/craiyon.png';
               type="text" 
               id="task-name" 
               class="field-input" 
-              value="Laporan Praktikum Pemrograman" 
               placeholder="Contoh: Laporan Praktikum Basis Data" 
               required 
             />
@@ -648,15 +647,32 @@ import mascotImg from '../assets/craiyon.png';
       }
     });
 
+    import { getCurrentUser, addUserTask } from '../utils/db';
+
     // Form Submit
     document.getElementById('add-task-full-form')?.addEventListener('submit', (e) => {
       e.preventDefault();
       const title = (document.getElementById('task-name') as HTMLInputElement)?.value || 'Tugas Baru';
-      
+      const deadline = (document.getElementById('task-deadline') as HTMLInputElement)?.value || '';
+      const activeCat = (document.querySelector('.segmented-chips[aria-labelledby="category-group-label"] .chip-item.active') as HTMLElement)?.dataset.cat || 'Kuliah';
+      const activeDiff = (document.querySelector('.segmented-chips[aria-labelledby="difficulty-group-label"] .chip-item.active') as HTMLElement)?.dataset.diff || 'Sedang';
+
+      const user = getCurrentUser();
+      if (user && user.email) {
+        addUserTask(user.email, {
+          title,
+          category: activeCat,
+          deadline,
+          duration: `${currentDur} jam`,
+          difficulty: activeDiff,
+          urgent: false
+        });
+      }
+
       window.jadwalinToast?.('Tugas Ditambahkan', `Tugas "${title}" berhasil dialokasikan ke dalam jadwal.`, 'success');
       
       setTimeout(() => {
-        window.location.href = '/prioritas';
+        window.location.href = '/beranda';
       }, 700);
     });
   </script>

@@ -495,7 +495,7 @@ import '../styles/tokens.css';
         </a>
         <nav class="header-nav" aria-label="Navigasi cepat">
           <a href="/login" class="btn-skip btn-skip-primary">Masuk</a>
-          <button id="btn-skip" class="btn-skip" type="button" aria-label="Lewati pengenalan dan buka beranda">Lewati</button>
+          <button id="btn-skip" class="btn-skip" type="button" aria-label="Lewati pengenalan dan masuk">Lewati</button>
         </nav>
       </header>
 
@@ -658,12 +658,12 @@ import '../styles/tokens.css';
         if (currentStep < steps.length - 1) {
           renderStep(currentStep + 1);
         } else {
-          window.location.href = '/beranda';
+          window.location.href = '/login';
         }
       });
 
       btnSkip?.addEventListener('click', () => {
-        window.location.href = '/beranda';
+        window.location.href = '/login';
       });
 
       dots.forEach((dot) => {

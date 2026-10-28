@@ -419,20 +419,37 @@ import '../styles/tokens.css';
         transform: translateX(-50%) translateY(30px);
         background: #1e1335;
         color: white;
-        padding: 0.75rem 1.4rem;
+        padding: 0.85rem 1.6rem;
         border-radius: 999px;
-        font-size: 0.85rem;
+        font-size: 0.88rem;
         font-weight: 600;
         box-shadow: 0 10px 25px rgba(0,0,0,0.2);
         opacity: 0;
         pointer-events: none;
         transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         z-index: 1000;
+        max-width: 90vw;
+        text-align: center;
       }
 
       .auth-toast.show {
         opacity: 1;
         transform: translateX(-50%) translateY(0);
+      }
+
+      .auth-toast.warning {
+        background: #c2410c; /* warm amber/orange */
+        box-shadow: 0 10px 25px rgba(194, 65, 12, 0.35);
+      }
+
+      .auth-toast.error {
+        background: #e11d48; /* rose red */
+        box-shadow: 0 10px 25px rgba(225, 29, 72, 0.35);
+      }
+
+      .auth-toast.success {
+        background: #15803d; /* green */
+        box-shadow: 0 10px 25px rgba(21, 128, 61, 0.35);
       }
 
       @media (max-width: 860px) {
@@ -494,8 +511,7 @@ import '../styles/tokens.css';
                 type="email" 
                 id="email" 
                 class="form-input" 
-                value="daffaahmadalsch@student.ub.ac.id" 
-                placeholder="nama@email.com" 
+                placeholder="nama@student.ub.ac.id" 
                 required 
               />
             </div>
@@ -509,7 +525,6 @@ import '../styles/tokens.css';
                 type="password" 
                 id="password" 
                 class="form-input" 
-                value="beavysmart2026" 
                 placeholder="Masukkan kata sandi" 
                 required 
               />
@@ -529,7 +544,7 @@ import '../styles/tokens.css';
           <!-- Options -->
           <div class="form-options-row">
             <label class="remember-wrap">
-              <input type="checkbox" id="remember" checked />
+              <input type="checkbox" id="remember" />
               <span>Ingat saya</span>
             </label>
             <button type="button" id="btn-forgot" class="link-forgot">Lupa Kata Sandi?</button>
@@ -583,23 +598,59 @@ import '../styles/tokens.css';
     <div id="auth-toast" class="auth-toast"></div>
 
     <script>
+      import { findUserByEmail, setCurrentUser } from '../utils/db';
+
       const form = document.getElementById('login-form');
       const modal = document.getElementById('login-success-modal');
       const togglePwd = document.getElementById('toggle-pwd');
+      const emailInput = document.getElementById('email') as HTMLInputElement;
       const pwdInput = document.getElementById('password') as HTMLInputElement;
+      const rememberInput = document.getElementById('remember') as HTMLInputElement;
       const iconEye = document.getElementById('icon-eye');
       const iconEyeOff = document.getElementById('icon-eye-off');
       const authToast = document.getElementById('auth-toast');
+      const successDesc = document.querySelector('.success-desc');
 
-      function showToast(msg: string) {
+      let toastTimer: any = null;
+      function showToast(msg: string, type: 'default' | 'warning' | 'error' | 'success' = 'default') {
         if (!authToast) return;
+        clearTimeout(toastTimer);
+        authToast.className = 'auth-toast';
+        if (type !== 'default') {
+          authToast.classList.add(type);
+        }
         authToast.textContent = msg;
         authToast.classList.add('show');
-        setTimeout(() => {
+        toastTimer = setTimeout(() => {
           authToast.classList.remove('show');
-        }, 3200);
+        }, 3600);
       }
 
+      // 1. Cek parameter URL (misal diarahkan setelah registrasi atau akun tidak ditemukan atau auth guard)
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('registered') === '1') {
+        const registeredEmail = urlParams.get('email');
+        if (registeredEmail && emailInput) {
+          emailInput.value = registeredEmail;
+        }
+        showToast('Pendaftaran akun berhasil! Silakan masukkan kata sandi Anda untuk masuk.', 'success');
+        setTimeout(() => pwdInput?.focus(), 300);
+      } else if (urlParams.get('auth_required') === '1') {
+        showToast('Akses dibatasi! Silakan login atau daftar akun terlebih dahulu untuk membuka dashboard.', 'warning');
+      } else if (urlParams.get('logged_out') === '1') {
+        showToast('Anda telah berhasil keluar dari akun.', 'default');
+      } else if (urlParams.get('email') && emailInput) {
+        emailInput.value = urlParams.get('email') || '';
+      }
+
+      // Cek apakah ada email yang sebelumnya disimpan (ingat saya)
+      const savedEmail = localStorage.getItem('jadwalin_remembered_email');
+      if (savedEmail && !urlParams.get('email')) {
+        if (emailInput) emailInput.value = savedEmail;
+        if (rememberInput) rememberInput.checked = true;
+      }
+
+      // 2. Toggle password visibility
       togglePwd?.addEventListener('click', () => {
         if (pwdInput.type === 'password') {
           pwdInput.type = 'text';
@@ -612,27 +663,86 @@ import '../styles/tokens.css';
         }
       });
 
+      // 3. Form Submit Login dengan Validasi Database Akun
       form?.addEventListener('submit', (e) => {
         e.preventDefault();
+        const email = emailInput?.value.trim().toLowerCase() || '';
+        const password = pwdInput?.value || '';
+        const remember = rememberInput?.checked || false;
+
+        if (!email || !password) {
+          showToast('Harap isi email dan kata sandi!', 'error');
+          return;
+        }
+
+        // Cek akun di database pengguna
+        const user = findUserByEmail(email);
+
+        // KASUS 1: Akun belum terdaftar -> arahkan ke halaman register
+        if (!user) {
+          showToast('Akun belum terdaftar! Mengalihkan ke halaman registrasi...', 'warning');
+          setTimeout(() => {
+            window.location.href = `/register?email=${encodeURIComponent(email)}&unregistered=1`;
+          }, 1400);
+          return;
+        }
+
+        // KASUS 2: Akun ada, tapi kata sandi salah
+        if (user.password && user.password !== password) {
+          showToast('Kata sandi yang Anda masukkan salah. Coba lagi!', 'error');
+          pwdInput.focus();
+          return;
+        }
+
+        // KASUS 3: Berhasil Masuk
+        setCurrentUser(user);
+
+        if (remember) {
+          localStorage.setItem('jadwalin_remembered_email', email);
+        } else {
+          localStorage.removeItem('jadwalin_remembered_email');
+        }
+
+        if (successDesc) {
+          const firstName = user.name ? user.name.split(' ')[0] : 'Kamu';
+          successDesc.textContent = `Autentikasi selesai. Selamat datang kembali, ${firstName}!`;
+        }
+
         modal?.classList.add('active');
         setTimeout(() => {
           window.location.href = '/beranda';
-        }, 1200);
+        }, 1100);
       });
 
       document.getElementById('btn-forgot')?.addEventListener('click', () => {
-        showToast('Tautan instruksi pemulihan kata sandi telah dikirim ke email kamu.');
+        showToast('Tautan instruksi pemulihan kata sandi telah dikirim ke email kamu.', 'default');
       });
 
       document.getElementById('btn-google')?.addEventListener('click', () => {
-        showToast('Menghubungkan akun Google SSO...');
+        showToast('Menghubungkan akun Google SSO...', 'default');
+        const googleUser = {
+          id: 'user_google_sso',
+          name: 'Daffa Ahmad (Google)',
+          email: 'daffaahmadalsch@student.ub.ac.id',
+          role: 'Mahasiswa',
+          createdAt: new Date().toISOString()
+        };
+        setCurrentUser(googleUser);
         setTimeout(() => {
           window.location.href = '/beranda';
         }, 800);
       });
 
       document.getElementById('btn-apple')?.addEventListener('click', () => {
-        showToast('Menghubungkan Apple ID...');
+        showToast('Menghubungkan Apple ID...', 'default');
+        const appleUser = {
+          id: 'user_apple_sso',
+          name: 'Daffa Ahmad (Apple)',
+          email: 'daffaahmadalsch@student.ub.ac.id',
+          role: 'Mahasiswa',
+          createdAt: new Date().toISOString()
+        };
+        setCurrentUser(appleUser);
         setTimeout(() => {
           window.location.href = '/beranda';
         }, 800);

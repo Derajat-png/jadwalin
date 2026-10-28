@@ -1549,5 +1549,38 @@ const recurringSchedules = [
         document.querySelectorAll('.modal-backdrop-overlay.active').forEach(m => m.classList.remove('active'));
       }
     });
+
+    // Sinkronisasi Data Profil dengan Pengguna Aktif
+    import { getUserData } from '../utils/db';
+    try {
+      const rawUser = localStorage.getItem('jadwalin_current_user');
+      if (rawUser) {
+        const u = JSON.parse(rawUser);
+        if (u?.name) {
+          const nameEl = document.querySelector('.user-full-name');
+          if (nameEl) nameEl.textContent = u.name;
+          const avatarEl = document.getElementById('user-avatar-display');
+          if (avatarEl) avatarEl.textContent = u.name.trim().charAt(0).toUpperCase();
+        }
+        if (u?.email) {
+          const emailEl = document.querySelector('.user-email-text');
+          if (emailEl) emailEl.textContent = u.email;
+
+          // Perbarui statistik tugas aktif
+          const isDemo = u.email.trim().toLowerCase() === 'daffaahmadalsch@student.ub.ac.id';
+          const data = getUserData(u.email);
+          const statUnits = document.querySelectorAll('.ambient-stats-grid .stat-unit .stat-number');
+          if (statUnits.length >= 2) {
+            if (!isDemo && data.tasks.length === 0) {
+              statUnits[0].textContent = '0';
+              statUnits[1].textContent = '0';
+            } else if (!isDemo && data.tasks.length > 0) {
+              statUnits[0].textContent = String(data.tasks.length);
+              statUnits[1].textContent = String(data.tasks.filter(t => t.urgent).length);
+            }
+          }
+        }
+      }
+    } catch(e) {}
   </script>
 </DashboardLayout>

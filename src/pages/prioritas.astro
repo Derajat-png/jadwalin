@@ -96,6 +96,27 @@ const initialTasks = [
           <span class="count-tag" id="active-tasks-count">4 Tugas Aktif</span>
         </div>
 
+        <!-- EMPTY PRIORITY VIEW (Tampil saat akun baru belum punya tugas) -->
+        <div id="empty-priority-view" class="sanctuary-empty-state" style="display: none;">
+          <div class="empty-mascot-wrap">
+            <Image src={mascotImg} alt="Beavy Asisten AI" class="empty-mascot-img" />
+          </div>
+          <h3 class="empty-title">Antrean Tugas Masih Kosong</h3>
+          <p class="empty-subtitle">
+            Belum ada tugas yang perlu dikerjakan. Masukkan tugas akademik atau target pribadimu untuk memulai kalkulasi prioritas adaptif oleh Beavy AI.
+          </p>
+          <div class="empty-btn-group">
+            <button type="button" class="btn-empty-primary" onclick="(window).openQuickAddModal ? (window).openQuickAddModal() : window.location.href='/tambah-tugas';">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+              <span>+ Buat Tugas Baru</span>
+            </button>
+            <a href="/upload" class="btn-empty-secondary">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+              <span>Upload Jadwal Kuliah</span>
+            </a>
+          </div>
+        </div>
+
         <div class="rank-stack" id="priority-task-list">
           {initialTasks.map((task) => (
             <article 
@@ -1022,6 +1043,115 @@ const initialTasks = [
         align-items: flex-start;
       }
     }
+
+    /* Sanctuary Empty State (Prioritas) */
+    .sanctuary-empty-state {
+      background: linear-gradient(180deg, #ffffff 0%, #faf8fd 100%);
+      border: 1.5px dashed rgba(139, 92, 246, 0.28);
+      border-radius: var(--radius-lg);
+      padding: 3.5rem 2rem 2.5rem;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 20px rgba(24, 18, 38, 0.03);
+      margin-bottom: 1.5rem;
+    }
+
+    .empty-mascot-wrap {
+      width: 104px;
+      height: 104px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #f5edfd 0%, #ecdcf9 100%);
+      border: 1.5px solid rgba(139, 92, 246, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.4rem;
+      box-shadow: 0 10px 28px rgba(124, 58, 237, 0.14);
+      animation: floatMascot 4s ease-in-out infinite;
+    }
+
+    @keyframes floatMascot {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+
+    .empty-mascot-img {
+      width: 76px;
+      height: 76px;
+      object-fit: contain;
+    }
+
+    .empty-title {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--color-text-main);
+      letter-spacing: -0.02em;
+      margin-bottom: 0.6rem;
+    }
+
+    .empty-subtitle {
+      font-size: 0.94rem;
+      color: var(--color-text-body);
+      max-width: 480px;
+      line-height: 1.6;
+      margin-bottom: 1.8rem;
+    }
+
+    .empty-btn-group {
+      display: flex;
+      gap: 0.85rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .btn-empty-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+      color: #ffffff;
+      padding: 0.85rem 1.65rem;
+      border-radius: var(--radius-full);
+      font-family: inherit;
+      font-weight: 700;
+      font-size: 0.92rem;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 6px 18px rgba(124, 58, 237, 0.28);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .btn-empty-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px rgba(124, 58, 237, 0.38);
+    }
+
+    .btn-empty-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      background: #ffffff;
+      color: var(--color-text-main);
+      padding: 0.85rem 1.65rem;
+      border-radius: var(--radius-full);
+      font-family: inherit;
+      font-weight: 600;
+      font-size: 0.92rem;
+      border: 1px solid var(--color-border);
+      text-decoration: none;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(24, 18, 38, 0.04);
+      transition: all 0.2s ease;
+    }
+
+    .btn-empty-secondary:hover {
+      background: #faf8fd;
+      border-color: var(--color-primary);
+      transform: translateY(-1px);
+    }
   </style>
 
   <script>
@@ -1108,5 +1238,60 @@ const initialTasks = [
         document.querySelectorAll('.modal-backdrop-overlay.active').forEach(m => m.classList.remove('active'));
       }
     });
+
+    // Sinkronisasi Prioritas Tugas Berdasarkan Pengguna Aktif
+    import { getCurrentUser, getUserData } from '../utils/db';
+
+    function syncPriorityData() {
+      const user = getCurrentUser();
+      if (!user || !user.email) return;
+
+      const isDemo = user.email.trim().toLowerCase() === 'daffaahmadalsch@student.ub.ac.id';
+      const data = getUserData(user.email);
+      const emptyPriorityView = document.getElementById('empty-priority-view');
+      const listEl = document.getElementById('priority-task-list');
+      const countEl = document.getElementById('active-tasks-count');
+      const heroSub = document.querySelector('.hero-sub');
+
+      // Jika akun baru dan belum memiliki tugas
+      if (!isDemo && data.tasks.length === 0) {
+        if (countEl) countEl.textContent = '0 Tugas Aktif';
+        if (heroSub) {
+          heroSub.innerHTML = 'Daftar tugas masih kosong karena akun Anda baru terdaftar. Masukkan tugas akademik atau pribadi untuk memulai kalkulasi prioritas adaptif.';
+        }
+        if (emptyPriorityView) emptyPriorityView.style.display = 'flex';
+        if (listEl) listEl.style.display = 'none';
+      } else {
+        if (emptyPriorityView) emptyPriorityView.style.display = 'none';
+        if (listEl) listEl.style.display = 'flex';
+
+        if (!isDemo && data.tasks.length > 0) {
+          if (countEl) countEl.textContent = `${data.tasks.length} Tugas Aktif`;
+          if (listEl) {
+            listEl.innerHTML = data.tasks.map((t, idx) => `
+              <article class="task-rank-card" data-title="${t.title}">
+                <div class="rank-index-col">
+                  <span class="rank-number">${idx + 1}</span>
+                </div>
+                <div class="task-details-col">
+                  <div class="task-meta-top">
+                    <span class="badge-tag">${t.category || 'Tugas'}</span>
+                    <span class="badge-status">${t.deadline || 'Hari ini'}</span>
+                  </div>
+                  <h3 class="task-name">${t.title}</h3>
+                  <div class="task-indicators">
+                    <span class="indicator-chip">Durasi: ${t.duration || '1 jam'}</span>
+                    <span class="indicator-chip">Tingkat: ${t.difficulty || 'Sedang'}</span>
+                  </div>
+                </div>
+              </article>
+            `).join('');
+          }
+        }
+      }
+    }
+
+    syncPriorityData();
+    window.addEventListener('jadwalin-data-updated', syncPriorityData);
   </script>
 </DashboardLayout>

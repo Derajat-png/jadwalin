@@ -25,6 +25,45 @@ const { title, activeNav = 'beranda' } = Astro.props;
     <link rel="dns-prefetch" href="https://fonts.googleapis.com">
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+
+    <!-- Immediate Authentication Guard (Proteksi Halaman Dashboard) -->
+    <style is:inline id="auth-guard-cloak">
+      body { display: none !important; }
+    </style>
+    <script is:inline>
+      (function() {
+        try {
+          var rawUser = localStorage.getItem('jadwalin_current_user');
+          if (!rawUser) {
+            window.location.replace('/login?auth_required=1');
+            return;
+          }
+          var user = JSON.parse(rawUser);
+          if (!user || !user.email) {
+            localStorage.removeItem('jadwalin_current_user');
+            window.location.replace('/login?auth_required=1');
+            return;
+          }
+          var rawDb = localStorage.getItem('jadwalin_users_db');
+          var users = rawDb ? JSON.parse(rawDb) : [];
+          var exists = Array.isArray(users) && users.some(function(u) {
+            return u && u.email && u.email.trim().toLowerCase() === user.email.trim().toLowerCase();
+          });
+          if (!exists) {
+            localStorage.removeItem('jadwalin_current_user');
+            window.location.replace('/login?auth_required=1');
+            return;
+          }
+          // Authenticated: unhide body
+          var cloak = document.getElementById('auth-guard-cloak');
+          if (cloak && cloak.parentNode) {
+            cloak.parentNode.removeChild(cloak);
+          }
+        } catch (e) {
+          window.location.replace('/login?auth_required=1');
+        }
+      })();
+    </script>
     <style is:global>
       * {
         margin: 0;
@@ -957,11 +996,50 @@ const { title, activeNav = 'beranda' } = Astro.props;
         }
       });
 
+      import { getCurrentUser, addUserTask } from '../utils/db';
+
       form?.addEventListener('submit', (e) => {
         e.preventDefault();
-        const title = (document.getElementById('task-title') as HTMLInputElement)?.value;
+        const titleInput = document.getElementById('task-title') as HTMLInputElement;
+        const title = titleInput?.value.trim() || 'Tugas Baru';
+        
+        const user = getCurrentUser();
+        if (user && user.email) {
+          addUserTask(user.email, {
+            title,
+            category: 'Kuliah',
+            duration: '1 jam',
+            difficulty: 'Sedang'
+          });
+        }
+
         (window as any).jadwalinToast('Tugas Berhasil Disimpan', `"${title}" telah dialokasikan ke prioritas AI.`, 'success');
+        if (titleInput) titleInput.value = '';
         closeModal();
+      });
+
+      // Sinkronisasi Sesi Pengguna Aktif
+      try {
+        const rawUser = localStorage.getItem('jadwalin_current_user');
+        if (rawUser) {
+          const user = JSON.parse(rawUser);
+          if (user?.name) {
+            const userNameEls = document.querySelectorAll('.user-name');
+            const userAvatarEls = document.querySelectorAll('.user-avatar');
+            userNameEls.forEach(el => el.textContent = user.name);
+            const initial = user.name.trim().charAt(0).toUpperCase();
+            userAvatarEls.forEach(el => el.textContent = initial);
+          }
+        }
+      } catch (e) {}
+
+      // Logout handler
+      document.querySelectorAll('.btn-logout').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          localStorage.removeItem('jadwalin_current_user');
+          window.location.href = '/login?logged_out=1';
+        });
       });
     </script>
   </body>

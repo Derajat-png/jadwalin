@@ -25,3 +25,4 @@ Platform perencanaan jadwal dan onboarding modern berbasis web.
    ```bash
    npm run build
    ```
+"# Jadwalin." 
