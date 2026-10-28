@@ -98,8 +98,11 @@ const initialTasks = [
 
         <!-- EMPTY PRIORITY VIEW (Tampil saat akun baru belum punya tugas) -->
         <div id="empty-priority-view" class="sanctuary-empty-state" style="display: none;">
-          <div class="empty-mascot-wrap">
-            <Image src={mascotImg} alt="Beavy Asisten AI" class="empty-mascot-img" />
+          <div class="empty-icon-wrap">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="9 11 12 14 22 4"></polyline>
+              <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+            </svg>
           </div>
           <h3 class="empty-title">Antrean Tugas Masih Kosong</h3>
           <p class="empty-subtitle">
@@ -107,11 +110,11 @@ const initialTasks = [
           </p>
           <div class="empty-btn-group">
             <button type="button" class="btn-empty-primary" onclick="(window).openQuickAddModal ? (window).openQuickAddModal() : window.location.href='/tambah-tugas';">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-              <span>+ Buat Tugas Baru</span>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+              <span>Buat Tugas Baru</span>
             </button>
             <a href="/upload" class="btn-empty-secondary">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
               <span>Upload Jadwal Kuliah</span>
             </a>
           </div>
@@ -1059,29 +1062,18 @@ const initialTasks = [
       margin-bottom: 1.5rem;
     }
 
-    .empty-mascot-wrap {
-      width: 104px;
-      height: 104px;
-      border-radius: 50%;
+    .empty-icon-wrap {
+      width: 54px;
+      height: 54px;
+      border-radius: 16px;
       background: linear-gradient(135deg, #f5edfd 0%, #ecdcf9 100%);
-      border: 1.5px solid rgba(139, 92, 246, 0.2);
+      color: var(--color-primary);
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-bottom: 1.4rem;
-      box-shadow: 0 10px 28px rgba(124, 58, 237, 0.14);
-      animation: floatMascot 4s ease-in-out infinite;
-    }
-
-    @keyframes floatMascot {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-6px); }
-    }
-
-    .empty-mascot-img {
-      width: 76px;
-      height: 76px;
-      object-fit: contain;
+      margin-bottom: 1.1rem;
+      border: 1px solid rgba(124, 58, 237, 0.16);
+      box-shadow: 0 4px 14px rgba(124, 58, 237, 0.1);
     }
 
     .empty-title {

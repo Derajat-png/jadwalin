@@ -4,15 +4,35 @@ import DashboardLayout from '../layouts/DashboardLayout.astro';
 import { Image } from 'astro:assets';
 import mascotImg from '../assets/craiyon.png';
 
-const days = [
-  { day: 'SEN', date: '19', active: false, full: 'Senin, 19 Okt' },
-  { day: 'SEL', date: '20', active: false, full: 'Selasa, 20 Okt' },
-  { day: 'RAB', date: '21', active: false, full: 'Rabu, 21 Okt' },
-  { day: 'KAM', date: '22', active: false, full: 'Kamis, 22 Okt' },
-  { day: 'JUM', date: '23', active: false, full: 'Jumat, 23 Okt' },
-  { day: 'SAB', date: '24', active: true, full: 'Sabtu, 24 Okt' },
-  { day: 'MIN', date: '25', active: false, full: 'Minggu, 25 Okt' },
+const HARI = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+const HARI_SINGKAT = ['MIN', 'SEN', 'SEL', 'RAB', 'KAM', 'JUM', 'SAB'];
+const BULAN = [
+  'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+  'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
 ];
+
+// Kalkulasi dinamis 7 hari dalam minggu ini dimulai dari Senin
+const now = new Date();
+const currentDayOfWeek = now.getDay();
+const distanceToMonday = currentDayOfWeek === 0 ? -6 : 1 - currentDayOfWeek;
+const monday = new Date(now);
+monday.setDate(now.getDate() + distanceToMonday);
+
+const days = [];
+for (let i = 0; i < 7; i++) {
+  const d = new Date(monday);
+  d.setDate(monday.getDate() + i);
+  const dayOfWeek = d.getDay();
+  const isToday = d.toDateString() === now.toDateString();
+  days.push({
+    day: HARI_SINGKAT[dayOfWeek],
+    date: String(d.getDate()),
+    active: isToday,
+    full: `${HARI[dayOfWeek]}, ${d.getDate()} ${BULAN[d.getMonth()]} ${d.getFullYear()}`
+  });
+}
+
+const todayFull = `${HARI[now.getDay()]}, ${now.getDate()} ${BULAN[now.getMonth()]} ${now.getFullYear()}`;
 ---
 
 <DashboardLayout title="Jadwal & Kalender" activeNav="jadwal">
@@ -23,7 +43,7 @@ const days = [
       <div class="hero-left">
         <h1 class="hero-statement">
           Alokasi waktu dan ritme harian:<br />
-          <span class="hero-highlight" id="current-day-label">Sabtu, 24 Oktober 2026</span>
+          <span class="hero-highlight" id="current-day-label">{todayFull}</span>
         </h1>
         <p class="hero-sub">
           Total <strong>270 menit</strong> sesi fokus aktif dengan jeda istirahat terproteksi untuk mencegah kelelahan kognitif.
@@ -46,7 +66,7 @@ const days = [
     </header>
 
     <!-- 2. CALENDAR DAYS STRIP -->
-    <nav class="days-nav-strip" aria-label="Pilih Hari">
+    <nav class="days-nav-strip" id="days-nav-strip" aria-label="Pilih Hari">
       {days.map((item) => (
         <button type="button" class={`day-item-btn ${item.active ? 'active' : ''}`} data-day={item.full} aria-pressed={item.active ? 'true' : 'false'}>
           <span class="day-code">{item.day}</span>
@@ -70,8 +90,13 @@ const days = [
 
         <!-- EMPTY SCHEDULE VIEW (Tampil saat akun baru belum punya jadwal) -->
         <div id="empty-schedule-view" class="sanctuary-empty-state" style="display: none;">
-          <div class="empty-mascot-wrap">
-            <Image src={mascotImg} alt="Beavy Asisten AI" class="empty-mascot-img" />
+          <div class="empty-icon-wrap">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+              <line x1="16" y1="2" x2="16" y2="6"></line>
+              <line x1="8" y1="2" x2="8" y2="6"></line>
+              <line x1="3" y1="10" x2="21" y2="10"></line>
+            </svg>
           </div>
           <h3 class="empty-title">Belum Ada Sesi Terjadwal</h3>
           <p class="empty-subtitle">
@@ -79,11 +104,11 @@ const days = [
           </p>
           <div class="empty-btn-group">
             <button type="button" class="btn-empty-primary" onclick="document.getElementById('add-slot-modal')?.classList.add('active');">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-              <span>+ Tambah Sesi Sekarang</span>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+              <span>Tambah Sesi Sekarang</span>
             </button>
             <a href="/upload" class="btn-empty-secondary">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
               <span>Upload Jadwal Kuliah</span>
             </a>
           </div>
@@ -245,7 +270,7 @@ const days = [
             </div>
             <div>
               <h4 class="c-title">Keseimbangan Ritme</h4>
-              <p class="c-desc">Kapasitas belajar Sabtu Anda berada di zona optimal. Tidak perlu lembur malam ini.</p>
+              <p class="c-desc" id="beavy-advice-text">Kapasitas belajar {HARI[now.getDay()]} Anda berada di zona optimal. Tidak perlu lembur malam ini.</p>
             </div>
           </div>
         </div>
@@ -376,9 +401,7 @@ const days = [
           <div class="dialog-field">
             <label class="dialog-label" for="reschedule-day">Pilih Hari Baru</label>
             <select id="reschedule-day" class="dialog-input">
-              <option value="Sabtu, 24 Okt (Hari Ini)">Sabtu, 24 Okt (Hari Ini)</option>
-              <option value="Minggu, 25 Okt">Minggu, 25 Okt (Slot Bebas Sore)</option>
-              <option value="Senin, 26 Okt">Senin, 26 Okt</option>
+              <option value={`${todayFull} (Hari Ini)`}>{todayFull} (Hari Ini)</option>
             </select>
           </div>
 
@@ -507,54 +530,75 @@ const days = [
       background: var(--color-primary-dark);
     }
 
-    /* 2. CALENDAR DAYS STRIP */
-    .days-nav-strip {
+    /* 2. CALENDAR DAYS STRIP (Awwwards Focus Sanctuary Design) */
+    .days-nav-strip,
+    :global(.days-nav-strip) {
       display: flex;
       gap: 0.65rem;
+      width: 100%;
     }
 
-    .day-item-btn {
+    .day-item-btn,
+    :global(.day-item-btn) {
       flex: 1;
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 0.85rem 0.5rem;
-      border-radius: var(--radius-md);
-      background: var(--color-surface);
-      border: 1px solid var(--color-border);
+      justify-content: center;
+      padding: 0.95rem 0.6rem;
+      border-radius: var(--radius-md, 14px);
+      background: var(--color-surface, #ffffff);
+      border: 1px solid var(--color-border, #ede8f5);
       cursor: pointer;
-      box-shadow: var(--shadow-xs);
-      transition: border-color 0.15s ease, background-color 0.15s ease;
+      box-shadow: 0 1px 3px rgba(24, 18, 38, 0.03);
+      transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+      font-family: inherit;
+      outline: none;
+      user-select: none;
     }
 
-    .day-item-btn:hover {
-      border-color: var(--color-border-focus);
-      background: var(--color-primary-light);
+    .day-item-btn:hover,
+    :global(.day-item-btn:hover) {
+      border-color: var(--color-border-focus, #c4b5fd);
+      background: var(--color-primary-light, #f5f3ff);
+      transform: translateY(-1px);
     }
 
-    .day-item-btn.active {
-      border-color: var(--color-primary);
-      background: var(--color-primary-light);
+    .day-item-btn.active,
+    :global(.day-item-btn.active) {
+      border: 1.5px solid var(--color-primary, #7c3aed);
+      background: var(--color-primary-light, #f5f3ff);
+      box-shadow: 0 4px 12px rgba(124, 58, 237, 0.12);
+      transform: translateY(-1px);
     }
 
-    .day-code {
-      font-family: var(--font-mono);
-      font-size: 0.68rem;
+    .day-code,
+    :global(.day-code) {
+      font-family: var(--font-mono, 'JetBrains Mono', monospace);
+      font-size: 0.72rem;
       font-weight: 700;
-      color: var(--color-text-muted);
+      color: var(--color-text-muted, #716b82);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      line-height: 1;
     }
 
-    .day-num {
-      font-family: var(--font-mono);
-      font-size: 1.35rem;
+    .day-num,
+    :global(.day-num) {
+      font-family: var(--font-mono, 'JetBrains Mono', monospace);
+      font-size: 1.4rem;
       font-weight: 800;
-      color: var(--color-text-main);
-      margin-top: 0.2rem;
+      color: var(--color-text-main, #181226);
+      margin-top: 0.35rem;
+      line-height: 1.1;
     }
 
     .day-item-btn.active .day-code,
-    .day-item-btn.active .day-num {
-      color: var(--color-primary-dark);
+    :global(.day-item-btn.active .day-code),
+    .day-item-btn.active .day-num,
+    :global(.day-item-btn.active .day-num) {
+      color: var(--color-primary, #7c3aed);
+      font-weight: 800;
     }
 
     /* 3. WORKSPACE GRID */
@@ -1167,29 +1211,18 @@ const days = [
       margin-bottom: 1.5rem;
     }
 
-    .empty-mascot-wrap {
-      width: 104px;
-      height: 104px;
-      border-radius: 50%;
+    .empty-icon-wrap {
+      width: 54px;
+      height: 54px;
+      border-radius: 16px;
       background: linear-gradient(135deg, #f5edfd 0%, #ecdcf9 100%);
-      border: 1.5px solid rgba(139, 92, 246, 0.2);
+      color: var(--color-primary);
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-bottom: 1.4rem;
-      box-shadow: 0 10px 28px rgba(124, 58, 237, 0.14);
-      animation: floatMascot 4s ease-in-out infinite;
-    }
-
-    @keyframes floatMascot {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-6px); }
-    }
-
-    .empty-mascot-img {
-      width: 76px;
-      height: 76px;
-      object-fit: contain;
+      margin-bottom: 1.1rem;
+      border: 1px solid rgba(124, 58, 237, 0.16);
+      box-shadow: 0 4px 14px rgba(124, 58, 237, 0.1);
     }
 
     .empty-title {
@@ -1272,21 +1305,124 @@ const days = [
     const openModal = (id: string) => document.getElementById(id)?.classList.add('active');
     const closeModal = (id: string) => document.getElementById(id)?.classList.remove('active');
 
-    // Day navigation
-    const dayBtns = document.querySelectorAll('.day-item-btn');
-    const heroDayLabel = document.getElementById('current-day-label');
-    dayBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        dayBtns.forEach(b => {
-          b.classList.remove('active');
-          b.setAttribute('aria-pressed', 'false');
-        });
-        btn.classList.add('active');
-        btn.setAttribute('aria-pressed', 'true');
-        const dayFull = btn.getAttribute('data-day') || '';
-        if (heroDayLabel) heroDayLabel.textContent = `${dayFull} 2026`;
-      });
-    });
+    // Dynamic Calendar & Day Navigation
+    const HARI_NAMES = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+    const HARI_CODES = ['MIN', 'SEN', 'SEL', 'RAB', 'KAM', 'JUM', 'SAB'];
+    const BULAN_NAMES = [
+      'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+      'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+    ];
+    const BULAN_CODES = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
+
+    function setupDynamicCalendar() {
+      const clientNow = new Date();
+      const currentDayOfWeek = clientNow.getDay();
+      const distanceToMonday = currentDayOfWeek === 0 ? -6 : 1 - currentDayOfWeek;
+      const monday = new Date(clientNow);
+      monday.setDate(clientNow.getDate() + distanceToMonday);
+
+      const stripContainer = document.getElementById('days-nav-strip');
+      const heroDayLabel = document.getElementById('current-day-label');
+      const todayFullStr = `${HARI_NAMES[clientNow.getDay()]}, ${clientNow.getDate()} ${BULAN_NAMES[clientNow.getMonth()]} ${clientNow.getFullYear()}`;
+
+      if (heroDayLabel) {
+        heroDayLabel.textContent = todayFullStr;
+      }
+
+      if (stripContainer) {
+        const existingBtns = Array.from(stripContainer.querySelectorAll<HTMLButtonElement>('.day-item-btn'));
+        if (existingBtns.length === 7) {
+          for (let i = 0; i < 7; i++) {
+            const d = new Date(monday);
+            d.setDate(monday.getDate() + i);
+            const dow = d.getDay();
+            const isToday = d.toDateString() === clientNow.toDateString();
+            const fullDate = `${HARI_NAMES[dow]}, ${d.getDate()} ${BULAN_NAMES[d.getMonth()]} ${d.getFullYear()}`;
+
+            const btn = existingBtns[i];
+            btn.setAttribute('data-day', fullDate);
+            btn.setAttribute('aria-pressed', isToday ? 'true' : 'false');
+            if (isToday) {
+              btn.classList.add('active');
+            } else {
+              btn.classList.remove('active');
+            }
+
+            const codeEl = btn.querySelector('.day-code');
+            const numEl = btn.querySelector('.day-num');
+            if (codeEl) codeEl.textContent = HARI_CODES[dow];
+            if (numEl) numEl.textContent = String(d.getDate());
+
+            btn.onclick = () => {
+              existingBtns.forEach(b => {
+                b.classList.remove('active');
+                b.setAttribute('aria-pressed', 'false');
+              });
+              btn.classList.add('active');
+              btn.setAttribute('aria-pressed', 'true');
+              if (heroDayLabel) heroDayLabel.textContent = fullDate;
+            };
+          }
+        } else {
+          stripContainer.innerHTML = '';
+          for (let i = 0; i < 7; i++) {
+            const d = new Date(monday);
+            d.setDate(monday.getDate() + i);
+            const dow = d.getDay();
+            const isToday = d.toDateString() === clientNow.toDateString();
+            const fullDate = `${HARI_NAMES[dow]}, ${d.getDate()} ${BULAN_NAMES[d.getMonth()]} ${d.getFullYear()}`;
+
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = `day-item-btn ${isToday ? 'active' : ''}`;
+            btn.setAttribute('data-day', fullDate);
+            btn.setAttribute('aria-pressed', isToday ? 'true' : 'false');
+            btn.innerHTML = `
+              <span class="day-code">${HARI_CODES[dow]}</span>
+              <span class="day-num">${d.getDate()}</span>
+            `;
+
+            btn.onclick = () => {
+              document.querySelectorAll('.day-item-btn').forEach(b => {
+                b.classList.remove('active');
+                b.setAttribute('aria-pressed', 'false');
+              });
+              btn.classList.add('active');
+              btn.setAttribute('aria-pressed', 'true');
+              if (heroDayLabel) heroDayLabel.textContent = fullDate;
+            };
+
+            stripContainer.appendChild(btn);
+          }
+        }
+      }
+
+      // Beavy advice update
+      const adviceText = document.getElementById('beavy-advice-text');
+      if (adviceText) {
+        adviceText.textContent = `Kapasitas belajar ${HARI_NAMES[clientNow.getDay()]} Anda berada di zona optimal. Tidak perlu lembur malam ini.`;
+      }
+
+      // Reschedule options update
+      const reschedSelect = document.getElementById('reschedule-day') as HTMLSelectElement;
+      if (reschedSelect) {
+        reschedSelect.innerHTML = '';
+        for (let i = 0; i < 4; i++) {
+          const targetDate = new Date(clientNow);
+          targetDate.setDate(clientNow.getDate() + i);
+          const dow = targetDate.getDay();
+          const label = i === 0 
+            ? `${HARI_NAMES[dow]}, ${targetDate.getDate()} ${BULAN_CODES[targetDate.getMonth()]} (Hari Ini)`
+            : `${HARI_NAMES[dow]}, ${targetDate.getDate()} ${BULAN_CODES[targetDate.getMonth()]}`;
+          const opt = document.createElement('option');
+          opt.value = label;
+          opt.textContent = label;
+          reschedSelect.appendChild(opt);
+        }
+      }
+    }
+
+    setupDynamicCalendar();
 
     // Checkmark slots toggle
     const attachCheckListener = (btn: HTMLElement) => {

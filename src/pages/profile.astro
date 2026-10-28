@@ -239,19 +239,6 @@ const recurringSchedules = [
               <span>Ganti Kata Sandi</span>
             </button>
 
-            <button type="button" class="btn-sec-action" id="btn-face-id">
-              <span class="sec-icon">
-                <svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M7 3H5a2 2 0 0 0-2 2v2"></path>
-                  <path d="M17 3h2a2 2 0 0 1 2 2v2"></path>
-                  <path d="M21 17v2a2 2 0 0 1-2 2h-2"></path>
-                  <path d="M3 17v2a2 2 0 0 0 2 2h2"></path>
-                  <circle cx="12" cy="12" r="3"></circle>
-                </svg>
-              </span>
-              <span>Atur Verifikasi Wajah (Face ID)</span>
-            </button>
-
             <a href="/login" class="btn-sec-action btn-sec-danger">
               <span class="sec-icon">
                 <svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -350,44 +337,7 @@ const recurringSchedules = [
       </div>
     </div>
 
-    <!-- 3. MODAL BIOMETRIK / FACE ID -->
-    <div id="face-id-modal" class="modal-backdrop-overlay" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="modal-face-title">
-      <div class="modal-container-card text-center">
-        <div class="modal-head-line">
-          <h2 class="modal-dialog-title" id="modal-face-title">Konfigurasi Face ID</h2>
-          <button type="button" class="btn-modal-dismiss" id="btn-close-face-modal" aria-label="Tutup jendela">
-            <svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="18" y1="6" x2="6" y2="18"></line>
-              <line x1="6" y1="6" x2="18" y2="18"></line>
-            </svg>
-          </button>
-        </div>
-
-        <div class="face-scan-box">
-          <div class="scan-reticle">
-            <svg aria-hidden="true" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M7 3H5a2 2 0 0 0-2 2v2"></path>
-              <path d="M17 3h2a2 2 0 0 1 2 2v2"></path>
-              <path d="M21 17v2a2 2 0 0 1-2 2h-2"></path>
-              <path d="M3 17v2a2 2 0 0 0 2 2h2"></path>
-              <circle cx="12" cy="12" r="3"></circle>
-            </svg>
-          </div>
-          <span class="scan-status-pill" id="scan-status-text">Sensor Kamera Siap</span>
-        </div>
-
-        <p class="modal-context-desc">
-          Pastikan wajah Anda berada di area pencahayaan yang cukup. Data biometrik diproses lokal secara aman melalui WebAuthn.
-        </p>
-
-        <div class="modal-footer-cluster">
-          <button type="button" class="btn-cancel-dialog" id="btn-cancel-face">Batal</button>
-          <button type="button" class="btn-save-dialog" id="btn-start-scan">Daftarkan Wajah Sekarang</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- 4. MODAL GANTI AVATAR / FOTO PROFIL -->
+    <!-- 3. MODAL GANTI AVATAR / FOTO PROFIL -->
     <div id="avatar-modal" class="modal-backdrop-overlay" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="modal-avatar-title">
       <div class="modal-container-card">
         <div class="modal-head-line">
@@ -1240,37 +1190,6 @@ const recurringSchedules = [
       border-color: var(--color-primary);
     }
 
-    /* Face ID Reticle */
-    .face-scan-box {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 1rem;
-      margin: 1.2rem 0 1.5rem;
-    }
-
-    .scan-reticle {
-      width: 90px;
-      height: 90px;
-      border-radius: 50%;
-      background: var(--color-primary-light);
-      border: 2px dashed var(--color-border-focus);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--color-primary);
-    }
-
-    .scan-status-pill {
-      font-size: 0.78rem;
-      font-weight: 700;
-      color: var(--color-primary-dark);
-      background: var(--color-primary-light);
-      border: 1px solid var(--color-border-focus);
-      padding: 0.25rem 0.85rem;
-      border-radius: var(--radius-full);
-    }
-
     /* Avatar Presets Grid */
     .avatar-presets-grid {
       display: grid;
@@ -1432,25 +1351,7 @@ const recurringSchedules = [
       window.jadwalinToast?.('Kata Sandi Diperbarui', 'Kata sandi Anda berhasil diubah dengan aman.', 'success');
     });
 
-    // 3. Face ID Modal
-    document.getElementById('btn-face-id')?.addEventListener('click', () => openModal('face-id-modal'));
-    document.getElementById('btn-close-face-modal')?.addEventListener('click', () => closeModal('face-id-modal'));
-    document.getElementById('btn-cancel-face')?.addEventListener('click', () => closeModal('face-id-modal'));
-
-    document.getElementById('btn-start-scan')?.addEventListener('click', () => {
-      const statusText = document.getElementById('scan-status-text');
-      if (statusText) statusText.textContent = 'Memindai kontur wajah...';
-      setTimeout(() => {
-        if (statusText) statusText.textContent = 'Verifikasi Wajah Berhasil';
-        setTimeout(() => {
-          closeModal('face-id-modal');
-          window.jadwalinToast?.('Face ID Aktif', 'Wajah berhasil didaftarkan untuk autentikasi kilat.', 'success');
-          if (statusText) statusText.textContent = 'Sensor Kamera Siap';
-        }, 600);
-      }, 900);
-    });
-
-    // 4. Avatar Modal
+    // 3. Avatar Modal
     let selectedAvatar = 'D';
     document.getElementById('btn-edit-avatar')?.addEventListener('click', () => openModal('avatar-modal'));
     document.getElementById('btn-close-avatar-modal')?.addEventListener('click', () => closeModal('avatar-modal'));

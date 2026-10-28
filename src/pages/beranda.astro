@@ -3,6 +3,14 @@
 import DashboardLayout from '../layouts/DashboardLayout.astro';
 import { Image } from 'astro:assets';
 import mascotImg from '../assets/craiyon.png';
+
+const HARI = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+const BULAN = [
+  'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+  'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+];
+const now = new Date();
+const todayFormatted = `${HARI[now.getDay()]}, ${now.getDate()} ${BULAN[now.getMonth()]} ${now.getFullYear()}`;
 ---
 
 <DashboardLayout title="Beranda" activeNav="beranda">
@@ -64,33 +72,34 @@ import mascotImg from '../assets/craiyon.png';
         <div class="surface-header">
           <div>
             <h2 class="surface-title">Alur Fokus Harian</h2>
-            <p class="surface-caption">Sabtu, 24 Oktober 2026 : Ritme berimbang akademik dan istirahat</p>
+            <p class="surface-caption" id="beranda-date-caption">{todayFormatted} : Ritme berimbang akademik dan istirahat</p>
           </div>
           <a href="/jadwal" class="link-editorial">Buka Kalender</a>
         </div>
 
         <!-- EMPTY STATE CONTAINER (Tampil jika akun baru / belum ada jadwal) -->
         <div id="empty-state-view" class="sanctuary-empty-state" style="display: none;">
-          <div class="empty-mascot-wrap">
-            <Image src={mascotImg} alt="Beavy Asisten AI" class="empty-mascot-img" />
+          <div class="empty-icon-wrap">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+              <line x1="16" y1="2" x2="16" y2="6"></line>
+              <line x1="8" y1="2" x2="8" y2="6"></line>
+              <line x1="3" y1="10" x2="21" y2="10"></line>
+            </svg>
           </div>
-          <h3 class="empty-title">Alur Fokusmu Masih Bersih</h3>
+          <h3 class="empty-title">Belum Ada Jadwal Hari Ini</h3>
           <p class="empty-subtitle">
-            Selamat datang di Jadwal.in! Kamu belum memiliki jadwal atau tugas hari ini. Tambahkan tugas baru atau unggah silabus agar Beavy bisa menyusun ritme belajarmu.
+            Alur fokus harianmu masih kosong karena akun baru terdaftar. Mulai harimu dengan menambahkan tugas pertamamu.
           </p>
           <div class="empty-btn-group">
             <button type="button" class="btn-empty-primary" onclick="(window).openQuickAddModal ? (window).openQuickAddModal() : window.location.href='/tambah-tugas';">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-              <span>+ Tambah Tugas Baru</span>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+              <span>Tambah Tugas Baru</span>
             </button>
             <a href="/upload" class="btn-empty-secondary">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
-              <span>Upload Jadwal / Silabus</span>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+              <span>Upload Jadwal</span>
             </a>
-          </div>
-          <div class="empty-tip-pill">
-            <span class="tip-badge">Tips Cepat</span>
-            <span>Tekan tombol <strong>N</strong> di keyboard untuk menambah tugas kilat</span>
           </div>
         </div>
 
@@ -971,29 +980,18 @@ import mascotImg from '../assets/craiyon.png';
       margin-top: 0.5rem;
     }
 
-    .empty-mascot-wrap {
-      width: 104px;
-      height: 104px;
-      border-radius: 50%;
+    .empty-icon-wrap {
+      width: 54px;
+      height: 54px;
+      border-radius: 16px;
       background: linear-gradient(135deg, #f5edfd 0%, #ecdcf9 100%);
-      border: 1.5px solid rgba(139, 92, 246, 0.2);
+      color: var(--color-primary);
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-bottom: 1.4rem;
-      box-shadow: 0 10px 28px rgba(124, 58, 237, 0.14);
-      animation: floatMascot 4s ease-in-out infinite;
-    }
-
-    @keyframes floatMascot {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-6px); }
-    }
-
-    .empty-mascot-img {
-      width: 76px;
-      height: 76px;
-      object-fit: contain;
+      margin-bottom: 1.1rem;
+      border: 1px solid rgba(124, 58, 237, 0.16);
+      box-shadow: 0 4px 14px rgba(124, 58, 237, 0.1);
     }
 
     .empty-title {
@@ -1237,6 +1235,17 @@ import mascotImg from '../assets/craiyon.png';
     }
 
     // Jalankan sinkronisasi saat halaman dimuat
+    const clientNow = new Date();
+    const HARI_STR = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+    const BULAN_STR = [
+      'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+      'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+    ];
+    const dateCaptionEl = document.getElementById('beranda-date-caption');
+    if (dateCaptionEl) {
+      dateCaptionEl.textContent = `${HARI_STR[clientNow.getDay()]}, ${clientNow.getDate()} ${BULAN_STR[clientNow.getMonth()]} ${clientNow.getFullYear()} : Ritme berimbang akademik dan istirahat`;
+    }
+
     syncSanctuaryData();
 
     // Dengarkan pembaruan data jika tugas baru ditambahkan
